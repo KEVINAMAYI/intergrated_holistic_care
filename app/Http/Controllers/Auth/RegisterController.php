@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -57,9 +58,11 @@ class RegisterController extends Controller
         $data['education_levels'] = \DB::table('education_level')->get();
         $data['marital_statuses'] = \DB::table('marital_statuses')->get();
         $data['preferred_times'] = \DB::table('preferred_time_of_class')->get();
-        $data['methods'] = \DB::table('preferred_time_of_class')->get();
+        $data['methods'] = \DB::table('how_you_learnt_about_us')->get();
         return view('auth.register', $data);
     }
+
+
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -69,7 +72,8 @@ class RegisterController extends Controller
             'dob' => ['required'],
             'gender_id' => ['required'],
             'location' => ['required', 'string', 'max:255'],
-            'marrital_status_id' => ['required'],
+            'marital_status_id' => ['required'],
+            'education_level_id' => ['required'],
             'phone_number' => ['required', 'max:10', 'min:10'],
             'course_id' => ['required', 'max:10', 'min:10', 'unique:users'],
             'preferred_time_of_class_id' => ['required'],
@@ -85,6 +89,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         $numbers = '123456789';
         $alphabets = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
 
@@ -95,10 +100,11 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'dob' => $data['dob'],
             'gender_id' => $data['gender_id'],
-            'marrital_status_id' => $data['marrital_status_id'],
+            'marital_status_id' => $data['marital_status_id'],
             'phone_number' => $data['phone_number'],
             'location' => $data['location'],
-            'sub_location' => $data['sub_location'],
+            'sub_location' => $data['sub_location'] ?? '',
+            'education_level_id' => $data['education_level_id'],
             'national_id' => $data['national_id'],
             'passport' => $data['passport'],
             'course_id' => $data['course_id'],

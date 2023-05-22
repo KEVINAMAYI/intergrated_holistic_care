@@ -71,32 +71,20 @@
 
                                 <div class="col-4 form-group">
                                     <label for="gender">Gender</label>
-                                    <select style="padding:10px;" class="form-select form-select-lg mb-3" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Other</option>
+                                    <select style="padding:10px; width:100%" class="form-select form-select-lg mb-3" id="gender_id" name="gender_id" aria-label="Default select example">
+                                        @foreach($genders as $gender)
+                                            <option value="{{ $gender->id }}">{{ $gender->gender }}</option>
+                                        @endforeach
                                     </select>
-                                    @error('gender')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
                                 </div>
 
                                 <div class="col-4 form-group">
-                                    <label for="gender">Marital Status</label>
-                                    <select style="padding:10px;" class="form-select form-select-lg mb-3" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Other</option>
+                                    <label for="marital_status_id">Marital Status</label>
+                                    <select style="padding:10px; width:100%" id="marital_status_id" name="marital_status_id" class="form-select form-select-lg mb-3" aria-label="Default select example">
+                                        @foreach($marital_statuses as $marital_status)
+                                            <option value="{{ $marital_status->id }}">{{ $marital_status->status }}</option>
+                                        @endforeach
                                     </select>
-                                    @error('gender')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
                                 </div>
 
                             </div>
@@ -143,66 +131,67 @@
 
                             <div class="row mb-3">
                                 <div class="col-lg-6 form-group">
-                                    <label for="gender">Marital Status</label>
-                                    <select style="width:100%; padding:10px;" class="form-select form-select-lg mb-3" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Other</option>
+                                    <label for="gender">Highest Education Level</label>
+                                    <select style="width:100%; padding:10px;" id="education_level_id" name="education_level_id" class="form-select form-select-lg mb-3" aria-label="Default select example">
+                                        @foreach($education_levels as $education_level)
+                                            <option value="{{ $education_level->id }}">{{ $education_level->level }}</option>
+                                        @endforeach
                                     </select>
-                                    @error('gender')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+
                                 </div>
 
                                 <div class="col-lg-6 form-group">
-                                    <label for="gender">Marital Status</label>
-                                    <select style="width:100%; padding:10px;" class="form-select form-select-lg mb-3" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Other</option>
+                                    <label for="course_id">Preferred Course</label>
+                                    <select style="width:100%; padding:10px;" class="form-select form-select-lg mb-3"  id="course_id" name="course_id" aria-label="Default select example">
+                                        @foreach($courses as $course)
+                                            <option value="{{ $course->id }}">{{ $course->title }}</option>
+                                        @endforeach
                                     </select>
-                                    @error('gender')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+
                                 </div>
 
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-lg-6 form-group">
-                                    <label for="gender">Marital Status</label>
-                                    <select style="width:100%; padding:10px;" class="form-select form-select-lg mb-3" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Other</option>
+                                    <label for="gender">Preferred Time of Class</label>
+                                    <select style="width:100%; padding:10px;" class="form-select form-select-lg mb-3" id="preferred_time_of_class_id" name="preferred_time_of_class_id" aria-label="Default select example">
+                                        @foreach($preferred_times as $preferred_time)
+                                            <option value="{{ $preferred_time->id }}">{{ $preferred_time->time }}</option>
+                                        @endforeach
                                     </select>
-                                    @error('gender')
+
+                                </div>
+
+                                <div class="col-lg-6 form-group">
+                                    <label for="how_you_learnt_about_us_id">How You Learn About Us</label>
+                                    <select style="width:100%; padding:10px;" name="how_you_learnt_about_us_id" id="how_you_learnt_about_us_id" class="form-select form-select-lg mb-3" aria-label="Default select example">
+                                        @foreach($methods as $method)
+                                            <option value="{{ $method->id }}">{{ $method->how }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-6 form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                           id="password" value="{{ old('password') }}" name="password"
+                                           placeholder="Enter Password" required autofocus>
+                                    @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                 </div>
 
-                                <div class="col-lg-6 form-group">
-                                    <label for="gender">Marital Status</label>
-                                    <select style="width:100%; padding:10px;" class="form-select form-select-lg mb-3" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Other</option>
-                                    </select>
-                                    @error('gender')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+                                <div class="col-6 form-group">
+                                    <label for="password_confirmation">Confirm Password</label>
+                                    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
+                                           id="password_confirmation" value="{{ old('password_confirmation') }}" name="password_confirmation"
+                                           placeholder="Confirm Password" required  autofocus>
                                 </div>
 
                             </div>
