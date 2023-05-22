@@ -198,7 +198,7 @@
 
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button id="registration_btn"  style="padding:10px; min-width:150px;" type="submit" class="btn btn-primary">
+                                    <button class="auth_buttons" style="padding:10px; min-width:150px;" type="submit" class="btn btn-primary">
                                         {{ __('REGISTER') }}
                                     </button>
                                 </div>

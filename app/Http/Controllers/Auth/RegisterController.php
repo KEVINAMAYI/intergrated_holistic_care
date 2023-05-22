@@ -74,10 +74,10 @@ class RegisterController extends Controller
             'location' => ['required', 'string', 'max:255'],
             'marital_status_id' => ['required'],
             'education_level_id' => ['required'],
-            'phone_number' => ['required', 'max:10', 'min:10'],
-            'course_id' => ['required', 'max:10', 'min:10', 'unique:users'],
+            'course_id' => ['required'],
+            'phone_number' => ['required', 'max:10', 'min:10', 'unique:users'],
             'preferred_time_of_class_id' => ['required'],
-            'how_you_learnt_about_us_id' => ['required'],
+            'how_you_learnt_about_us_id' => ['required']
         ]);
     }
 
@@ -110,7 +110,7 @@ class RegisterController extends Controller
             'course_id' => $data['course_id'],
             'preferred_time_of_class_id' => $data['preferred_time_of_class_id'],
             'how_you_learnt_about_us_id' => $data['how_you_learnt_about_us_id'],
-            'ref_number' => $ref_number,
+            'ref_number' => $ref_number
         ];
         return User::create($user);
     }
