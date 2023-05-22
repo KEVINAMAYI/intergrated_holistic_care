@@ -18,6 +18,11 @@ use App\Http\Controllers\ServicesController;
 */
 
 Route::get('/',[HomeController::class,'index'])->name('home.index');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/about',[AboutController::class,'index'])->name('about.index');
 Route::get('/contact',[ContactController::class,'index'])->name('contact.index');
 Route::get('/services',[ServicesController::class,'index'])->name('services.index');
+
+Auth::routes();
+
+
