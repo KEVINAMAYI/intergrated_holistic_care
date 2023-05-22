@@ -95,6 +95,7 @@
 <script src="plugins/video-js/Youtube.min.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="js/custom.js"></script>
+<script src="{{ mix('js/app.js') }}" defer></script>
 
 
 </body>

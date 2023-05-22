@@ -8,6 +8,6 @@ class ServicesController extends Controller
 {
     public  function  index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('services');
+        return view('frontend.services');
     }
 }

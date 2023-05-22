@@ -1,7 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.body')
+
+@push('styles')
+    <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+@endpush
 
 @section('content')
-<div class="container">
+<div  class="container auth_container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

@@ -9,6 +9,6 @@ class HomeController extends Controller
 
     public  function  index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('home');
+        return view('frontend.home');
     }
 }

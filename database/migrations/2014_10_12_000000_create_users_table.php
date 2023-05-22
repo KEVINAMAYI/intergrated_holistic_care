@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignId('marrital_status_id');
             $table->string('phone_number');
             $table->string('location');
-            $table->string('sub_location');
+            $table->string('sub_location')->nullable();
             $table->string('national_id')->nullable();
             $table->string('passport')->nullable();
             $table->foreignId('education_level_id');
