@@ -1950,5 +1950,21 @@ section
 .auth_container{
     margin-top:200px;
     margin-bottom:50px;
+}
 
+.card-header{
+    background-color:rgb(27,184,191);
+    color:white !important;
+    font-size:18px;
+    font-weight:bold;
+    text-align:center;
+}
+
+#registration_btn{
+    background-color:rgb(27,184,191);
+    color:white !important;
+    font-size:14px;
+    font-weight:bold;
+    text-align:center;
+    border:none;
 }

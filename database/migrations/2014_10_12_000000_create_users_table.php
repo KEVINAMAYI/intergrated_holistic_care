@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('ref_number');
             $table->date('dob');
             $table->foreignId('gender_id');
-            $table->foreignId('marrital_status_id');
+            $table->foreignId('marital_status_id');
             $table->string('phone_number');
             $table->string('location');
             $table->string('sub_location')->nullable();
