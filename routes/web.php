@@ -28,7 +28,7 @@ Route::get('/services',[ServicesController::class,'index'])->name('services.inde
 
 //backend
 Route::middleware(['admin'])->group(function (){
-    Route::get('/dashboard',[DashController::class,'index'])->name('admin.index');
+    Route::get('/dashboard',[DashController::class,'index'])->name('dashboard.index');
     Route::get('/students',[StudentController::class,'index'])->name('students.index');
 });
 

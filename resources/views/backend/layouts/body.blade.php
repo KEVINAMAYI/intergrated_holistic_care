@@ -69,7 +69,7 @@
                         data-accordion="false">
 
                         <li class="nav-item">
-                            <a href="{{ route('admin.index') }}" class="nav-link">
+                            <a href="{{ route('dashboard.index') }}" class="nav-link">
                                 <i style="color: rgb(27, 184, 191);" class="nav-icon fa fa-home"></i>
                                 <p style="font-weight:bold; color: rgb(27, 184, 191);">Dashboard</p>
                             </a>

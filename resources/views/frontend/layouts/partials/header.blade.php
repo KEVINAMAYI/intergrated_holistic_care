@@ -50,29 +50,26 @@
                                                 <li><a href="/login">Login</a></li>
                                             @endif
                                         @else
-                                            <li class="nav-item dropdown">
-                                                <a " id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
-                                                   role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                   aria-expanded="false" v-pre>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-danger dropdown-toggle"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
                                                     {{ Auth::user()->name }}
-                                                </a>
-
-                                                <div class="dropdown-menu dropdown-menu-end"
-                                                     aria-labelledby="navbarDropdown">
-                                                    <a id="logoutbtn" style="color:black; padding-left:10px;" class="dropdown-item" href="{{ route('logout') }}"
+                                                </button>
+                                                <div class="pt-2 dropdown-menu">
+                                                    <a id="logoutbtn"
+                                                       style="border:0px; padding:0px; padding-left:10px; font-size:16px;"
                                                        onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                                        {{ __('Logout') }}
-                                                    </a>
-
+                                                     document.getElementById('logout-form').submit();"
+                                                       {{ __('Logout') }} class="dropdown-item"
+                                                       href="{{ route('logout') }}">Logout</a>
                                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                           class="d-none">
                                                         @csrf
                                                     </form>
                                                 </div>
-                                            </li>
+                                            </div>
                                         @endguest
-
 
                                     </ul>
                                 </div>
@@ -113,10 +110,13 @@
                                             href="{{ route('about.index') }}">about us</a></li>
                                     <li class="{{ Route::is('services.index') ? 'active' : '' }}"><a
                                             href="{{ route('services.index') }}">services</a></li>
-                                    <!-- <li><a href="courses.html">courses</a></li>
-                                    <li><a href="news.html">news</a></li> -->
+
                                     <li class="{{ Route::is('contact.index') ? 'active' : '' }}"><a
                                             href="{{ route('contact.index') }}">contact</a></li>
+
+                                    @if(auth()->check() && auth()->user()->role->name == 'Admin')
+                                        <li><a href="{{ route('dashboard.index') }}">dashboard</a></li>
+                                    @endif
                                 </ul>
                                 <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
 
