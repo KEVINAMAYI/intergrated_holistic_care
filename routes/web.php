@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\DashController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ServicesController;
-use App\Http\Controllers\DashBoardController;
 use App\Http\Controllers\StudentController;
 
 /*
@@ -28,10 +28,9 @@ Route::get('/services',[ServicesController::class,'index'])->name('services.inde
 
 //backend
 Route::middleware(['admin'])->group(function (){
-    Route::get('/dashboard',[DashBoardController::class,'index'])->name('admin.index');
+    Route::get('/dashboard',[DashController::class,'index'])->name('admin.index');
     Route::get('/students',[StudentController::class,'index'])->name('students.index');
 });
-
 
 //auth
 Auth::routes();

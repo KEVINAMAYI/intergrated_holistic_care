@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <base href="{{ URL::to('/') }}">
@@ -9,7 +10,7 @@
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="backend/plugins/fontawesome-free/css/all.min.css">
 
@@ -23,44 +24,93 @@
     @stack('styles')
 
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+    <div class="wrapper">
 
-    <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="backend/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-    </div>
+        <!-- Preloader -->
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="backend/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60"
+                width="60">
+        </div>
 
-    <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <!-- Left navbar links -->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            </li>
-        </ul>
-    </nav>
-    <!-- /.navbar -->
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
+                            class="fas fa-bars"></i></a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
 
-    <!-- Main Sidebar Container -->
-    <aside style="background-color:white" class="main-sidebar sidebar-dark-primary elevation-4">
-        <!-- Brand Logo -->
-        <a style="margin-top:-10px;" href="index3.html" class="brand-link">
-            <div class="pb-1" style="margin-left:0px; text-align:center;"><img
-                    width="120" height="60" src="images/Intergrated_holistic_care_logo.png"
-                    alt=""></div>
-            <div class="logo_text"
-                 style="margin-bottom:-5px; color:rgb(27,184,191); font-size:18px; text-align:center;">INTEGRATED
-                HOLISTIC
+        <!-- Main Sidebar Container -->
+        <aside style="background-color:white" class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a style="margin-top:-10px;" href="index3.html" class="brand-link">
+                <div class="pb-1" style="margin-left:0px; text-align:center;"><img width="120" height="60"
+                        src="images/Intergrated_holistic_care_logo.png" alt=""></div>
+                <div class="logo_text"
+                    style="margin-bottom:-5px; color:rgb(27,184,191); font-size:18px; text-align:center;">INTEGRATED
+                    HOLISTIC
+                </div>
+                <div class="logo_text" style="text-align:center; font-size:18px; color:rgb(27,184,191);"> CARE
+                </div>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.index') }}" class="nav-link">
+                                <i style="color: rgb(27, 184, 191);" class="nav-icon fa fa-home"></i>
+                                <p style="font-weight:bold; color: rgb(27, 184, 191);">Dashboard</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('students.index') }}" class="nav-link">
+                                <i style="color: rgb(27, 184, 191);" class="nav-icon fa fa-users"></i>
+                                <p style="font-weight:bold; color: rgb(27, 184, 191);">Students</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
             </div>
-            <div class="logo_text" style="text-align:center; font-size:18px; color:rgb(27,184,191);"> CARE
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">{{ $page_title }}</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">{{ $page_title }}</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
             </div>
-        </a>
+            <!-- /.content-header -->
 
-        <!-- Sidebar -->
-        <div class="sidebar">
+            @yield('content')
 
-            <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
@@ -94,69 +144,44 @@
 
                 </ul>
             </nav>
-            <!-- /.sidebar-menu -->
+
         </div>
-        <!-- /.sidebar -->
-    </aside>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2023 <a href="https://integratedholisticcare.org/">Integrated Holistic
+                    Care</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 1.0.0
+            </div>
+        </footer>
 
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">{{ $page_title }}</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">{{ $page_title }}</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
-        @yield('content')
-
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
     </div>
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2023 <a href="https://integratedholisticcare.org/">Integrated Holistic
-                Care</a>.</strong>
-        All rights reserved.
-        <div class="float-right d-none d-sm-inline-block">
-            <b>Version</b> 1.0.0
-        </div>
-    </footer>
+    <!-- ./wrapper -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
+    <!-- jQuery -->
+    <script src="backend/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="backend/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
 
-<!-- jQuery -->
-<script src="backend/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="backend/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-    $.widget.bridge('uibutton', $.ui.button)
-</script>
-
-<!-- Bootstrap 4 -->
-<script src="backend/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="backend/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="backend/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="backend/dist/js/pages/dashboard.js"></script>
-@stack('scripts')
+    <!-- Bootstrap 4 -->
+    <script src="backend/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="backend/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="backend/dist/js/adminlte.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="backend/dist/js/pages/dashboard.js"></script>
+    @stack('scripts')
 </body>
+
 </html>
