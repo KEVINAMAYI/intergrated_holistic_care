@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\DashController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ServicesController;
-use App\Http\Controllers\DashBoardController;
 use App\Http\Controllers\StudentController;
 
 /*
@@ -27,7 +27,7 @@ Route::get('/contact',[ContactController::class,'index'])->name('contact.index')
 Route::get('/services',[ServicesController::class,'index'])->name('services.index');
 
 //backend
-Route::get('/dashboard',[DashBoardController::class,'index'])->name('admin.index');
+Route::get('/dashboard',[DashController::class,'index'])->name('admin.index');
 Route::get('/students',[StudentController::class,'index'])->name('students.index');
 
 
