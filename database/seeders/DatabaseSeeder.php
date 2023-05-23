@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             GendersSeeder::class,
             MaritalStatusSeeder::class,
             PreferredTimeOfClassSeeder::class,
-            HowYouLearntAboutUsSeeder::class
+            HowYouLearntAboutUsSeeder::class,
+            RolesSeeder::class
         ]);
     }
 }
