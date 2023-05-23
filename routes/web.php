@@ -27,8 +27,10 @@ Route::get('/contact',[ContactController::class,'index'])->name('contact.index')
 Route::get('/services',[ServicesController::class,'index'])->name('services.index');
 
 //backend
-Route::get('/dashboard',[DashBoardController::class,'index'])->name('admin.index');
-Route::get('/students',[StudentController::class,'index'])->name('students.index');
+Route::middleware(['admin'])->group(function (){
+    Route::get('/dashboard',[DashBoardController::class,'index'])->name('admin.index');
+    Route::get('/students',[StudentController::class,'index'])->name('students.index');
+});
 
 
 //auth
