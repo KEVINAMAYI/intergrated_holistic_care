@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\DashBoardController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +19,19 @@ use App\Http\Controllers\ServicesController;
 |
 */
 
+//frontend
 Route::get('/',[HomeController::class,'index'])->name('home.index');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/about',[AboutController::class,'index'])->name('about.index');
 Route::get('/contact',[ContactController::class,'index'])->name('contact.index');
 Route::get('/services',[ServicesController::class,'index'])->name('services.index');
 
+//backend
+Route::get('/dashboard',[DashBoardController::class,'index'])->name('admin.index');
+Route::get('/students',[StudentController::class,'index'])->name('students.index');
+
+
+//auth
 Auth::routes();
 
 

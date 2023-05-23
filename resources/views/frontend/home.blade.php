@@ -1,4 +1,4 @@
-@extends('layouts.body')
+@extends('frontend.layouts.body')
 
 @push('styles')
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">

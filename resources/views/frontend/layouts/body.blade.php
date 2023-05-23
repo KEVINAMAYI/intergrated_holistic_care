@@ -1,6 +1,6 @@
-@include('layouts.partials.header')
+@include('frontend.layouts.partials.header')
 @yield('content')
-@include('layouts.partials.footer')
+@include('frontend.layouts.partials.footer')
 
 
 

@@ -1,4 +1,4 @@
-@extends('layouts.body')
+@extends('frontend.layouts.body')
 
 @push('styles')
     <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
@@ -8,7 +8,7 @@
 @section('content')
 <div  class="container auth_container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">{{ __('Reset Password') }}</div>
 
