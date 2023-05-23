@@ -15,9 +15,9 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
-            ['name' => 'Student'],
-            ['name' => 'Admin']
+        \DB::table('roles')->insert([
+            ['name' => 'Student', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Admin', 'created_at' => now(), 'updated_at' => now()]
         ]);
     }
 }
