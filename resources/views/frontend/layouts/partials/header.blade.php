@@ -51,9 +51,15 @@
                                             @endif
                                         @else
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-danger dropdown-toggle"
+                                                <button id="user_icon" type="button"
+                                                        style="font-size:14px; background-color:transparent; color:white; border: none transparent; border-radius:0px;"
+                                                        class="btn btn-primary dropdown-toggle"
                                                         data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
+                                                    <img src="/images/student_photos/{{ Auth::user()->student_photo }}"
+                                                         style="margin-right:4px; border:2px solid white;"
+                                                         class="rounded-circle" width="30px" height="30px;"
+                                                         alt="avatar">
                                                     {{ Auth::user()->name }}
                                                 </button>
                                                 <div class="pt-2 dropdown-menu">
@@ -103,21 +109,35 @@
                                 </a>
                             </div>
                             <nav class="main_nav_contaner ml-auto">
-                                <ul class="main_nav">
-                                    <li class="{{ Route::is('home.index') ? 'active' : '' }}"><a
-                                            href="{{ route('home.index') }}">home</a></li>
-                                    <li class="{{ Route::is('about.index') ? 'active' : '' }}"><a
-                                            href="{{ route('about.index') }}">about us</a></li>
-                                    <li class="{{ Route::is('services.index') ? 'active' : '' }}"><a
-                                            href="{{ route('services.index') }}">services</a></li>
+                                @if(auth()->check())
+                                    <ul class="main_nav">
+                                        <li class="{{ Route::is('home.index') ? 'active' : '' }}"><a
+                                                href="{{ route('home.index') }}">home</a></li>
+                                        <li class="{{ Route::is('about.index') ? 'active' : '' }}"><a
+                                                href="{{ route('about.index') }}">about us</a></li>
+                                        <li class="{{ Route::is('services.index') ? 'active' : '' }}"><a
+                                                href="{{ route('services.index') }}">services</a></li>
+                                        {{--                                        <li class="{{ Route::is('services.index') ? 'active' : '' }}"><a--}}
+                                        {{--                                                href="{{ route('courses.index') }}">Courses</a></li>--}}
+                                        <li class="{{ Route::is('contact.index') ? 'active' : '' }}"><a
+                                                href="{{ route('contact.index') }}">contact</a></li>
+                                        @if(auth()->user()->role->name == 'Admin')
+                                            <li><a href="{{ route('dashboard.index') }}">dashboard</a></li>
+                                        @endif
+                                    </ul>
+                                @else
+                                    <ul class="main_nav">
+                                        <li class="{{ Route::is('home.index') ? 'active' : '' }}"><a
+                                                href="{{ route('home.index') }}">home</a></li>
+                                        <li class="{{ Route::is('about.index') ? 'active' : '' }}"><a
+                                                href="{{ route('about.index') }}">about us</a></li>
+                                        <li class="{{ Route::is('services.index') ? 'active' : '' }}"><a
+                                                href="{{ route('services.index') }}">services</a></li>
 
-                                    <li class="{{ Route::is('contact.index') ? 'active' : '' }}"><a
-                                            href="{{ route('contact.index') }}">contact</a></li>
-
-                                    @if(auth()->check() && auth()->user()->role->name == 'Admin')
-                                        <li><a href="{{ route('dashboard.index') }}">dashboard</a></li>
-                                    @endif
-                                </ul>
+                                        <li class="{{ Route::is('contact.index') ? 'active' : '' }}"><a
+                                                href="{{ route('contact.index') }}">contact</a></li>
+                                    </ul>
+                                @endif
                                 <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
 
                                 <!-- Hamburger -->
@@ -171,15 +191,56 @@
             </form>
         </div>
         <nav class="menu_nav">
-            <ul class="menu_mm">
-                <li class="menu_mm"><a href="{{ route('home.index') }}">Home</a></li>
-                <li class="menu_mm"><a href="{{ 'about.index' }}">about us</a></li>
-                <!-- <li class="menu_mm"><a href="courses.html">Courses</a></li>
-                <li class="menu_mm"><a href="instructors.html">Instructors</a></li>
-                <li class="menu_mm"><a href="#">Events</a></li>-->
-                <li class=""><a href="{{ route('services.index') }}">services</a></li>
-                <li class="menu_mm"><a href="{{ 'contact.index' }}">Contact</a></li>
-            </ul>
+            @if(auth()->check())
+                <ul class="menu_mm">
+                    <li class="menu_mm"><a href="{{ route('home.index') }}">Home</a></li>
+                    <li class="menu_mm"><a href="{{ route('about.index')  }}">about us</a></li>
+                    <!-- <li class="menu_mm"><a href="courses.html">Courses</a></li>
+                    <li class="menu_mm"><a href="instructors.html">Instructors</a></li> -->
+                    <li class="menu_mm"><a href="{{  route('services.index') }}">services</a></li>
+                    <li class="menu_mm"><a href="{{ route('contact.index')  }}">Contact</a></li>
+                    <li class="menu_mm">
+                        <div class="btn-group">
+                            <button id="user_icon" type="button"
+                                    style="font-size:14px; background-color:transparent; font-weight:bold; color:grey; border: none transparent; border-radius:0px;"
+                                    class="btn btn-primary dropdown-toggle"
+                                    data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                <img src="/images/student_photos/{{ Auth::user()->student_photo }}"
+                                     style="margin-right:4px; border:2px solid white;"
+                                     class="rounded-circle" width="30px" height="30px;"
+                                     alt="avatar">
+                                {{ Auth::user()->name }}
+                            </button>
+                            <div class="pt-2 dropdown-menu">
+                                <a id="logoutbtn"
+                                   style="border:0px; padding:0px; padding-left:10px; font-size:16px;"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();"
+                                   {{ __('Logout') }} class="dropdown-item"
+                                   href="{{ route('logout') }}">Logout</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                      class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            @else
+                <ul class="menu_mm">
+                    <li class="menu_mm"><a href="{{ route('home.index') }}">Home</a></li>
+                    <li class="menu_mm"><a href="{{ route('about.index')  }}">about us</a></li>
+                    <!-- <li class="menu_mm"><a href="courses.html">Courses</a></li>
+                    <li class="menu_mm"><a href="instructors.html">Instructors</a></li> -->
+                    <li class="menu_mm"><a href="{{  route('services.index') }}">services</a></li>
+                    <li class="menu_mm"><a href="{{ route('contact.index')  }}">Contact</a></li>
+                    <li class="menu_mm"><a href="{{ route('register')  }}">Register</a></li>
+                    <li class="menu_mm"><a href="{{ route('login') }}">Login</a></li>
+                </ul>
+            @endif
+
         </nav>
         <div class="menu_extra">
             <div class="menu_phone"><span class="menu_title">phone:</span>+254-725491638</div>
@@ -194,3 +255,4 @@
             </div>
         </div>
     </div>
+</div>

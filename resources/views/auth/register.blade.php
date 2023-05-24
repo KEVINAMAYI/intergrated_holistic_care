@@ -14,11 +14,11 @@
 
                     <div class="card-body">
 
-                        <form method="POST" action="{{ route('register') }}">
+                        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="row mb-3">
-                                <div class="col-4 form-group">
-                                    <label for="name">Name</label>
+                                <div class="col-lg-4 col-sm-12 form-group">
+                                    <label for="name">Name <span style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                            id="name" name="name" value="{{ old('name') }}" placeholder="Enter Name"
                                            required autocomplete="name" autofocus>
@@ -29,8 +29,8 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-4 form-group">
-                                    <label for="email">Email</label>
+                                <div class="col-lg-4 col-sm-12  form-group">
+                                    <label for="email">Email<span style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="text" class="form-control @error('email') is-invalid @enderror"
                                            id="email" name="email" value="{{ old('email') }}"
                                            aria-describedby="emailHelp" placeholder="Enter Email" required
@@ -42,8 +42,8 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-4 form-group">
-                                    <label for="phone_number">Phone</label>
+                                <div class="col-lg-4 col-sm-12  form-group">
+                                    <label for="phone_number">Phone<span style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="text" class="form-control @error('phone_number') is-invalid @enderror"
                                            id="phone_number" value="{{ old('phone_number') }}" name="phone_number"
                                            placeholder="Enter Phone" required autocomplete="phone_number" autofocus>
@@ -56,9 +56,9 @@
 
                             </div>
 
-                            <div class="row mb-3">
-                                <div class="col-4 form-group">
-                                    <label for="dob">Date of Birth</label>
+                            <div class="row mb-2">
+                                <div class="col-lg-4 col-sm-12  form-group">
+                                    <label for="dob">Date of Birth<span style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="date" class="form-control @error('dob') is-invalid @enderror"
                                            id="dob" name="dob" value="{{ old('dob') }}"
                                            required autocomplete="name" autofocus>
@@ -69,8 +69,8 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-4 form-group">
-                                    <label for="gender">Gender</label>
+                                <div class="col-lg-4 col-sm-12  form-group">
+                                    <label for="gender">Gender<span style="color:red; font-weight:bold;"> *</span></label>
                                     <select style="padding:10px; width:100%" class="form-select form-select-lg mb-3" id="gender_id" name="gender_id" aria-label="Default select example">
                                         @foreach($genders as $gender)
                                             <option value="{{ $gender->id }}">{{ $gender->gender }}</option>
@@ -78,8 +78,8 @@
                                     </select>
                                 </div>
 
-                                <div class="col-4 form-group">
-                                    <label for="marital_status_id">Marital Status</label>
+                                <div class="col-lg-4 col-sm-12  form-group">
+                                    <label for="marital_status_id">Marital Status<span style="color:red; font-weight:bold;"> *</span></label>
                                     <select style="padding:10px; width:100%" id="marital_status_id" name="marital_status_id" class="form-select form-select-lg mb-3" aria-label="Default select example">
                                         @foreach($marital_statuses as $marital_status)
                                             <option value="{{ $marital_status->id }}">{{ $marital_status->status }}</option>
@@ -90,11 +90,11 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-4 form-group">
+                                <div class="col-lg-4 col-sm-12  form-group">
                                     <label for="national_id">National ID</label>
                                     <input type="text" class="form-control @error('national_id') is-invalid @enderror"
                                            id="national_id" name="national_id" value="{{ old('national_id') }}" placeholder="Enter National ID"
-                                           required autocomplete="name" autofocus>
+                                           autocomplete="name" autofocus>
                                     @error('national_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -102,11 +102,11 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-4 form-group">
+                                <div class="col-lg-4 col-sm-12  form-group">
                                     <label for="passport">Passport</label>
                                     <input type="text" class="form-control @error('passport') is-invalid @enderror"
                                            id="passport" name="passport" value="{{ old('passport') }}"
-                                           aria-describedby="emailHelp" placeholder="Enter Passport" required
+                                           aria-describedby="emailHelp" placeholder="Enter Passport"
                                            autocomplete="passport" autofocus>
                                     @error('passport')
                                     <span class="invalid-feedback" role="alert">
@@ -115,8 +115,8 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-4 form-group">
-                                    <label for="location">Location</label>
+                                <div class="col-lg-4 col-sm-12  form-group">
+                                    <label for="location">Location <span style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="text" class="form-control @error('location') is-invalid @enderror"
                                            id="location" value="{{ old('location') }}" name="location"
                                            placeholder="Enter Location" required autocomplete="location" autofocus>
@@ -130,8 +130,8 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-lg-6 form-group">
-                                    <label for="gender">Highest Education Level</label>
+                                <div class="col-lg-6 col-sm-12  form-group">
+                                    <label for="gender">Highest Education Level <span style="color:red; font-weight:bold;"> *</span></label>
                                     <select style="width:100%; padding:10px;" id="education_level_id" name="education_level_id" class="form-select form-select-lg mb-3" aria-label="Default select example">
                                         @foreach($education_levels as $education_level)
                                             <option value="{{ $education_level->id }}">{{ $education_level->level }}</option>
@@ -140,8 +140,8 @@
 
                                 </div>
 
-                                <div class="col-lg-6 form-group">
-                                    <label for="course_id">Preferred Course</label>
+                                <div class="col-lg-6 col-sm-12  form-group">
+                                    <label for="course_id">Preferred Course <span style="color:red; font-weight:bold;"> *</span></label>
                                     <select style="width:100%; padding:10px;" class="form-select form-select-lg mb-3"  id="course_id" name="course_id" aria-label="Default select example">
                                         @foreach($courses as $course)
                                             <option value="{{ $course->id }}">{{ $course->title }}</option>
@@ -152,9 +152,9 @@
 
                             </div>
 
-                            <div class="row mb-3">
-                                <div class="col-lg-6 form-group">
-                                    <label for="gender">Preferred Time of Class</label>
+                            <div class="row mb-2">
+                                <div class="col-lg-6 col-sm-12  form-group">
+                                    <label for="gender">Preferred Time of Class <span style="color:red; font-weight:bold;"> *</span></label>
                                     <select style="width:100%; padding:10px;" class="form-select form-select-lg mb-3" id="preferred_time_of_class_id" name="preferred_time_of_class_id" aria-label="Default select example">
                                         @foreach($preferred_times as $preferred_time)
                                             <option value="{{ $preferred_time->id }}">{{ $preferred_time->time }}</option>
@@ -163,8 +163,8 @@
 
                                 </div>
 
-                                <div class="col-lg-6 form-group">
-                                    <label for="how_you_learnt_about_us_id">How You Learn About Us</label>
+                                <div class="col-lg-6 col-sm-12  form-group">
+                                    <label for="how_you_learnt_about_us_id">How You Learn About Us <span style="color:red; font-weight:bold;"> *</span></label>
                                     <select style="width:100%; padding:10px;" name="how_you_learnt_about_us_id" id="how_you_learnt_about_us_id" class="form-select form-select-lg mb-3" aria-label="Default select example">
                                         @foreach($methods as $method)
                                             <option value="{{ $method->id }}">{{ $method->how }}</option>
@@ -175,8 +175,8 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-6 form-group">
-                                    <label for="password">Password</label>
+                                <div class="col-lg-6 col-sm-12  form-group">
+                                    <label for="password">Password<span style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="password" class="form-control @error('password') is-invalid @enderror"
                                            id="password" value="{{ old('password') }}" name="password"
                                            placeholder="Enter Password" required autofocus>
@@ -187,8 +187,8 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-6 form-group">
-                                    <label for="password_confirmation">Confirm Password</label>
+                                <div class="col-lg-6 col-sm-12  form-group">
+                                    <label for="password_confirmation">Confirm Password<span style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
                                            id="password_confirmation" value="{{ old('password_confirmation') }}" name="password_confirmation"
                                            placeholder="Confirm Password" required  autofocus>
@@ -196,8 +196,20 @@
 
                             </div>
 
+                            <div class="row mb-3">
+                                <div class="col-lg-12">
+                                    <label for="student_photo" class="form-label">Photo</label>
+                                    <input class="form-control" type="file"  name="student_photo" id="student_photo" required>
+                                </div>
+                                @error('student_photo')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
                             <div class="row mb-0">
-                                <div class="col-md-6 offset-md-4">
+                                <div class="col-md-6 col-sm-12  offset-md-4">
                                     <button class="auth_buttons" style="padding:10px; min-width:150px;" type="submit" class="btn btn-primary">
                                         {{ __('REGISTER') }}
                                     </button>

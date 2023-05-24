@@ -17,8 +17,8 @@ class PreferredTimeOfClassSeeder extends Seeder
         \DB::table('preferred_time_of_class')->insert([
             ['time' => 'E-Learning', 'created_at' => now(), 'updated_at' => now()],
             ['time' => 'Morning Weekdays', 'created_at' => now(), 'updated_at' => now()],
-            ['time' => 'Afternoon Weekdays', 'created_at' => now(), 'updated_at' => now()],
-            ['time' => 'Evening Saturdays', 'created_at' => now(), 'updated_at' => now()],
+            ['time' => 'Evening Weekdays', 'created_at' => now(), 'updated_at' => now()],
+            ['time' => 'Saturdays', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

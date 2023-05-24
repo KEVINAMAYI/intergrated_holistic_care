@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,13 +26,6 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -41,6 +34,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
+
 
 
     /**
@@ -77,21 +71,37 @@ class RegisterController extends Controller
             'course_id' => ['required'],
             'phone_number' => ['required', 'max:10', 'min:10', 'unique:users'],
             'preferred_time_of_class_id' => ['required'],
-            'how_you_learnt_about_us_id' => ['required']
+            'how_you_learnt_about_us_id' => ['required'],
         ]);
     }
 
-    /**
+
+
+    public function register(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    {
+        $this->validator($request->all())->validate();
+        $this->create($request->all());
+        session()->flash('message','Registration Successful, Login to Continue');
+        return redirect('login');
+
+    }
+
+        /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(array $data): User
     {
 
         $numbers = '123456789';
         $alphabets = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
+
+        //store student photo
+        $student_photo = $data['student_photo'];
+        $student_photo_name =  "student-".time().'-'.$student_photo->getClientOriginalName();
+        $student_photo->move(public_path('/images/student_photos'), $student_photo_name);
 
         $ref_number = substr(str_shuffle($alphabets), 0, 3) . substr(str_shuffle($numbers), 0, 3);
         $user = [
@@ -110,7 +120,8 @@ class RegisterController extends Controller
             'course_id' => $data['course_id'],
             'preferred_time_of_class_id' => $data['preferred_time_of_class_id'],
             'how_you_learnt_about_us_id' => $data['how_you_learnt_about_us_id'],
-            'ref_number' => $ref_number
+            'ref_number' => $ref_number,
+            'student_photo' => $student_photo_name
         ];
         return User::create($user);
     }

@@ -32,6 +32,7 @@ return new class extends Migration {
             $table->foreignId('course_id');
             $table->foreignId('preferred_time_of_class_id');
             $table->foreignId('how_you_learnt_about_us_id');
+            $table->string('student_photo');
             $table->rememberToken();
             $table->timestamps();
         });
