@@ -24,6 +24,7 @@
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Email</th>
+                                <th>ID Number</th>
                                 <th>Gender</th>
                                 <th>Education Level</th>
                                 <th>Action</th>
@@ -35,6 +36,7 @@
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->phone_number }}</td>
                                     <td>{{ $student->email }}</td>
+                                    <td>{{ $student->identification_number }}</td>
                                     <td>{{ $student->gender->gender }}</td>
                                     <td>{{ $student->education_level->level }}</td>
 {{--                                    <td>{{ $student->preferred_class_time->time }}</td>--}}
@@ -51,6 +53,7 @@
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Email</th>
+                                <th>ID Number</th>
                                 <th>Gender</th>
                                 <th>Education Level</th>
                                 <th>Action</th>

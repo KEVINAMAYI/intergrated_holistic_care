@@ -236,8 +236,8 @@
                     <li class="menu_mm"><a href="instructors.html">Instructors</a></li> -->
                     <li class="menu_mm"><a href="{{  route('services.index') }}">services</a></li>
                     <li class="menu_mm"><a href="{{ route('contact.index')  }}">Contact</a></li>
-                    <li class="menu_mm"><a href="{{ route('register')  }}">Register</a></li>
-                    <li class="menu_mm"><a href="{{ route('login') }}">Login</a></li>
+                    <li class="menu_mm"><a style="color:rgb(212, 62, 62)" href="{{ route('register')  }}">Register</a></li>
+                    <li class="menu_mm"><a style="color:rgb(212, 62, 62)" href="{{ route('login') }}">Login</a></li>
                 </ul>
             @endif
 

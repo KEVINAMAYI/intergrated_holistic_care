@@ -64,7 +64,7 @@
 
                             <div class="forgot_password_label row mb-0">
                                 <div class="col-md-8 offset-md-2">
-                                    <button style="padding:10px; min-width:100px;" type="submit"
+                                    <button style=" background-color:rgb(188, 60, 60); padding:10px; min-width:100px;" type="submit"
                                             class="btn btn-primary auth_buttons">
                                         {{ __('Login') }}
                                     </button>
