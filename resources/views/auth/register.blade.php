@@ -90,10 +90,10 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-lg-4 col-sm-12  form-group">
-                                    <label for="national_id">National ID</label>
-                                    <input type="text" class="form-control @error('national_id') is-invalid @enderror"
-                                           id="national_id" name="national_id" value="{{ old('national_id') }}" placeholder="Enter National ID"
+                                <div class="col-lg-6 col-sm-12  form-group">
+                                    <label for="identification_number">National ID/Passport Number<span style="color:red; font-weight:bold;"> *</span></label></label>
+                                    <input type="text" class="form-control @error('identification_number') is-invalid @enderror"
+                                           id="identification_number" name="identification_number" value="{{ old('identification_number') }}" placeholder="Enter National ID"
                                            autocomplete="name" autofocus>
                                     @error('national_id')
                                     <span class="invalid-feedback" role="alert">
@@ -102,20 +102,8 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-lg-4 col-sm-12  form-group">
-                                    <label for="passport">Passport</label>
-                                    <input type="text" class="form-control @error('passport') is-invalid @enderror"
-                                           id="passport" name="passport" value="{{ old('passport') }}"
-                                           aria-describedby="emailHelp" placeholder="Enter Passport"
-                                           autocomplete="passport" autofocus>
-                                    @error('passport')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
 
-                                <div class="col-lg-4 col-sm-12  form-group">
+                                <div class="col-lg-6 col-sm-12  form-group">
                                     <label for="location">Location <span style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="text" class="form-control @error('location') is-invalid @enderror"
                                            id="location" value="{{ old('location') }}" name="location"
@@ -198,7 +186,7 @@
 
                             <div class="row mb-3">
                                 <div class="col-lg-12">
-                                    <label for="student_photo" class="form-label">Photo</label>
+                                    <label for="student_photo" class="form-label">Photo<span style="color:red; font-weight:bold;"> *</span></label></label>
                                     <input class="form-control" type="file"  name="student_photo" id="student_photo" required>
                                 </div>
                                 @error('student_photo')

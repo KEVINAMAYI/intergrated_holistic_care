@@ -69,6 +69,7 @@ class RegisterController extends Controller
             'marital_status_id' => ['required'],
             'education_level_id' => ['required'],
             'course_id' => ['required'],
+            'identification_number' => ['required'],
             'phone_number' => ['required', 'max:10', 'min:10', 'unique:users'],
             'preferred_time_of_class_id' => ['required'],
             'how_you_learnt_about_us_id' => ['required'],
@@ -86,7 +87,7 @@ class RegisterController extends Controller
 
     }
 
-        /**
+    /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
@@ -95,15 +96,16 @@ class RegisterController extends Controller
     protected function create(array $data): User
     {
 
+        //generate reference number
         $numbers = '123456789';
         $alphabets = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
+        $ref_number = substr(str_shuffle($alphabets), 0, 3) . substr(str_shuffle($numbers), 0, 3);
 
         //store student photo
         $student_photo = $data['student_photo'];
         $student_photo_name =  "student-".time().'-'.$student_photo->getClientOriginalName();
         $student_photo->move(public_path('/images/student_photos'), $student_photo_name);
 
-        $ref_number = substr(str_shuffle($alphabets), 0, 3) . substr(str_shuffle($numbers), 0, 3);
         $user = [
             'name' => $data['name'],
             'email' => $data['email'],
@@ -115,8 +117,7 @@ class RegisterController extends Controller
             'location' => $data['location'],
             'sub_location' => $data['sub_location'] ?? '',
             'education_level_id' => $data['education_level_id'],
-            'national_id' => $data['national_id'],
-            'passport' => $data['passport'],
+            'identification_number' => $data['identification_number'],
             'course_id' => $data['course_id'],
             'preferred_time_of_class_id' => $data['preferred_time_of_class_id'],
             'how_you_learnt_about_us_id' => $data['how_you_learnt_about_us_id'],

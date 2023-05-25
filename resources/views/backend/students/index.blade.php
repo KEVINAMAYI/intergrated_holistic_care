@@ -14,7 +14,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">DataTable with default features</h3>
+                        <h3 class="card-title">Registered Students</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -24,6 +24,9 @@
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Email</th>
+                                <th>Gender</th>
+                                <th>Education Level</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -32,6 +35,13 @@
                                     <td>{{ $student->name }}</td>
                                     <td>{{ $student->phone_number }}</td>
                                     <td>{{ $student->email }}</td>
+                                    <td>{{ $student->gender->gender }}</td>
+                                    <td>{{ $student->education_level->level }}</td>
+{{--                                    <td>{{ $student->preferred_class_time->time }}</td>--}}
+                                    <td>
+                                        <button class="btn btn-sm btn-success">Edit</button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </td>
                                 </tr>
                             @endforeach
 
@@ -41,6 +51,9 @@
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Email</th>
+                                <th>Gender</th>
+                                <th>Education Level</th>
+                                <th>Action</th>
                             </tr>
                             </tfoot>
                         </table>

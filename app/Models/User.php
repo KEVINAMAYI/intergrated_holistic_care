@@ -38,8 +38,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function role(){
+    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(Role::class);
+    }
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class);
+    }
+
+    public function education_level()
+    {
+        return $this->belongsTo(EducationLevel::class);
+    }
+
+    public function preferred_class_time()
+    {
+        return $this->belongsTo(PreferredTimeOfClass::class);
     }
 
 

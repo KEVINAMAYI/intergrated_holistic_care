@@ -26,8 +26,7 @@ return new class extends Migration {
             $table->string('phone_number');
             $table->string('location');
             $table->string('sub_location')->nullable();
-            $table->string('national_id')->nullable();
-            $table->string('passport')->nullable();
+            $table->string('identification_number');
             $table->foreignId('education_level_id');
             $table->foreignId('course_id');
             $table->foreignId('preferred_time_of_class_id');
