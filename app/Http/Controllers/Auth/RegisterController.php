@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RegistrationEmail;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -82,7 +84,8 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         $this->create($request->all());
-        session()->flash('message','Registration Successful, Login to Continue');
+        Mail::to($request->email)->send(new RegistrationEmail($request->name));
+        session()->flash('message','Registration Successful, A confirmation Email has been sent. Login to Continue');
         return redirect('login');
 
     }
@@ -124,6 +127,7 @@ class RegisterController extends Controller
             'ref_number' => $ref_number,
             'student_photo' => $student_photo_name
         ];
+
         return User::create($user);
     }
 }
