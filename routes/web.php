@@ -19,11 +19,6 @@ use App\Http\Controllers\StudentController;
 |
 */
 
-//test email
-//Route::get('/email',function (){
-//   return view('email_templates.registration_email');
-//});
-
 //frontend
 Route::get('/',[HomeController::class,'index'])->name('home.index');
 Route::get('/home', [HomeController::class, 'index'])->name('home');

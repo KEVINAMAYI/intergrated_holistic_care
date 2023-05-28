@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessRegistrationEmail;
 use App\Mail\RegistrationEmail;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
@@ -84,7 +85,7 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         $this->create($request->all());
-        Mail::to($request->email)->send(new RegistrationEmail($request->name));
+        ProcessRegistrationEmail::dispatch($request->email,$request->name);
         session()->flash('message','Registration Successful, A confirmation Email has been sent. Login to Continue');
         return redirect('login');
 
