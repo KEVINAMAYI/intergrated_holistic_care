@@ -19,6 +19,8 @@ use App\Http\Controllers\StudentController;
 |
 */
 
+
+
 //frontend
 Route::get('/',[HomeController::class,'index'])->name('home.index');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
