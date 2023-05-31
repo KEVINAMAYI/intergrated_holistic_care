@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Jobs\ProcessRegistrationEmail;
-use App\Mail\RegistrationEmail;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+use Intervention\Image\Facades\Image;
+use App\Jobs\ProcessRegistrationEmail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -39,23 +39,22 @@ class RegisterController extends Controller
     }
 
 
-
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param array $data
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
 
-    public function showRegistrationForm()
+    public function showRegistrationForm(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
     {
         $data = [];
-        $data['genders'] = \DB::table('genders')->get();
-        $data['courses'] = \DB::table('courses')->get();
-        $data['education_levels'] = \DB::table('education_level')->get();
-        $data['marital_statuses'] = \DB::table('marital_statuses')->get();
-        $data['preferred_times'] = \DB::table('preferred_time_of_class')->get();
-        $data['methods'] = \DB::table('how_you_learnt_about_us')->get();
+        $data['genders'] = DB::table('genders')->get();
+        $data['courses'] = DB::table('courses')->get();
+        $data['education_levels'] = DB::table('education_level')->get();
+        $data['marital_statuses'] = DB::table('marital_statuses')->get();
+        $data['preferred_times'] = DB::table('preferred_time_of_class')->get();
+        $data['methods'] = DB::table('how_you_learnt_about_us')->get();
         return view('auth.register', $data);
     }
 
@@ -80,13 +79,12 @@ class RegisterController extends Controller
     }
 
 
-
     public function register(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
         $this->validator($request->all())->validate();
         $this->create($request->all());
-        ProcessRegistrationEmail::dispatch($request->email,$request->name);
-        session()->flash('message','Registration Successful, A confirmation Email has been sent. Login to Continue');
+        ProcessRegistrationEmail::dispatch($request->email, $request->name);
+        session()->flash('message', 'Registration Successful, A confirmation Email has been sent. Login to Continue');
         return redirect('login');
 
     }
@@ -94,7 +92,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\Models\User
      */
     protected function create(array $data): User
@@ -105,10 +103,24 @@ class RegisterController extends Controller
         $alphabets = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
         $ref_number = substr(str_shuffle($alphabets), 0, 3) . substr(str_shuffle($numbers), 0, 3);
 
-        //store student photo
+        //compressed student photo if size is greater than 500kb then save
         $student_photo = $data['student_photo'];
-        $student_photo_name =  "student-".time().'-'.$student_photo->getClientOriginalName();
-        $student_photo->move(public_path('/images/student_photos'), $student_photo_name);
+        $student_photo_name = "student-" . time() . '-' . $student_photo->getClientOriginalName();
+        $student_photo_size = $student_photo->getSize();
+        $destination_path = public_path('/images/student_photos');
+
+        if ($student_photo_size < 512000) {
+            $student_photo->move($destination_path, $student_photo_name);
+        }
+        else{
+
+            Log::info('Vehicle Image size in bytes --- '.$student_photo_size);
+            $student_photo = Image::make($student_photo->getRealPath());
+            $height = $student_photo->height()/4;	    //get 1/4th of image height
+            $width = $student_photo->width()/4;			//get 1/4th of image width
+            $student_photo->resize($width, $height)->save($destination_path . '/' . $student_photo_name);
+        }
+
 
         $user = [
             'name' => $data['name'],

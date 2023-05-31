@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\DashController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
@@ -30,7 +30,7 @@ Route::get('/services',[ServicesController::class,'index'])->name('services.inde
 
 //backend
 Route::middleware(['admin'])->group(function (){
-    Route::get('/dashboard',[DashController::class,'index'])->name('dashboard.index');
+    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard.index');
     Route::get('/students',[StudentController::class,'index'])->name('students.index');
 });
 
