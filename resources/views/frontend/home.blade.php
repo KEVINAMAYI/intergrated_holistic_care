@@ -48,7 +48,7 @@
                 <div class="owl-item">
                     <!-- Background image artist https://unsplash.com/@benwhitephotography -->
                     <div class="home_slider_background_imgs"
-                         style="background-image: url('{{asset('images/main_bg2.JPG')}}')"></div>
+                         style=" margin-top:10px; background-image: url('{{asset('images/carousel_1.jpg')}}')"></div>
                     <div class="home_container">
                         <div class="container">
                             <div class="row">
@@ -116,7 +116,7 @@
                                 <div class="featured_content">
                                     <div
                                         class="featured_header d-flex flex-row align-items-center justify-content-start">
-                                        <div class="featured_tag"><a href="about.blade.php">READ MORE</a></div>
+                                        <div class="featured_tag"><a href="{{ route('about.index') }}">READ MORE</a></div>
                                     </div>
                                     <div class="featured_title"><h3><a href="about.blade.php">About Integrated Holistic
                                                 Care</a></h3></div>
