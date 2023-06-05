@@ -1,4 +1,4 @@
-@extends('backend.layouts.body',['page_title' => 'Students'])
+@extends('admin.layouts.body',['page_title' => 'Students'])
 
 @push('styles')
     <!-- DataTables -->

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\CustomClasses\ManageImages;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -98,29 +99,11 @@ class RegisterController extends Controller
     protected function create(array $data): User
     {
 
-        //generate reference number
+        //generate reference number && get student photo name
         $numbers = '123456789';
         $alphabets = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
         $ref_number = substr(str_shuffle($alphabets), 0, 3) . substr(str_shuffle($numbers), 0, 3);
-
-        //compressed student photo if size is greater than 500kb then save
-        $student_photo = $data['student_photo'];
-        $student_photo_name = "student-" . time() . '-' . $student_photo->getClientOriginalName();
-        $student_photo_size = $student_photo->getSize();
-        $destination_path = public_path('/images/student_photos');
-
-        if ($student_photo_size < 512000) {
-            $student_photo->move($destination_path, $student_photo_name);
-        }
-        else{
-
-            Log::info('Vehicle Image size in bytes --- '.$student_photo_size);
-            $student_photo = Image::make($student_photo->getRealPath());
-            $height = $student_photo->height()/4;	    //get 1/4th of image height
-            $width = $student_photo->width()/4;			//get 1/4th of image width
-            $student_photo->resize($width, $height)->save($destination_path . '/' . $student_photo_name);
-        }
-
+        $student_photo_name = ManageImages::processImage($data['student_photo'],512000,public_path('/images/student_photo/'),'student',4,4);
 
         $user = [
             'name' => $data['name'],

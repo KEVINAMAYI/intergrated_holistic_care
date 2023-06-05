@@ -1,4 +1,4 @@
-@extends('backend.layouts.body',['page_title' => 'Dashboard'])
+@extends('admin.layouts.body',['page_title' => 'Dashboard'])
 
 @section('content')
     <!-- Main content -->

@@ -56,7 +56,7 @@
                                                         class="btn btn-primary dropdown-toggle"
                                                         data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
-                                                    <img src="/images/student_photos/{{ Auth::user()->student_photo }}"
+                                                    <img src="images/student_photos/{{ Auth::user()->student_photo }}"
                                                          style="margin-right:4px; border:2px solid white;"
                                                          class="rounded-circle" width="30px" height="30px;"
                                                          alt="avatar">
@@ -117,8 +117,8 @@
                                                 href="{{ route('about.index') }}">about us</a></li>
                                         <li class="{{ Route::is('services.index') ? 'active' : '' }}"><a
                                                 href="{{ route('services.index') }}">services</a></li>
-                                        {{--                                        <li class="{{ Route::is('services.index') ? 'active' : '' }}"><a--}}
-                                        {{--                                                href="{{ route('courses.index') }}">Courses</a></li>--}}
+                                        <li class="{{ Route::is('courses.index') ? 'active' : '' }}"><a
+                                                href="{{ route('student-courses.index') }}">Courses</a></li>
                                         <li class="{{ Route::is('contact.index') ? 'active' : '' }}"><a
                                                 href="{{ route('contact.index') }}">contact</a></li>
                                         @if(auth()->user()->role->name == 'Admin')
@@ -236,7 +236,8 @@
                     <li class="menu_mm"><a href="instructors.html">Instructors</a></li> -->
                     <li class="menu_mm"><a href="{{  route('services.index') }}">services</a></li>
                     <li class="menu_mm"><a href="{{ route('contact.index')  }}">Contact</a></li>
-                    <li class="menu_mm"><a style="color:rgb(212, 62, 62)" href="{{ route('register')  }}">Register</a></li>
+                    <li class="menu_mm"><a style="color:rgb(212, 62, 62)" href="{{ route('register')  }}">Register</a>
+                    </li>
                     <li class="menu_mm"><a style="color:rgb(212, 62, 62)" href="{{ route('login') }}">Login</a></li>
                 </ul>
             @endif
