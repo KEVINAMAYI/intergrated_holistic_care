@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseSectionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\StudentCourseController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -38,9 +39,14 @@ Route::middleware(['auth'])->group(function () {
     //Admin
     Route::middleware(['admin'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
         Route::post('/update-course/{course}', [CourseController::class, 'updateCourse']);
         Route::resource('students', StudentController::class);
+
         Route::resource('courses', CourseController::class);
+
+        Route::get('/course-sections/{course_id}', [CourseSectionController::class, 'getCourseSections']);
+        Route::resource('course-sections', CourseSectionController::class);
     });
 });
 

@@ -14,7 +14,14 @@ class CourseSectionController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.course_sections.index');
+
+    }
+
+    public function getCourseSections($courseID){
+
+        
+
     }
 
     /**

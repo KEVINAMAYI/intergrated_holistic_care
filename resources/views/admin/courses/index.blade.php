@@ -64,10 +64,10 @@
                                              alt="avatar">
                                     </td>
                                     <td class="justify-content-start">
-                                        <button class="btn  btn-xs btn-success">
+                                        <a href="/course-sections/{{$course->id}}" class="btn  btn-xs btn-success">
                                             <i style="color:white;" class="nav-icon fa fa-xm fa-eye"></i>
                                             view
-                                        </button>
+                                        </a>
                                         <button class="btn editButton btn-xs btn-info" id="{{ $course->id }}">
                                             <i style="color:white;" class="nav-icon fa fa-xm fa-edit"></i>
                                             edit

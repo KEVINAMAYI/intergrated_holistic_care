@@ -74,4 +74,6 @@ class CourseController extends Controller
         Session::flash('message','Course deleted successfully');
         return redirect()->back();
     }
+
+
 }
