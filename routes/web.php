@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseLectureController;
 use App\Http\Controllers\Admin\CourseSectionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\StudentCourseController;
@@ -35,6 +36,8 @@ Route::middleware(['auth'])->group(function () {
 
     //normal users
     Route::get('/student-courses', [StudentCourseController::class, 'index'])->name('student-courses.index');
+    Route::get('/take-lessons/{course}', [StudentCourseController::class, 'takeLessons'])->name('take-lessons');
+    Route::get('/make-course-payment/{course}', [StudentCourseController::class, 'makeCoursePayment'])->name('make-course-payment');
 
     //Admin
     Route::middleware(['admin'])->group(function () {
@@ -45,8 +48,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('courses', CourseController::class);
 
-        Route::get('/course-sections/{course_id}', [CourseSectionController::class, 'getCourseSections']);
+        Route::get('/get-course-sections/{course_id}', [CourseSectionController::class, 'getCourseSections']);
         Route::resource('course-sections', CourseSectionController::class);
+        Route::resource('course-lectures', CourseLectureController::class);
     });
 });
 

@@ -103,7 +103,7 @@ class RegisterController extends Controller
         $numbers = '123456789';
         $alphabets = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
         $ref_number = substr(str_shuffle($alphabets), 0, 3) . substr(str_shuffle($numbers), 0, 3);
-        $student_photo_name = ManageImages::processImage($data['student_photo'],512000,public_path('/images/student_photo/'),'student',4,4);
+        $student_photo_name = ManageImages::processImage($data['student_photo'],512000,public_path('/images/student_photos/'),'student',4,4);
 
         $user = [
             'name' => $data['name'],

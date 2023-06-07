@@ -26,7 +26,8 @@
 
                     <div class="col-3 pt-3 pl-3">
                         <!-- Button trigger modal -->
-                        <button style="border:0px solid white; border-radius:0px; background-color: rgb(27, 184, 191);" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCourseModal">
+                        <button style="border:0px solid white; border-radius:0px; background-color: rgb(27, 184, 191);"
+                                type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCourseModal">
                             <i style="color:white; margin-right:3px;" class="nav-icon fa fa-plus-circle"></i>
                             Add Course
                         </button>
@@ -64,7 +65,7 @@
                                              alt="avatar">
                                     </td>
                                     <td class="justify-content-start">
-                                        <a href="/course-sections/{{$course->id}}" class="btn  btn-xs btn-success">
+                                        <a href="/get-course-sections/{{$course->id}}" class="btn  btn-xs btn-success">
                                             <i style="color:white;" class="nav-icon fa fa-xm fa-eye"></i>
                                             view
                                         </a>
@@ -253,6 +254,7 @@
                     });
                 });
 
+
                 //submit editCourse form data
                 $("#editCourseForm").submit(function (e) {
                     const course = $('#courseId').val();
@@ -262,10 +264,10 @@
 
                     const courseImage = $('#editedCourseImage')[0].files[0];
                     formData = new FormData($('#editCourseForm')[0]);
-                    formData.set('image',courseImage);
+                    formData.set('image', courseImage);
 
                     $.ajax({
-                        url: '/update-course/'+course,
+                        url: '/update-course/' + course,
                         type: 'post',
                         data: formData,
                         processData: false,
@@ -283,12 +285,15 @@
 
                 });
 
-
                 //set data Table
                 $("#courses").DataTable({
                     "responsive": true, "lengthChange": false, "autoWidth": false,
                     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
                 }).buttons().container().appendTo('#courses_wrapper .col-md-6:eq(0)');
+
+                setTimeout(function () {
+                    $('.alert').alert('close');
+                }, 3000);
 
             });
         </script>

@@ -10,4 +10,10 @@ class Lecture extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+
+    public  function section(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Section::class);
+    }
 }

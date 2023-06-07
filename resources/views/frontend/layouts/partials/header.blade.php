@@ -206,7 +206,7 @@
                                     class="btn btn-primary dropdown-toggle"
                                     data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
-                                <img src="/images/student_photos/{{ Auth::user()->student_photo }}"
+                                <img src="images/student_photos/{{ Auth::user()->student_photo }}"
                                      style="margin-right:4px; border:2px solid white;"
                                      class="rounded-circle" width="30px" height="30px;"
                                      alt="avatar">
