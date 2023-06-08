@@ -16,7 +16,7 @@ class CourseLectureController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreLectureRequest $request)
     {
@@ -33,8 +33,9 @@ class CourseLectureController extends Controller
             'url' => $file_name
         ]);
 
-        Session::flash('message', 'Lecture Created successfully');
-        return redirect()->back();
+        return response()->json([
+            'message' => 'Lecture Created successfully'
+        ]);
 
     }
 
@@ -58,7 +59,7 @@ class CourseLectureController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateLectureRequest $request, Lecture $course_lecture)
     {
@@ -73,8 +74,9 @@ class CourseLectureController extends Controller
             'url' => $file_name
         ]);
 
-        Session::flash('message', 'Lecture Updated successfully');
-        return redirect()->back();
+        return response()->json([
+            'message' => 'Lecture Updated successfully'
+        ]);
     }
 
 
@@ -82,12 +84,12 @@ class CourseLectureController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Lecture $course_lecture)
     {
         $course_lecture->delete();
-        Session::flash('message','Course Section Deleted successfully');
+        Session::flash('message','Course Lecture Deleted successfully');
         return redirect()->back();
     }
 }

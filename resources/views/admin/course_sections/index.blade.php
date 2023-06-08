@@ -5,18 +5,24 @@
     <div class="container-fluid">
 
         <!-- Button redirect to courses modal -->
-        <a href="{{ route('courses.index') }}"  style="border:0px solid white; border-radius:0px; background-color: rgb(27, 184, 191);"
-                type="button"
-                class="btn mb-3 btn-primary">
+        <a href="{{ route('courses.index') }}"
+           style="border:0px solid white; border-radius:0px; background-color: rgb(27, 184, 191);"
+           type="button"
+           class="btn mb-3 btn-primary">
             <i style="color:white; margin-right:3px;" class="nav-icon fa fa-backward"></i>
             Back
         </a>
 
         @if (session()->has('message'))
-            <div class="alert alert-success">
+            <div id="phpalert" class="alert alert-success">
                 {{ session('message') }}
             </div>
         @endif
+
+        {{-- Ajax Request Alert --}}
+        <div style="display:none" class="request-alert alert alert-success">
+            test
+        </div>
 
         <div class="row">
             <div class="col-12">
@@ -54,7 +60,8 @@
                                             </h2>
                                         </div>
                                         <div class="col-lg-3">
-                                            <button lecture_section_id="{{ $section->id }}" class="btn addLectureBtn btn-xs btn-success">
+                                            <button lecture_section_id="{{ $section->id }}"
+                                                    class="btn addLectureBtn btn-xs btn-success">
                                                 <i style="color:white;" class="nav-icon fa fa-xm fa-plus-circle"></i>
                                                 Add Lecture
                                             </button>
@@ -227,7 +234,13 @@
                             <input style="padding-bottom:40px;" class="form-control" name="lecture_content" type="file"
                                    id="lectureContent">
                         </div>
-
+                        <div class="form-group">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                     role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 0%"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -269,7 +282,13 @@
                             <input style="padding-bottom:40px;" class="form-control" name="lecture_content" type="file"
                                    id="lectureContent">
                         </div>
-
+                        <div class="form-group">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                                     role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: 0%"></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" value="" name="section_id" id="formSectionId">
@@ -296,6 +315,7 @@
         <script src="backend/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
         <script src="backend/plugins/datatables-buttons/js/buttons.print.min.js"></script>
         <script src="backend/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
 
         <!-- Laravel Javascript Validation -->
         <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
@@ -365,9 +385,42 @@
                     });
                 });
 
+                //time out for alert messages
                 setTimeout(function () {
-                    $('.alert').alert('close');
+                    $('#phpalert').alert('close');
                 }, 3000);
+
+
+                //progress bar
+                $('#addLectureForm, #editLectureForm').ajaxForm({
+                    beforeSend: function () {
+                        var percentage = '0';
+                    },
+                    uploadProgress: function (event, position, total, percentComplete) {
+                        var percentage = percentComplete;
+                        $('.progress .progress-bar').css("width", percentage + '%', function () {
+                            return $(this).attr("aria-valuenow", percentage) + "%";
+                        })
+                    },
+                    complete: function (response) {
+
+                        $('#addLectureModal').modal('hide');
+                        $('#editLectureModal').modal('hide');
+                        const alert = $('.request-alert');
+                        alert.text(response.responseJSON.message);
+                        alert.css("display", "");
+
+                        new Promise(function (resolve, reject) {
+                            setTimeout(function () {
+                                alert.alert('close');
+                                resolve();
+                            }, 3000);
+                        }).then(function (value) {
+                            location.reload();
+                        });
+                    }
+
+                });
 
             });
         </script>
