@@ -93,7 +93,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-10">
                                                                 <strong>Lecture {{ $section_number }}01. </strong>
-                                                                {{ $lecture->name }}
+                                                                {{ $lecture->name }} <span style="margin-left:15px;">{{ $lecture->url }}</span>
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <button id="{{ $lecture->id }}"
