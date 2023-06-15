@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('table_user_courses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('course_id');
+            $table->foreignId('user_id');
+            $table->enum('is_active',[0,1]);
             $table->timestamps();
         });
     }
