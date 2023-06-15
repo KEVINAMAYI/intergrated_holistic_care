@@ -58,5 +58,15 @@ class User extends Authenticatable
         return $this->belongsTo(PreferredTimeOfClass::class);
     }
 
+    public function courses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Course::class,'user_courses');
+    }
+
+
+    public static function activateCourses($user, $active_courses){
+        $user->courses()->sync($active_courses);
+    }
+
 
 }

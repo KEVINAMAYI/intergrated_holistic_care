@@ -46,9 +46,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-        Route::post('/update-course/{course}', [CourseController::class, 'updateCourse']);
+        Route::post('/activate-student-courses/{student}', [StudentController::class, 'activateStudentCourses'])->name('activate_student_courses');
         Route::resource('students', StudentController::class);
 
+        Route::post('/update-course/{course}', [CourseController::class, 'updateCourse']);
         Route::resource('courses', CourseController::class);
 
         Route::get('/get-course-sections/{course_id}', [CourseSectionController::class, 'getCourseSections']);

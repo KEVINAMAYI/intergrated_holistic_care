@@ -12,8 +12,13 @@ class Course extends Model
     protected $guarded = ['id'];
 
 
-    public function sections(){
+    public function sections(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Section::class);
     }
 
+    public function users(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(User::class);
+    }
 }
