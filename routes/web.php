@@ -2,13 +2,10 @@
 
 use App\Http\Controllers\Admin\CourseLectureController;
 use App\Http\Controllers\Admin\CourseSectionController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\StudentCourseController;
-use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\AboutController;
 use App\Http\Controllers\Admin\StudentController;
-use App\Http\Controllers\Frontend\ContactController;
-use App\Http\Controllers\Frontend\ServicesController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CourseController;
 
@@ -25,14 +22,15 @@ use App\Http\Controllers\Admin\CourseController;
 
 
 //user can access when not logged in
-Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/about', [AboutController::class, 'index'])->name('about.index');
-Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
-Route::get('/services', [ServicesController::class, 'index'])->name('services.index');
+Route::view('/', 'frontend.home')->name('home.index');
+Route::view('/home', 'frontend.home')->name('home');
+Route::view('/about', 'frontend.about')->name('about.index');
+Route::view('/contact', 'frontend.contact')->name('contact.index');
+Route::view('/services', 'frontend.services')->name('services.index');
 
 //user must be logged in
 Route::middleware(['auth'])->group(function () {
+
 
     //normal users
     Route::get('/student-courses', [StudentCourseController::class, 'index'])->name('student-courses.index');
@@ -41,6 +39,11 @@ Route::middleware(['auth'])->group(function () {
 
     //Admin
     Route::middleware(['admin'])->group(function () {
+
+        //cache && clear cache
+        Route::get('cache', function () { Artisan::call('optimize'); dd('data cached'); });
+        Route::get('clear-cache', function () { Artisan::call('optimize:clear'); dd('cache cleared'); });
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
         Route::post('/update-course/{course}', [CourseController::class, 'updateCourse']);

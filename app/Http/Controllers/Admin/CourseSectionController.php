@@ -14,7 +14,7 @@ class CourseSectionController extends Controller
 
     public function getCourseSections($courseID){
 
-        $course = Course::find($courseID);
+        $course = Course::with(['sections' => ['lectures']])->find($courseID);
         return view('admin.course_sections.index',compact('course'));
 
     }

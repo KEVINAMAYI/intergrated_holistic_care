@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Custom\ManageFiles;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLectureRequest;
 use App\Http\Requests\UpdateLectureRequest;
 use App\Models\Lecture;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class CourseLectureController extends Controller
@@ -21,11 +21,7 @@ class CourseLectureController extends Controller
     public function store(StoreLectureRequest $request)
     {
 
-        $file = $request->lecture_content;
-        $destination_path = public_path('/course_lectures/');
-        $file_name = "lecture-" . time() . '-' . $file->getClientOriginalName();
-        $file->move($destination_path, $file_name);
-
+        $file_name = ManageFiles::processNonImageFiles($request->lecture_content,public_path('/course_lectures/'));
         Lecture::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -63,10 +59,8 @@ class CourseLectureController extends Controller
      */
     public function update(UpdateLectureRequest $request, Lecture $course_lecture)
     {
-        $file = $request->lecture_content;
-        $destination_path = public_path('/course_lectures/');
-        $file_name = "lecture-" . time() . '-' . $file->getClientOriginalName();
-        $file->move($destination_path, $file_name);
+        $file_name = ManageFiles::processNonImageFiles($request->lecture_content,public_path('/course_lectures/'));
+        ManageFiles::removeFile(public_path('/course_lectures/'.$course_lecture->url));
 
         $course_lecture->update([
             'name' => $request->input('name'),

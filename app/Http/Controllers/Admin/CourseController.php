@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CustomClasses\ManageImages;
+use App\Custom\ManageFiles;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditCourseRequest;
 use App\Http\Requests\StoreCourseRequest;
@@ -16,15 +16,14 @@ class CourseController extends Controller
     public function index()
     {
         $courses = Course::all();
-        return view('admin.courses.index',compact('courses'));
+        return view('admin.courses.index', compact('courses'));
     }
-
 
 
     public function store(StoreCourseRequest $request)
     {
 
-        $course_image_url = ManageImages::processImage($request->image,1024000, public_path('/images/course_images/'),'course',3,3);
+        $course_image_url = ManageFiles::processImage($request->image, 1024000, public_path('/images/course_images/'), 'course', 3, 3);
         Course::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -33,7 +32,7 @@ class CourseController extends Controller
             'cost' => '30000',
             'duration' => '3 Months',
         ]);
-        Session::flash('message','Course created successfully');
+        Session::flash('message', 'Course created successfully');
         return redirect()->back();
     }
 
@@ -46,14 +45,10 @@ class CourseController extends Controller
     }
 
 
-
-    public function updateCourse(Request $request,Course $course)
+    public function updateCourse(EditCourseRequest $request, Course $course)
     {
-        $course_image_url = ManageImages::processImage($request->image,1024000, public_path('/images/course_images/'),'course',3,3);
-
-        //remove old image
-        $image_path = public_path('/images/course_images/'.$course->image_url);
-        if(file_exists($image_path)){ unlink($image_path); }
+        $course_image_url = ManageFiles::processImage($request->image, 1024000, public_path('/images/course_images/'), 'course', 3, 3);
+        ManageFiles::removeFile(public_path('/images/course_images/' . $course->image_url));
 
         $course->update([
             'title' => $request->input('title'),
@@ -71,7 +66,7 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         $course->delete();
-        Session::flash('message','Course deleted successfully');
+        Session::flash('message', 'Course deleted successfully');
         return redirect()->back();
     }
 

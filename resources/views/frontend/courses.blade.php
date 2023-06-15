@@ -41,10 +41,10 @@
                             <div  class="course_image"><img src="images/course_images/{{ $course->image_url }}" alt=""></div>
                             <div class="course_body">
                                 <div class="course_header d-flex flex-row align-items-center justify-content-start">
-                                    <div class="course_tag"><a style="background-color:#d61111;" href="{{ route('make-course-payment',[$course->id]) }}">Enroll</a></div>
-                                    <div class="course_price ml-auto"> <span style="font-size:14px; color:#d61111;">Price: KES {{ $course->cost }}</span></div>
+{{--                                    <div class="course_tag"><a style="background-color:#d61111;" href="{{ route('make-course-payment',[$course->id]) }}">Enroll</a></div>--}}
+{{--                                    <div class="course_price ml-auto"> <span style="font-size:14px; color:#d61111;">Price: KES {{ $course->cost }}</span></div>--}}
                                 </div>
-                                <div class="course_title"><h3><a href="courses.html">{{ $course->title }}</a></h3></div>
+                                <div class="course_title"><h3><a href="{{ route('make-course-payment',[$course->id]) }}">{{ $course->title }}</a></h3></div>
                                 <div class="course_text">{{ $course->description }}</div>
                                 <div  class="course_footer d-flex align-items-center justify-content-start">
                                     <div class="course_author_name">By <a href="#">Lilian  Owiti</a></div>

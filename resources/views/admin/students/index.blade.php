@@ -10,6 +10,13 @@
 @section('content')
 
     <div class="container-fluid">
+
+        @if (session()->has('message'))
+            <div id="phpalert" class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -41,12 +48,14 @@
                                     <td>{{ $student->education_level->level }}</td>
 {{--                                    <td>{{ $student->preferred_class_time->time }}</td>--}}
                                     <td>
-                                        <button class="btn btn-sm btn-success">Edit</button>
-                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                        <form action="{{ route('students.destroy',[$student->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
-
                             </tbody>
                             <tfoot>
                             <tr>

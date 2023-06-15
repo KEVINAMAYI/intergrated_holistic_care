@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class StudentController extends Controller
 {
 
     public  function  index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $students = User::where('role_id',1)->get();
+        $students = User::with('gender','education_level')->where('role_id',1)->get();
         return view('admin.students.index',compact('students'));
     }
 
@@ -42,7 +43,10 @@ class StudentController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(User $student)
     {
+        $student->delete();
+        Session::flash('message', 'Student deleted successfully');
+        return redirect()->back();
     }
 }

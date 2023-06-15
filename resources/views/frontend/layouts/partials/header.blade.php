@@ -195,8 +195,8 @@
                 <ul class="menu_mm">
                     <li class="menu_mm"><a href="{{ route('home.index') }}">Home</a></li>
                     <li class="menu_mm"><a href="{{ route('about.index')  }}">about us</a></li>
-                    <!-- <li class="menu_mm"><a href="courses.html">Courses</a></li>
-                    <li class="menu_mm"><a href="instructors.html">Instructors</a></li> -->
+                    <li class="{{ Route::is('courses.index') ? 'active' : '' }}"><a
+                            href="{{ route('student-courses.index') }}">Courses</a></li>
                     <li class="menu_mm"><a href="{{  route('services.index') }}">services</a></li>
                     <li class="menu_mm"><a href="{{ route('contact.index')  }}">Contact</a></li>
                     <li class="menu_mm">
@@ -232,8 +232,6 @@
                 <ul class="menu_mm">
                     <li class="menu_mm"><a href="{{ route('home.index') }}">Home</a></li>
                     <li class="menu_mm"><a href="{{ route('about.index')  }}">about us</a></li>
-                    <!-- <li class="menu_mm"><a href="courses.html">Courses</a></li>
-                    <li class="menu_mm"><a href="instructors.html">Instructors</a></li> -->
                     <li class="menu_mm"><a href="{{  route('services.index') }}">services</a></li>
                     <li class="menu_mm"><a href="{{ route('contact.index')  }}">Contact</a></li>
                     <li class="menu_mm"><a style="color:rgb(212, 62, 62)" href="{{ route('register')  }}">Register</a>

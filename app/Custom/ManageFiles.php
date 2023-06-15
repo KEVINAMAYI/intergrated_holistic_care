@@ -1,10 +1,10 @@
 <?php
 
-namespace App\CustomClasses;
+namespace App\Custom;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 
-class ManageImages
+class ManageFiles
 {
     public static function processImage($image, $image_max_size, $destination_path, $image_tag, $resizing_x_ratio, $resizing_y_ratio): string
     {
@@ -26,5 +26,17 @@ class ManageImages
 
     }
 
+
+    public static  function processNonImageFiles($file, $path) : string {
+        $file_name = "lecture-" . time() . '-' . $file->getClientOriginalName();
+        $file->move($path, $file_name);
+        return $file_name;
+
+    }
+
+
+    public static  function removeFile($file_path) : void {
+        if(file_exists($file_path)){ unlink($file_path); }
+    }
 
 }

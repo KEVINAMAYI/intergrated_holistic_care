@@ -10,7 +10,6 @@ class StudentCourseController extends Controller
 {
     public function index()
     {
-
         $courses = Course::all();
         return view('frontend.courses', compact('courses'));
     }

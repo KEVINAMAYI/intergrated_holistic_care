@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\CustomClasses\ManageImages;
+use App\Custom\ManageFiles;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -90,6 +90,14 @@ class RegisterController extends Controller
 
     }
 
+    private function generateReferenceNumber(): string
+    {
+        $numbers = '123456789';
+        $alphabets = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
+        return substr(str_shuffle($alphabets), 0, 3) . substr(str_shuffle($numbers), 0, 3);
+    }
+
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -99,12 +107,7 @@ class RegisterController extends Controller
     protected function create(array $data): User
     {
 
-        //generate reference number && get student photo name
-        $numbers = '123456789';
-        $alphabets = 'ABCDEFGHIJKLMNPQRSTUVWXYZ';
-        $ref_number = substr(str_shuffle($alphabets), 0, 3) . substr(str_shuffle($numbers), 0, 3);
-        $student_photo_name = ManageImages::processImage($data['student_photo'],512000,public_path('/images/student_photos/'),'student',4,4);
-
+        $student_photo_name = ManageFiles::processImage($data['student_photo'], 512000, public_path('/images/student_photos/'), 'student', 4, 4);
         $user = [
             'name' => $data['name'],
             'email' => $data['email'],
@@ -120,7 +123,7 @@ class RegisterController extends Controller
             'course_id' => $data['course_id'],
             'preferred_time_of_class_id' => $data['preferred_time_of_class_id'],
             'how_you_learnt_about_us_id' => $data['how_you_learnt_about_us_id'],
-            'ref_number' => $ref_number,
+            'ref_number' => $this->generateReferenceNumber(),
             'student_photo' => $student_photo_name
         ];
 

@@ -47,9 +47,9 @@
                         <li > Go to your M-PESA account.</li>
                         <li class="">Go to LIPA NA M-PESA</li>
                         <li class="">Choose Pay Bill</li>
-                        <li class="">Choose Enter business no and Enter : 247247</li>
-                        <li class="">Click OK then enter account number as 0797069487</li>
-                        <li class="">Enter Amount of your Tickets (KES) e.g 5000</li>
+                        <li class="">Choose Enter business no and Enter : 880100</li>
+                        <li class="">Click OK then enter account number as 5683140014</li>
+                        <li class="">Enter Course Amoun e.g 5000</li>
                         <li class="">Enter Your Pin then Send.</li>
                     </ul>
                     <a href="{{route('take-lessons',[$courseId])}}" class="ml-4 mt-4 btn btn-md btn-success">Confirm Payment</a>

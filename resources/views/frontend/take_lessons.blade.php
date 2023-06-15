@@ -23,8 +23,8 @@
                 <span class="sr-only">Toggle Menu</span>
             </button>
         </div>
-        <div class="p-4 pt-5">
-            <h4 style="font-weight:bold;" class="text-white text-bold">{{ $course->title }}</h4>
+        <div class="p-4 pt-0">
+            <h5 style="font-weight:bold;" class="text-white text-bold">{{ $course->title }}</h5>
             <ul class="list-unstyled components mb-5">
                 @foreach($course->sections as $section)
                     <li class="{{ $loop->iteration == 1 ? 'active' : ''}}">
@@ -60,10 +60,12 @@
         <h2 id="lessonTitle" class="mb-4">{{ $course->title }}</h2>
         <video
             id="my-video"
-            class="video-js"
+            class="video-js lectureVideo"
             controls="true"
+            controlsList="nodownload"
             width="640"
-            height="264">
+            height="264"
+            >
 
             <source src="" type="video/mp4"/>
             <p class="vjs-no-js">
@@ -104,18 +106,20 @@
 
             if (fileExtension === 'mp4') {
                 let videoSource = 'course_lectures/' + fileName;
-                let $video = $('#content video');
-                $('source', $video).attr('src', videoSource);
-                $video[0].load();
-                $video[0].play();
+                let video = $('#content video');
+                $('source', video).attr('src', videoSource);
+                video[0].load();
+                video[0].play();
+                $('.lectureVideo').bind('contextmenu',function(){ return false; });
             }
 
-            if (fileExtension === 'pdf') {
+            if (fileExtension === 'pdf' || fileExtension === 'pptx') {
                 let fileSource = 'https://docs.google.com/gview?url=https://integratedholisticcare.org//course_lectures/' + fileName + '&embedded=true'
                 $('.pdfFileIFrame').attr('src', fileSource);
                 $('#content video').css('display', 'none');
                 $('#content video')[0].pause();
             }
+
 
         });
     });
