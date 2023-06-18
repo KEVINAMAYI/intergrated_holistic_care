@@ -31,8 +31,9 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="images/intergrated_holistic_care_logo.png" alt="AdminLTELogo" height="80"
-             width="150">
+        <div class="spinner-border text-info" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
 
     <!-- Navbar -->
