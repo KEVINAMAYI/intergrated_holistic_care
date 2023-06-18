@@ -38,7 +38,7 @@
             <div class="row about_row row-lg-eq-height">
                 <div class="col-lg-6">
                     <div class="about_content">
-                        <div class="about_title">Professional Caregiving Course</div>
+                        <div class="about_title"><a style="color:rgb(27, 184, 191);" href="{{ route('student-courses.index') }}">Professional Caregiving Course</a></div>
                         <div class="about_text">
                             <p>Quality, affordable and Intensive training on Patients and Elder Care. Internationally
                                 recognised Curriculum.Students internship in a well established and specialised
@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-lg-6 order-lg-2 order-1">
                     <div class="about_content">
-                        <div class="about_title">First Aid/CPR training</div>
+                        <div class="about_title"><a style="color:rgb(27, 184, 191);" href="{{ route('student-courses.index') }}">First Aid/CPR training</a></div>
                         <div class="about_text">
                             <p>American Heart Association on basic and advanced life support.</p>
                         </div>
@@ -66,7 +66,7 @@
             <div class="row about_row row-lg-eq-height">
                 <div class="col-lg-6">
                     <div class="about_content">
-                        <div class="about_title">Comprehensive Homecare Services</div>
+                        <div class="about_title"><a style="color:rgb(27, 184, 191);" href="{{ route('student-courses.index') }}">Comprehensive Homecare Services</a></div>
                         <div class="about_text">
                             <p>All age care Nursing Care, wound and stoma care. Physiotherapy, Nutritional services and
                                 Ambulance Services.</p>
@@ -84,7 +84,7 @@
                 </div>
                 <div class="col-lg-6 order-lg-2 order-1">
                     <div class="about_content">
-                        <div class="about_title">Local and Oversea Job referals</div>
+                        <div class="about_title"><a style="color:rgb(27, 184, 191);" href="{{ route('student-courses.index') }}">Local and Oversea Job referrals</a></div>
                         <div class="about_text">
                             <p>To all interested, qualified and able individuals willing to work locally and overseas.
                                 .</p>
