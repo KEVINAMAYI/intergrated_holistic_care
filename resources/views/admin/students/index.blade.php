@@ -54,8 +54,15 @@
                                             @method('DELETE')
                                             <button type="submit" class="btn  btn-sm btn-danger mb-1">Delete</button>
                                         </form>
-                                        <button  type="submit" id="{{ $student->id }}"
-                                                 class="editStudentCourseBtn  btn btn-sm btn-info">manage
+                                        <button type="submit" id="{{ $student->id }}"
+                                                class="editStudentCourseBtn mb-1  btn btn-sm btn-info">manage
+                                        </button>
+                                        <button
+                                            student_identification_document="{{ $student->identification_document_url }}"
+                                            student_school_certificate="{{ $student->school_certificate_url }}"
+                                            student_birth_certificate="{{ $student->birth_certificate_url }}"
+                                            student_id="{{ $student->id }}" type="submit"
+                                            class="viewCertificatesBtn text-white mb-1 btn btn-sm btn-warning">view docs
                                         </button>
                                     </td>
                                 </tr>
@@ -81,6 +88,7 @@
         </div>
     </div>
 
+    {{--activate user courses --}}
     <div class="modal fade" id="activateUserCoursesModal" tabindex="-1" aria-labelledby="activateUserCoursesLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-md">
@@ -114,6 +122,67 @@
         </div>
     </div>
 
+    {{--show student certificates --}}
+    <div class="modal fade" id="showStudentCertificatesModal" tabindex="-1" aria-labelledby="activateUserCoursesLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="showStudentCertificatesLabel">Student Documents </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div style="margin-left:1px;" class="row">
+                                <p>Birth Certificate</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <a id="birth_certificate" href="">Download Birth Certificate
+                                        <i style="color: rgb(27, 184, 191); margin-left:10px;"
+                                           class="nav-icon fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div style="margin-left:1px;" class="row">
+                                <p>National ID/Passport</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <a id="identification_document" href="">Download National ID/Passport
+                                        <i style="color: rgb(27, 184, 191); margin-left:10px;"
+                                           class="nav-icon fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div style="margin-left:1px;" class="row ">
+                                <p>KCSE/Diploma Certificate</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <a id="education_certificate" href="">Download KCSE/Diploma Certificate
+                                        <i style="color: rgb(27, 184, 191); margin-left:10px;"
+                                           class="nav-icon fa fa-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     @push('scripts')
         <!-- DataTables  & Plugins -->
@@ -140,6 +209,21 @@
                 });
 
                 //get course data for edit
+                $(".viewCertificatesBtn").on('click', function () {
+
+                    let identification_document_link = '/identification_documents/' + $(this).attr('student_identification_document');
+                    let education_certificate_link = '/school_certificates/' + $(this).attr('student_school_certificate');
+                    let birth_certificate_link = '/birth_certificates/' + $(this).attr('student_birth_certificate');
+
+                    $('#birth_certificate').attr('href', birth_certificate_link);
+                    $('#identification_document').attr('href', identification_document_link);
+                    $('#education_certificate').attr('href', education_certificate_link);
+                    $('#showStudentCertificatesModal').modal('show');
+
+                });
+
+
+                //get course data for edit
                 $(".editStudentCourseBtn").on('click', function () {
 
                     const student_id = $(this).attr('id');
@@ -149,14 +233,14 @@
                         success: function (response) {
 
                             //uncheck all check boxes
-                            $('.course').each(function (index,item) {
+                            $('.course').each(function (index, item) {
                                 $(item).prop("checked", false);
                             });
 
                             //check checkboxes that match student course
                             const student_courses_ids = response.student_courses;
                             student_courses_ids.forEach((student_course_id) => {
-                                $('.course').each(function (index,item) {
+                                $('.course').each(function (index, item) {
                                     const checkboxValue = parseInt($(item).val());
                                     if (checkboxValue === student_course_id) {
                                         $(item).prop("checked", true);

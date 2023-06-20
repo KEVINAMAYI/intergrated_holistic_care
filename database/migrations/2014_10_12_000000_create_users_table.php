@@ -32,6 +32,9 @@ return new class extends Migration {
             $table->foreignId('preferred_time_of_class_id');
             $table->foreignId('how_you_learnt_about_us_id');
             $table->string('student_photo');
+            $table->string('birth_certificate_url');
+            $table->string('school_certificate_url');
+            $table->string('identification_document_url');
             $table->integer('paid')->default(0);
             $table->rememberToken();
             $table->timestamps();
