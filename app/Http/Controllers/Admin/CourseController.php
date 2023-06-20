@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Custom\ManageFiles;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EditCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Requests\StoreCourseRequest;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -45,16 +45,30 @@ class CourseController extends Controller
     }
 
 
-    public function updateCourse(EditCourseRequest $request, Course $course)
+    public function updateCourse(UpdateCourseRequest $request, Course $course)
     {
-        $course_image_url = ManageFiles::processImage($request->image, 1024000, public_path('/images/course_images/'), 'course', 3, 3);
-        ManageFiles::removeFile(public_path('/images/course_images/' . $course->image_url));
+        //update with image if image exist in the Request
+        if ($request->hasFile('image')) {
+            $course_image_url = ManageFiles::processImage($request->image, 1024000, public_path('/images/course_images/'), 'course', 3, 3);
+            ManageFiles::removeFile(public_path('/images/course_images/' . $course->image_url));
+
+            $course->update([
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'instructor_id' => $request->input('instructor_id'),
+                'image_url' => $course_image_url,
+            ]);
+
+            return response()->json([
+                'data' => "Course updated Successful"
+            ]);
+
+        }
 
         $course->update([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'instructor_id' => $request->input('instructor_id'),
-            'image_url' => $course_image_url,
         ]);
 
         return response()->json([
