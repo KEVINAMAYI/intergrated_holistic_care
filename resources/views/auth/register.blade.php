@@ -3,6 +3,7 @@
 @push('styles')
     <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
     <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+    <link rel="stylesheet" type="text/css" href="styles/loader.css">
 @endpush
 
 @section('content')
@@ -12,46 +13,37 @@
                 <div class="card">
                     <div class="card-header">{{ __('Register') }}</div>
 
-                    <div class="card-body">
+                    <div class="card-body" style="position: relative;">
+                        <div class="loader" style="display:none">Loading...</div>
 
-                        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                        <form id="registrationForm" method="POST" action="{{ route('register') }}"
+                              enctype="multipart/form-data">
                             @csrf
                             <div class="row mb-3">
+
                                 <div class="col-lg-4 col-sm-12 form-group">
                                     <label for="name">Name <span style="color:red; font-weight:bold;"> *</span></label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    <input type="text" class="form-control "
                                            id="name" name="name" value="{{ old('name') }}" placeholder="Enter Name"
                                            required autocomplete="name" autofocus>
-                                    @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+
                                 </div>
 
                                 <div class="col-lg-4 col-sm-12  form-group">
                                     <label for="email">Email<span style="color:red; font-weight:bold;"> *</span></label>
-                                    <input type="text" class="form-control @error('email') is-invalid @enderror"
+                                    <input type="text" class="form-control"
                                            id="email" name="email" value="{{ old('email') }}"
                                            aria-describedby="emailHelp" placeholder="Enter Email" required
                                            autocomplete="email" autofocus>
-                                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+
                                 </div>
 
                                 <div class="col-lg-4 col-sm-12  form-group">
                                     <label for="phone_number">Phone<span style="color:red; font-weight:bold;"> *</span></label>
-                                    <input type="text" class="form-control @error('phone_number') is-invalid @enderror"
+                                    <input type="text" class="form-control"
                                            id="phone_number" value="{{ old('phone_number') }}" name="phone_number"
                                            placeholder="Enter Phone" required autocomplete="phone_number" autofocus>
-                                    @error('phone_number')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+
                                 </div>
 
                             </div>
@@ -60,14 +52,10 @@
                                 <div class="col-lg-4 col-sm-12  form-group">
                                     <label for="dob">Date of Birth<span
                                             style="color:red; font-weight:bold;"> *</span></label>
-                                    <input type="date" class="form-control @error('dob') is-invalid @enderror"
+                                    <input type="date" class="form-control"
                                            id="dob" name="dob" value="{{ old('dob') }}"
                                            required autocomplete="name" autofocus>
-                                    @error('dob')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+
                                 </div>
 
                                 <div class="col-lg-4 col-sm-12  form-group">
@@ -101,28 +89,20 @@
                                     <label for="identification_number">National ID/Passport Number<span
                                             style="color:red; font-weight:bold;"> *</span></label></label>
                                     <input type="text"
-                                           class="form-control @error('identification_number') is-invalid @enderror"
+                                           class="form-control"
                                            id="identification_number" name="identification_number"
                                            value="{{ old('identification_number') }}" placeholder="Enter National ID"
                                            autocomplete="name" autofocus>
-                                    @error('national_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+
                                 </div>
 
 
                                 <div class="col-lg-6 col-sm-12  form-group">
                                     <label for="location">Location <span style="color:red; font-weight:bold;"> *</span></label>
-                                    <input type="text" class="form-control @error('location') is-invalid @enderror"
+                                    <input type="text" class="form-control"
                                            id="location" value="{{ old('location') }}" name="location"
                                            placeholder="Enter Location" required autocomplete="location" autofocus>
-                                    @error('location')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
+
                                 </div>
 
                             </div>
@@ -188,21 +168,16 @@
                                 <div class="col-lg-6 col-sm-12  form-group">
                                     <label for="password">Password<span
                                             style="color:red; font-weight:bold;"> *</span></label>
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                    <input type="password" class="form-control"
                                            id="password" value="{{ old('password') }}" name="password"
                                            placeholder="Enter Password" required autofocus>
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
                                 </div>
 
                                 <div class="col-lg-6 col-sm-12  form-group">
                                     <label for="password_confirmation">Confirm Password<span
                                             style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="password"
-                                           class="form-control @error('password_confirmation') is-invalid @enderror"
+                                           class="form-control"
                                            id="password_confirmation" value="{{ old('password_confirmation') }}"
                                            name="password_confirmation"
                                            placeholder="Confirm Password" required autofocus>
@@ -217,11 +192,6 @@
                                     <input class="form-control" type="file" name="birth_certificate"
                                            id="birth_certificate"
                                            required>
-                                    @error('birth_certificate')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
                                 </div>
                                 <div class="col-lg-6 col-sm-12  form-group">
                                     <label for="school_certificate" class="form-label">KCSE/Diploma Certificate<span
@@ -229,11 +199,6 @@
                                     <input class="form-control" type="file" name="school_certificate"
                                            id="school_certificate"
                                            required>
-                                    @error('school_certificate')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
                                 </div>
                             </div>
 
@@ -244,11 +209,6 @@
                                     <input class="form-control" type="file" name="identification_file"
                                            id="identification_file"
                                            required>
-                                    @error('identification_file')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
                                 </div>
 
                                 <div class="col-lg-6 col-sm-12  form-group">
@@ -256,11 +216,6 @@
                                             style="color:red; font-weight:bold;"> *</span></label></label>
                                     <input class="form-control" type="file" name="student_photo" id="student_photo"
                                            required>
-                                    @error('student_photo')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
                                 </div>
 
                             </div>
@@ -279,4 +234,35 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+
+        <!-- Laravel Javascript Validation -->
+        <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+        {!! JsValidator::formRequest('App\Http\Requests\StoreUserRequest', '#registrationForm'); !!}
+
+        <script>
+            $(function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $('#registrationForm').ajaxForm({
+                    beforeSend: function () {
+                    },
+                    uploadProgress: function (event, position, total, percentComplete) {
+                        $('.loader').css("display", "");
+                        window.scrollTo(80, 80);
+                    },
+                    complete: function (response) {
+                        location.href = "/login";
+                    }
+
+                });
+
+            });
+        </script>
+    @endpush
 @endsection
