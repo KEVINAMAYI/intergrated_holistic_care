@@ -21,7 +21,7 @@ class CourseLectureController extends Controller
     public function store(StoreLectureRequest $request)
     {
 
-        $file_name = ManageFiles::processNonImageFiles($request->lecture_content,public_path('/course_lectures/'));
+        $file_name = ManageFiles::processNonImageFiles($request->lecture_content,public_path('/course_lectures/'),'lecture');
         Lecture::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -59,7 +59,7 @@ class CourseLectureController extends Controller
      */
     public function update(UpdateLectureRequest $request, Lecture $course_lecture)
     {
-        $file_name = ManageFiles::processNonImageFiles($request->lecture_content,public_path('/course_lectures/'));
+        $file_name = ManageFiles::processNonImageFiles($request->lecture_content,public_path('/course_lectures/'),'lecture');
         ManageFiles::removeFile(public_path('/course_lectures/'.$course_lecture->url));
 
         $course_lecture->update([

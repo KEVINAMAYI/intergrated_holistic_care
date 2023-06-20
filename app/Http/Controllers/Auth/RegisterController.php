@@ -6,10 +6,8 @@ use App\Custom\ManageFiles;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Intervention\Image\Facades\Image;
 use App\Jobs\ProcessRegistrationEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -108,6 +106,10 @@ class RegisterController extends Controller
     {
 
         $student_photo_name = ManageFiles::processImage($data['student_photo'], 512000, public_path('/images/student_photos/'), 'student', 4, 4);
+        $birth_certificate = ManageFiles::processNonImageFiles($data['birth_certificate'],public_path('/birth_certificates/'),'birth_certificate');
+        $school_certificate = ManageFiles::processNonImageFiles($data['school_certificate'],public_path('/school_certificates/'),'school_certificate');
+        $identification_file = ManageFiles::processNonImageFiles($data['identification_file'],public_path('/identification_documents/'),'identification');
+
         $user = [
             'name' => $data['name'],
             'email' => $data['email'],
@@ -124,7 +126,10 @@ class RegisterController extends Controller
             'preferred_time_of_class_id' => $data['preferred_time_of_class_id'],
             'how_you_learnt_about_us_id' => $data['how_you_learnt_about_us_id'],
             'ref_number' => $this->generateReferenceNumber(),
-            'student_photo' => $student_photo_name
+            'student_photo' => $student_photo_name,
+            'birth_certificate_url' => $birth_certificate,
+            'school_certificate_url' => $school_certificate,
+            'identification_document_url' => $identification_file
         ];
 
         return User::create($user);
