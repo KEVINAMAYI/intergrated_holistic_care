@@ -224,7 +224,7 @@
         <!-- Laravel Javascript Validation -->
         <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
         {!! JsValidator::formRequest('App\Http\Requests\StoreCourseRequest', '#createCourseForm'); !!}
-        {!! JsValidator::formRequest('App\Http\Requests\EditCourseRequest', '#editCourseForm'); !!}
+        {!! JsValidator::formRequest('App\Http\Requests\UpdateCourseRequest', '#editCourseForm'); !!}
 
         <script>
             $(function () {
