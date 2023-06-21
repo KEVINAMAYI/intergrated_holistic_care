@@ -27,8 +27,8 @@ class ManageFiles
     }
 
 
-    public static  function processNonImageFiles($file, $path) : string {
-        $file_name = "lecture-" . time() . '-' . $file->getClientOriginalName();
+    public static  function processNonImageFiles($file, $path,$tag) : string {
+        $file_name = $tag.'-'. time() . '-' . $file->getClientOriginalName();
         $file->move($path, $file_name);
         return $file_name;
 

@@ -21,7 +21,7 @@ class CourseLectureController extends Controller
     public function store(StoreLectureRequest $request)
     {
 
-        $file_name = ManageFiles::processNonImageFiles($request->lecture_content,public_path('/course_lectures/'));
+        $file_name = ManageFiles::processNonImageFiles($request->lecture_content, public_path('/course_lectures/'), 'lecture');
         Lecture::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
@@ -59,13 +59,25 @@ class CourseLectureController extends Controller
      */
     public function update(UpdateLectureRequest $request, Lecture $course_lecture)
     {
-        $file_name = ManageFiles::processNonImageFiles($request->lecture_content,public_path('/course_lectures/'));
-        ManageFiles::removeFile(public_path('/course_lectures/'.$course_lecture->url));
+        //update with file  if image exist in the Request
+        if ($request->hasFile('lecture_content')) {
+            $file_name = ManageFiles::processNonImageFiles($request->lecture_content, public_path('/course_lectures/'), 'lecture');
+            ManageFiles::removeFile(public_path('/course_lectures/' . $course_lecture->url));
+
+            $course_lecture->update([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'url' => $file_name
+            ]);
+
+            return response()->json([
+                'message' => 'Lecture Updated successfully'
+            ]);
+        }
 
         $course_lecture->update([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
-            'url' => $file_name
         ]);
 
         return response()->json([
@@ -83,7 +95,7 @@ class CourseLectureController extends Controller
     public function destroy(Lecture $course_lecture)
     {
         $course_lecture->delete();
-        Session::flash('message','Course Lecture Deleted successfully');
+        Session::flash('message', 'Course Lecture Deleted successfully');
         return redirect()->back();
     }
 }

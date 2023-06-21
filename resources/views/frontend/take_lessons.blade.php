@@ -111,6 +111,7 @@
                 video[0].load();
                 video[0].play();
                 $('.lectureVideo').bind('contextmenu',function(){ return false; });
+                $('.pdfFileIFrame').css('display','none');
             }
 
             if (fileExtension === 'pdf' || fileExtension === 'pptx') {

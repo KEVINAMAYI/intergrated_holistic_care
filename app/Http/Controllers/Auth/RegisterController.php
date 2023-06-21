@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Custom\ManageFiles;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Intervention\Image\Facades\Image;
 use App\Jobs\ProcessRegistrationEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -60,33 +59,14 @@ class RegisterController extends Controller
     }
 
 
-    protected function validator(array $data)
+    public function register(StoreUserRequest $request): \Illuminate\Http\JsonResponse
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'dob' => ['required'],
-            'gender_id' => ['required'],
-            'location' => ['required', 'string', 'max:255'],
-            'marital_status_id' => ['required'],
-            'education_level_id' => ['required'],
-            'course_id' => ['required'],
-            'identification_number' => ['required'],
-            'phone_number' => ['required', 'max:10', 'min:10', 'unique:users'],
-            'preferred_time_of_class_id' => ['required'],
-            'how_you_learnt_about_us_id' => ['required'],
-        ]);
-    }
-
-
-    public function register(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
-    {
-        $this->validator($request->all())->validate();
-        $this->create($request->all());
+        $this->create($request->validated());
         ProcessRegistrationEmail::dispatch($request->email, $request->name);
         session()->flash('message', 'Registration Successful, A confirmation Email has been sent. Login to Continue');
-        return redirect('login');
+        return response()->json([
+            'message' => 'Registration was successful'
+        ]);
 
     }
 
@@ -108,6 +88,10 @@ class RegisterController extends Controller
     {
 
         $student_photo_name = ManageFiles::processImage($data['student_photo'], 512000, public_path('/images/student_photos/'), 'student', 4, 4);
+        $birth_certificate = ManageFiles::processNonImageFiles($data['birth_certificate'],public_path('/birth_certificates/'),'birth_certificate');
+        $school_certificate = ManageFiles::processNonImageFiles($data['school_certificate'],public_path('/school_certificates/'),'school_certificate');
+        $identification_file = ManageFiles::processNonImageFiles($data['identification_file'],public_path('/identification_documents/'),'identification');
+
         $user = [
             'name' => $data['name'],
             'email' => $data['email'],
@@ -124,7 +108,10 @@ class RegisterController extends Controller
             'preferred_time_of_class_id' => $data['preferred_time_of_class_id'],
             'how_you_learnt_about_us_id' => $data['how_you_learnt_about_us_id'],
             'ref_number' => $this->generateReferenceNumber(),
-            'student_photo' => $student_photo_name
+            'student_photo' => $student_photo_name,
+            'birth_certificate_url' => $birth_certificate,
+            'school_certificate_url' => $school_certificate,
+            'identification_document_url' => $identification_file
         ];
 
         return User::create($user);

@@ -26,7 +26,6 @@ class UpdateLectureRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
-            'lecture_content' => 'required',
         ];
     }
 }
