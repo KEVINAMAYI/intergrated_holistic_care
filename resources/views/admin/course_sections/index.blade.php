@@ -47,7 +47,7 @@
                             @foreach($course->sections as $section)
                                 <div class="card">
                                     <div class="row card-header" id="headingOne">
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-8">
                                             <h2 class="mb-0">
                                                 <button class="btn btn-link btn-block text-left" type="button"
                                                         data-toggle="collapse" data-target="#collapse{{$section->id}}"
@@ -59,11 +59,16 @@
                                                 </button>
                                             </h2>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-4">
                                             <button lecture_section_id="{{ $section->id }}"
                                                     class="btn addLectureBtn btn-xs btn-success">
                                                 <i style="color:white;" class="nav-icon fa fa-xm fa-plus-circle"></i>
                                                 Add Lecture
+                                            </button>
+                                            <button question_section_id="{{ $section->id }}"
+                                                    class="btn addQuestionBtn btn-xs btn-info">
+                                                <i style="color:white;" class="nav-icon fa fa-xm fa-minus-circle"></i>
+                                                Add Question
                                             </button>
                                             <button class="btn editCourseSectionButton btn-xs btn-info"
                                                     id="{{ $section->id }}">
@@ -93,7 +98,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-10">
                                                                 <strong>Lecture {{ $section_number }}01. </strong>
-                                                                {{ $lecture->name }} <span style="margin-left:15px;">{{ $lecture->url }}</span>
+                                                                {{ $lecture->name }} <span
+                                                                    style="margin-left:15px;">{{ $lecture->url }}</span>
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <button id="{{ $lecture->id }}"
@@ -301,6 +307,82 @@
     </div>
 
 
+    {{-- Add Question Modal --}}
+    <div class="modal fade" id="addQuestionModal" tabindex="-1" aria-labelledby="addQuestionModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addQuestionModalLabel">Add New Question</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="addQuestionForm" action="{{ route('course-questions.store') }}" method="POST"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="col-lg-12 col-sm-12  form-group">
+                            <label for="gender">Question Type</label>
+                            <select style="padding:10px; width:100%" class="form-select form-select-lg mb-3"
+                                    id="questionType" name="question_type">
+                                    <option value="close_ended">Close Ended</option>
+                                    <option selected value="discussion">Discussion</option>
+                            </select>
+                        </div>
+                        <div class="question_container col-lg-12 col-sm-12  form-group">
+                            <label for="Question">Question</label>
+                            <textarea name="question" id="Question" class="w-100" rows="3" required></textarea>
+                        </div>
+
+                        <div style="display:none" class="answers_container col-lg-12 col-sm-12  form-group">
+                            <h6 class="text-bold">Answers <small>(Check the correct answer)</small></h6>
+                            <div class="input-group mt-3 mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input class="is-answer"  name="is_answer[]"  value="a" checked type="checkbox">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" value="Answer A"  required name="answers[]">
+                            </div>
+                            <div class="input-group mt-3 mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input class="is-answer"  name="is_answer[]"  value="b"  type="checkbox">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" value="Answer B"  required name="answers[]">
+                            </div>
+                            <div class="input-group mt-3 mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input class="is-answer" name="is_answer[]" value="c"   type="checkbox">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" value="Answer C"  required name="answers[]">
+                            </div>
+                            <div class="input-group mt-3 mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input class="is-answer"  name="is_answer[]" value="d"  type="checkbox">
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" value="Answer D" required name="answers[]">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" value="" name="question_section_id" id="questionSectionId">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     @push('scripts')
         <!-- DataTables  & Plugins -->
         <script src="backend/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -361,6 +443,27 @@
                     $('#addLectureModal').modal('show');
                 });
 
+
+                //get and set quesion section id
+                $(".addQuestionBtn").on('click', function () {
+                    $('#questionSectionId').val($(this).attr('question_section_id'))
+                    $('#addQuestionModal').modal('show');
+                });
+
+                //show answer container based on select value
+                $('#questionType').on('change',function() {
+                    let questionTypeValue = $('#questionType').find(":selected").val();
+                    let answerContainer = $('.answers_container');
+                    answerContainer.css('display','');
+                    if(!(questionTypeValue === 'close_ended')){
+                        answerContainer.css('display','none');
+                    }
+                })
+
+                //allow user to check only one correct answer
+                $('.is-answer').click(function() {
+                    $('.is-answer').not(this).prop('checked', false);
+                });
 
                 //get course_section_lecture data for edit
                 $(".editCourseLectureBtn").on('click', function () {

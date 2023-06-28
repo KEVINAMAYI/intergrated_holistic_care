@@ -95,8 +95,6 @@
                                            autocomplete="name" autofocus>
 
                                 </div>
-
-
                                 <div class="col-lg-6 col-sm-12  form-group">
                                     <label for="location">Location <span style="color:red; font-weight:bold;"> *</span></label>
                                     <input type="text" class="form-control"
