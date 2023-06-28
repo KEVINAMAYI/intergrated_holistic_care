@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <base href="{{ URL::to('/') }}">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ URL("plugins/font-awesome-4.7.0/css/font-awesome.min.css") }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ URL("styles/bootstrap4/bootstrap.min.css") }}">
@@ -31,7 +32,8 @@
                         <div class="row">
                             <a style="" href="#section{{ $section_number = $loop->iteration  }}Menu"
                                data-toggle="collapse" aria-expanded="false"
-                               class="dropdown-bs-toggle"><strong>Sect {{ $loop->iteration  }}: {{$section->name}}</strong> <i
+                               class="dropdown-bs-toggle"><strong>Sect {{ $loop->iteration  }}
+                                    : {{$section->name}}</strong> <i
                                     style="color:white; margin-left:3px; display:inline;"
                                     class="nav-icon fa fa-sm fa-plus-circle"></i>
                             </a>
@@ -41,10 +43,16 @@
                                         <span style="cursor:pointer;" class="pb-3 pt-2 lesson"
                                               title="{{ $lecture->name }}"
                                               file_name="{{ $lecture->url }}"
-                                        >Lec {{ $section_number }}0{{ $loop->iteration }}
+                                        ><i class="fa fa-tv mr-2"></i>
+                                            Lec {{ $section_number }}0{{ $loop->iteration }}
                                             : {{ $lecture->name }}</span>
                                     </li>
                                 @endforeach
+                                <li>
+                                    <span id="getSectionQuestionsBtn" questions_section_id="{{ $section->id }}"
+                                          style="cursor:pointer;" class="pb-3 pt-2"><i
+                                            class="fa fa-question-circle mr-2"></i>Questions</span>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -57,6 +65,14 @@
 
     {{--Page Content--}}
     <div id="content" class="p-4 p-md-5 pt-5">
+
+        @if (session()->has('message'))
+            <div class="alert alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+
+
         <h2 id="lessonTitle" class="mb-4">{{ $course->title }}</h2>
         <video
             id="my-video"
@@ -65,7 +81,7 @@
             controlsList="nodownload"
             width="640"
             height="264"
-            >
+        >
 
             <source src="" type="video/mp4"/>
             <p class="vjs-no-js">
@@ -81,6 +97,38 @@
                 src=""
                 style="width:100%; height:500px;" frameborder="0">Read
         </iframe>
+
+        <form id="answerForm" method="POST" action="{{ route('store-user-results') }}">
+            @csrf
+            <div style="display:none" class="sectionQuestion row">
+                <div class="col-12">
+                    {{--closed ended questions--}}
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Multiple Choices Questions</h5>
+                        </div>
+                        <div class="closeEndedQuestionSection card-body">
+                        </div>
+                    </div>
+
+                    {{--open ended questions--}}
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title">Discussion Questions</h5>
+                        </div>
+                        <div class="openEndedQuestionSection card-body">
+
+                        </div>
+                    </div>
+
+                    <button type="submit" class="mt-4 btn btn-success btn-md">
+                        Submit Answers
+                    </button>
+
+
+                </div>
+            </div>
+        </form>
 
     </div>
 </div>
@@ -99,6 +147,13 @@
 
     //get lesson file Name and lesson Title
     $(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         $(".lesson").on('click', function () {
             const fileName = $(this).attr('file_name');
             $('#lessonTitle').text($(this).attr('title'))
@@ -110,8 +165,12 @@
                 $('source', video).attr('src', videoSource);
                 video[0].load();
                 video[0].play();
-                $('.lectureVideo').bind('contextmenu',function(){ return false; });
-                $('.pdfFileIFrame').css('display','none');
+                $('.lectureVideo').bind('contextmenu', function () {
+                    return false;
+                });
+                $('#content video').css('display', '');
+                $('.pdfFileIFrame').css('display', 'none');
+                $('.sectionQuestion').css('display', 'none');
             }
 
             if (fileExtension === 'pdf' || fileExtension === 'pptx') {
@@ -119,13 +178,86 @@
                 $('.pdfFileIFrame').attr('src', fileSource);
                 $('#content video').css('display', 'none');
                 $('#content video')[0].pause();
-            }
+                $('.pdfFileIFrame').css('display', '');
+                $('.sectionQuestion').css('display', 'none');
 
+            }
+        });
+
+
+        //get section questions
+        $("#getSectionQuestionsBtn").on('click', function () {
+
+            const course_section_id = $(this).attr('questions_section_id');
+            $('#questionSectionId').val(course_section_id);
+
+            $.ajax({
+                url: "/get-section-questions/" + course_section_id,
+                type: "get",
+                success: function (response) {
+
+                    let closeEndedQuestions = response.closed_ended_questions;
+                    let openEndedQuestions = response.open_ended_questions;
+                    $('input').remove();
+
+                    $('#content video').css('display', 'none');
+                    $('#content video')[0].pause();
+                    $('.pdfFileIFrame').css('display', 'none');
+                    $('.sectionQuestion').css('display', '');
+                    $('#lessonTitle').text('Questions');
+                    $(".closeEndedQuestionSection").empty();
+                    closeEndedQuestions.forEach((closeEndedQuestion, index) => {
+                        $(".closeEndedQuestionSection").append(`<div class='mb-4'>
+                            <h5>${index + 1}. ${closeEndedQuestion.question}</h5>
+                            <div class='container'>
+                            <ul class='list-group'>
+                                <li style="cursor:pointer" answer_label='a' question='${closeEndedQuestion.id}' answer_for='question${closeEndedQuestion.id}' class="question${closeEndedQuestion.id} list-group-item">${closeEndedQuestion.options.a}</li>
+                                <li style="cursor:pointer" answer_label='b' question='${closeEndedQuestion.id}' answer_for='question${closeEndedQuestion.id}' class="question${closeEndedQuestion.id} list-group-item">${closeEndedQuestion.options.b}</li>
+                                <li style="cursor:pointer" answer_label='c' question='${closeEndedQuestion.id}' answer_for='question${closeEndedQuestion.id}' class="question${closeEndedQuestion.id} list-group-item">${closeEndedQuestion.options.c}</li>
+                                <li style="cursor:pointer" answer_label='d' question='${closeEndedQuestion.id}' answer_for='question${closeEndedQuestion.id}' class="question${closeEndedQuestion.id} list-group-item">${closeEndedQuestion.options.d}</li>
+                            </ul>
+                            </div> </div>`);
+                    });
+
+                    openEndedQuestions.forEach((openEndedQuestion, index) => {
+                        $(".openEndedQuestionSection").append(`<div class='mb-4'>
+                            <h5>${index + 1}. ${openEndedQuestion.question}</h5>
+                            <div class='container'>
+                            <textarea name="open_ended_answers[${openEndedQuestion.id}]" style="width:100%;" rows="4"></textarea>
+
+                            </div> </div>`);
+                    });
+
+                    $(".closeEndedQuestionSection").append(`<input type="hidden" name="section_id" value="${course_section_id}">`)
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+
+        $(document).on('click', 'li', function () {
+            let questionLabel = $(this).attr('answer_for');
+            let userAnswer = $(this).attr('answer_label');
+            let question = $(this).attr('question');
+            $(`.${questionLabel}`).removeClass('active');
+            $(this).addClass('active');
+
+            //remove if such an input answer exists
+            $(`#answerFor_${questionLabel}`).remove();
+
+            //set user answer behind the scenes
+            $('#answerForm').append(`
+             <input id='answerFor_${questionLabel}' type='hidden' name='closed_question_answers[${question}]' value="${userAnswer}"/>
+            `);
 
         });
-    });
 
-</script>
+        setTimeout(function () {
+            $('.alert').alert('close');
+        }, 3000);
+
+    });
 
 </script>
 </body>
