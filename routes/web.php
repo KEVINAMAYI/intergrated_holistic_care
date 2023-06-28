@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CourseLectureController;
 use App\Http\Controllers\Admin\CourseSectionController;
+use App\Http\Controllers\Admin\QuestionController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\StudentCourseController;
@@ -36,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/student-courses', [StudentCourseController::class, 'index'])->name('student-courses.index');
     Route::get('/take-lessons/{course}', [StudentCourseController::class, 'takeLessons'])->name('take-lessons');
     Route::get('/make-course-payment/{course}', [StudentCourseController::class, 'makeCoursePayment'])->name('make-course-payment');
+    Route::get('/get-section-questions/{section_id}', [StudentCourseController::class, 'getSectionQuestions'])->name('get-section-question');
+    Route::post('/store-user-results', [StudentCourseController::class, 'storeUserResults'])->name('store-user-results');
 
     //Admin
     Route::middleware(['admin'])->group(function () {
@@ -55,6 +58,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/get-course-sections/{course_id}', [CourseSectionController::class, 'getCourseSections']);
         Route::resource('course-sections', CourseSectionController::class);
         Route::resource('course-lectures', CourseLectureController::class);
+
+        Route::resource('course-questions', QuestionController::class);
+
     });
 });
 
