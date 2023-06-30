@@ -8,9 +8,10 @@
     <meta name="description" content="Elearn project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Intergrated Holistic Care</title>
+    <link rel="stylesheet" type="text/css" href="styles/custom.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
-    <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="backend/plugins/fontawesome-free/css/all.min.css">
     @stack('styles')
 </head>
 <body>
@@ -40,7 +41,7 @@
                                         <div>info@integratedholisticcare.org</div>
                                     </li>
                                 </ul>
-                                <div class="top_bar_login ml-auto">
+                                <div style="border-width:0; background-color:transparent;" class="top_bar_login ml-auto">
                                     <ul>
                                         @guest
                                             @if (Route::has('register'))
@@ -50,9 +51,9 @@
                                                 <li><a href="/login">Login</a></li>
                                             @endif
                                         @else
-                                            <div class="btn-group">
-                                                <button id="user_icon" type="button"
-                                                        style="font-size:14px; background-color:transparent; color:white; border: none transparent; border-radius:0px;"
+                                            <div class="btn-group" style="border-width:0; ">
+                                                <button  id="user_icon" type="button"
+                                                        style="font-size:14px; border:0px; border-radius:0px; background-color:transparent;"
                                                         class="btn btn-primary dropdown-toggle"
                                                         data-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false">
@@ -63,12 +64,13 @@
                                                     {{ Auth::user()->name }}
                                                 </button>
                                                 <div class="pt-2 dropdown-menu">
-                                                    <a id="logoutbtn"
-                                                       style="border:0px; padding:0px; padding-left:10px; font-size:16px;"
+                                                    <a href="{{ route('student-profile.index') }}" class="dropdown-item"><i
+                                                            style="color: rgb(27, 184, 191);"  class="mr-2 fas fa-user"></i> Student Dashboard</a>
+                                                    <a
                                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"
-                                                       {{ __('Logout') }} class="dropdown-item"
-                                                       href="{{ route('logout') }}">Logout</a>
+                                                       {{ __('Logout') }} class="studentmenuitems dropdown-item"
+                                                       href="{{ route('logout') }}"><i style="color: rgb(27, 184, 191);" class="mr-2 nav-icon fa fa-arrow-alt-circle-left"></i> Logout</a>
                                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                                           class="d-none">
                                                         @csrf

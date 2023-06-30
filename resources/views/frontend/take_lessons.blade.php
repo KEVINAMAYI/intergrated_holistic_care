@@ -48,11 +48,11 @@
                                             : {{ $lecture->name }}</span>
                                     </li>
                                 @endforeach
-                                <li>
-                                    <span id="getSectionQuestionsBtn" questions_section_id="{{ $section->id }}"
-                                          style="cursor:pointer;" class="pb-3 pt-2"><i
+                                <div class="getSectionQuestionsBtn" questions_section_id="{{ $section->id }}">
+                                    <span
+                                        style="cursor:pointer;" class="pb-3 pt-2"><i
                                             class="fa fa-question-circle mr-2"></i>Questions</span>
-                                </li>
+                                </div>
                             </ul>
                         </div>
                     </li>
@@ -186,7 +186,9 @@
 
 
         //get section questions
-        $("#getSectionQuestionsBtn").on('click', function () {
+        $(".getSectionQuestionsBtn").on('click', function () {
+
+            console.log('sfsfsdsrsdf');
 
             const course_section_id = $(this).attr('questions_section_id');
             $('#questionSectionId').val(course_section_id);
@@ -206,6 +208,8 @@
                     $('.sectionQuestion').css('display', '');
                     $('#lessonTitle').text('Questions');
                     $(".closeEndedQuestionSection").empty();
+                    $(".openEndedQuestionSection").empty();
+
                     closeEndedQuestions.forEach((closeEndedQuestion, index) => {
                         $(".closeEndedQuestionSection").append(`<div class='mb-4'>
                             <h5>${index + 1}. ${closeEndedQuestion.question}</h5>
