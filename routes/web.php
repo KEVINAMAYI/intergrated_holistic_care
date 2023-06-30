@@ -3,6 +3,9 @@
 use App\Http\Controllers\Admin\CourseLectureController;
 use App\Http\Controllers\Admin\CourseSectionController;
 use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Student\ProfileController;
+use App\Http\Controllers\Student\StudentEnrolledCoursesController;
+use App\Http\Controllers\Student\StudentFinancesController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\StudentCourseController;
@@ -32,13 +35,15 @@ Route::view('/services', 'frontend.services')->name('services.index');
 //user must be logged in
 Route::middleware(['auth'])->group(function () {
 
-
     //normal users
     Route::get('/student-courses', [StudentCourseController::class, 'index'])->name('student-courses.index');
     Route::get('/take-lessons/{course}', [StudentCourseController::class, 'takeLessons'])->name('take-lessons');
     Route::get('/make-course-payment/{course}', [StudentCourseController::class, 'makeCoursePayment'])->name('make-course-payment');
     Route::get('/get-section-questions/{section_id}', [StudentCourseController::class, 'getSectionQuestions'])->name('get-section-question');
     Route::post('/store-user-results', [StudentCourseController::class, 'storeUserResults'])->name('store-user-results');
+    Route::get('/student-enrolled-courses',[StudentEnrolledCoursesController::class,'index'])->name('student-enrolled-courses.index');
+    Route::get('/student-finances',[StudentFinancesController::class,'index'])->name('student-finances.index');
+    Route::resource('student-profile',ProfileController::class)->only(['index','update']);
 
     //Admin
     Route::middleware(['admin'])->group(function () {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ClosedQuestion;
 use App\Models\ClosedQuestionResults;
 use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\OpenQuestion;
 use App\Models\OpenQuestionResults;
 use Illuminate\Http\Request;
@@ -17,8 +18,10 @@ class StudentCourseController extends Controller
 {
     public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
+
         $courses = Course::all();
-        return view('frontend.courses', compact('courses'));
+        $student_enrollments = Enrollment::where('student_id',auth()->user()->id)->get();
+        return view('frontend.courses', compact('courses','student_enrollments'));
     }
 
     public function takeLessons(Course $course): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
@@ -67,7 +70,6 @@ class StudentCourseController extends Controller
 
     private function getOpenEndedQuestionsResults($request)
     {
-
         $user_open_questions_results = array();
         foreach ($request->input('open_ended_answers') as $question => $answer) {
             $user_open_questions_results[] = [
