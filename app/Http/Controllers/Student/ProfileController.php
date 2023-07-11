@@ -44,10 +44,10 @@ class ProfileController extends Controller
         $identification_file = $request->hasFile('identification_file') ? $this->fileService->processNonImageFiles($request->identification_file, public_path('/identification_documents/'), 'identification') : null;
 
         //remove old files if student uploaded new files
-        if (!is_null($student_photo_name))  $this->fileService->removeFile(public_path('/images/student_photos/' . $student_profile->student_photo));
-        if (!is_null($birth_certificate))   $this->fileService->removeFile(public_path('/birth_certificates/' . $student_profile->birth_certificate_url));
-        if (!is_null($school_certificate))  $this->fileService->removeFile(public_path('/school_certificates/' . $student_profile->school_certificate_url));
-        if (!is_null($identification_file)) $this->fileService->removeFile(public_path('/identification_documents/' . $student_profile->identification_document_url));
+        if (!is_null($student_photo_name)  &&  !is_null($student_profile->student_photo))               $this->fileService->removeFile(public_path('/images/student_photos/' . $student_profile->student_photo));
+        if (!is_null($birth_certificate)   &&  !is_null($student_profile->birth_certificate_url))       $this->fileService->removeFile(public_path('/birth_certificates/' . $student_profile->birth_certificate_url));
+        if (!is_null($school_certificate)  &&  !is_null($student_profile->school_certificate_url))      $this->fileService->removeFile(public_path('/school_certificates/' . $student_profile->school_certificate_url));
+        if (!is_null($identification_file) &&  !is_null($student_profile->identification_document_url)) $this->fileService->removeFile(public_path('/identification_documents/' . $student_profile->identification_document_url));
 
         $student_profile->update([
             'name' => $request->input('name'),

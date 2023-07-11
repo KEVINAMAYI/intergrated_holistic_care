@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSectionRequest;
+use App\Http\Requests\UpdateSectionRequest;
 use App\Models\Course;
 use App\Models\Section;
 use Illuminate\Http\Request;
@@ -54,7 +55,7 @@ class CourseSectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(StoreSectionRequest $request, Section $course_section)
+    public function update(UpdateSectionRequest $request, Section $course_section)
     {
         $course_section->update($request->validated());
         Session::flash('message','Course Section Updated successfully');
