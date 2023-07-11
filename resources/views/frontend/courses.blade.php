@@ -34,14 +34,14 @@
     <div class="courses">
         <div class="container">
             <div class="row courses_row">
-                @foreach($courses as $course)
-                    @foreach($student_enrollments as $student_enrollment)
-                        @if($course->id == $student_enrollment->course_id)
-                            <div class="col-lg-4 col-md-6">
-                                <div class="course">
-                                    <div class="course_image"><img src="images/course_images/{{ $course->image_url }}"
-                                                                   alt=""></div>
-                                    <div class="course_body">
+                @if(!empty($student_courses_ids))
+                    @foreach($courses as $course)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="course">
+                                <div class="course_image"><img src="images/course_images/{{ $course->image_url }}"
+                                                               alt=""></div>
+                                <div class="course_body">
+                                    @if(in_array($course->id,$student_courses_ids))
                                         <div
                                             class="course_header d-flex flex-row align-items-center justify-content-start">
                                             <div class="course_tag"><a style="background-color:rgb(27, 184, 191)"
@@ -50,44 +50,57 @@
                                         </div>
                                         <div class="course_title"><h3><a
                                                     href="{{ route('take-lessons',$course->id) }}">{{ $course->title }}</a>
-                                            </h3></div>
-                                        <div class="course_text">{{ $course->description }}</div>
-                                        <div class="course_footer d-flex align-items-center justify-content-start">
-                                            <div class="course_author_name">By <a href="#">Lilian Owiti</a></div>
-                                            <div class="course_sales ml-auto"><span>1000</span> Students</div>
+                                            </h3>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @else
-                            <div class="col-lg-4 col-md-6">
-                                <div class="course">
-                                    <div class="course_image"><img src="images/course_images/{{ $course->image_url }}"
-                                                                   alt=""></div>
-                                    <div class="course_body">
+                                    @else
                                         <div
                                             class="course_header d-flex flex-row align-items-center justify-content-start">
-                                            <div class="course_tag"><a style="background-color:#d61111;"
-                                                                       href="{{ route('make-course-payment',[$course->id]) }}">Enroll</a>
-                                            </div>
-                                            <div class="course_price ml-auto"><span
-                                                    style="font-size:14px; color:#d61111;">Price: KES {{ $course->cost }}</span>
+                                            <div class="course_tag"><a style="background-color:#db5246;"
+                                                                       href="{{ route('make-course-payment',$course->id) }}">Enroll</a>
                                             </div>
                                         </div>
                                         <div class="course_title"><h3><a
-                                                    href="{{ route('make-course-payment',$course->id) }}">{{ $course->title }}</a>
-                                            </h3></div>
-                                        <div class="course_text">{{ $course->description }}</div>
-                                        <div class="course_footer d-flex align-items-center justify-content-start">
-                                            <div class="course_author_name">By <a href="#">Lilian Owiti</a></div>
-                                            <div class="course_sales ml-auto"><span>1000</span> Students</div>
+                                                    href="">{{ $course->title }}</a>
+                                            </h3>
                                         </div>
+                                    @endif
+                                    <div class="course_text">{{ $course->description }}</div>
+                                    <div class="course_footer d-flex align-items-center justify-content-start">
+                                        <div class="course_author_name">By <a href="#">Lilian Owiti</a></div>
+                                        <div class="course_sales ml-auto"><span>1000</span> Students</div>
                                     </div>
                                 </div>
                             </div>
-                        @endif
+                        </div>
                     @endforeach
-                @endforeach
+                @else
+                    @foreach($courses as $course)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="course">
+                                <div class="course_image"><img src="images/course_images/{{ $course->image_url }}"
+                                                               alt=""></div>
+                                <div class="course_body">
+                                    <div
+                                        class="course_header d-flex flex-row align-items-center justify-content-start">
+                                        <div class="course_tag"><a style="	background-color: #db5246;"
+                                                                   href="{{ route('make-course-payment',$course->id) }}">Enroll</a>
+                                        </div>
+                                    </div>
+                                    <div class="course_title"><h3><a
+                                                href="">{{ $course->title }}</a>
+                                        </h3>
+                                    </div>
+                                    <div class="course_text">{{ $course->description }}</div>
+                                    <div class="course_footer d-flex align-items-center justify-content-start">
+                                        <div class="course_author_name">By <a href="#">Lilian Owiti</a></div>
+                                        <div class="course_sales ml-auto"><span>1000</span> Students</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+
             </div>
 
             <!-- Pagination -->

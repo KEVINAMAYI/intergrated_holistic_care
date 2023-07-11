@@ -65,7 +65,7 @@
                                              alt="avatar">
                                     </td>
                                     <td class="justify-content-start">
-                                        <a href="/get-course-sections/{{$course->id}}" class="btn  btn-xs btn-success">
+                                        <a href="{{route('course-sections.index',[$course->id])}}" class="btn  btn-xs btn-success">
                                             <i style="color:white;" class="nav-icon fa fa-xm fa-eye"></i>
                                             view
                                         </a>
@@ -167,6 +167,8 @@
                     </button>
                 </div>
                 <form id="editCourseForm" action="" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="courseTitle">Course Title</label>
@@ -239,13 +241,14 @@
 
                     const course_id = $(this).attr('id');
                     $.ajax({
-                        url: "/courses/" + course_id,
+                        url: "/admin/courses/" + course_id,
                         type: "get",
                         success: function (response) {
                             $('#editedCourseTitle').val(response.course.title);
                             $('#editedCourseDescription').text(response.course.description);
                             $('#editedCourseInstructor').val(response.course.instructor_id);
                             $('#courseId').val(course_id);
+                            $('#editCourseForm').attr('action', '/admin/courses/' + course_id);
                             $('#editCourseModal').modal('show');
                         },
                         error: function (response) {
@@ -254,36 +257,6 @@
                     });
                 });
 
-
-                //submit editCourse form data
-                $("#editCourseForm").submit(function (e) {
-                    const course = $('#courseId').val();
-
-                    //prevent Default functionality
-                    e.preventDefault();
-
-                    const courseImage = $('#editedCourseImage')[0].files[0];
-                    formData = new FormData($('#editCourseForm')[0]);
-                    formData.set('image', courseImage);
-
-                    $.ajax({
-                        url: '/update-course/' + course,
-                        type: 'post',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            $('#editCourseModal').modal('hide');
-                            $(".toast-body").text(response.data);
-                            $(".toast").toast('show');
-                            location.reload();
-                        },
-                        error: function (response) {
-                            console.log(response);
-                        }
-                    });
-
-                });
 
                 //set data Table
                 $("#courses").DataTable({

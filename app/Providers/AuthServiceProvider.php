@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -28,7 +29,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('access_course',function (User $user,$courseID){
             if($user->role->name != 'Admin'){
-                return in_array($courseID,$user->courses->pluck('id')->toArray());
+                return in_array($courseID,$user->courses->pluck('id')->toArray())
+                       ? Response::allow()
+                       : Response::deny('You must be Authorized By Admin to View This Course.');
             }
             return true;
         });

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Student;
 
-use App\Custom\ManageFiles;
+use App\Services\FileService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,6 +11,15 @@ use Illuminate\Support\Facades\Session;
 
 class ProfileController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(private FileService $fileService)
+    {
+    }
+
     public function index()
     {
 
@@ -29,16 +38,16 @@ class ProfileController extends Controller
     public function update(Request $request, User $student_profile)
     {
 
-        $student_photo_name = $request->hasFile('student_photo') ? ManageFiles::processImage($request->student_photo, 512000, public_path('/images/student_photos/'), 'student', 4, 4) : null;
-        $birth_certificate = $request->hasFile('birth_certificate') ? ManageFiles::processNonImageFiles($request->birth_certificate, public_path('/birth_certificates/'), 'birth_certificate') : null;
-        $school_certificate = $request->hasFile('school_certificate') ? ManageFiles::processNonImageFiles($request->school_certificate, public_path('/school_certificates/'), 'school_certificate') : null;
-        $identification_file = $request->hasFile('identification_file') ? ManageFiles::processNonImageFiles($request->identification_file, public_path('/identification_documents/'), 'identification') : null;
+        $student_photo_name = $request->hasFile('student_photo') ? $this->fileService->processImage($request->student_photo, 512000, public_path('/images/student_photos/'), 'student', 4, 4) : null;
+        $birth_certificate = $request->hasFile('birth_certificate') ? $this->fileService->processNonImageFiles($request->birth_certificate, public_path('/birth_certificates/'), 'birth_certificate') : null;
+        $school_certificate = $request->hasFile('school_certificate') ? $this->fileService->processNonImageFiles($request->school_certificate, public_path('/school_certificates/'), 'school_certificate') : null;
+        $identification_file = $request->hasFile('identification_file') ? $this->fileService->processNonImageFiles($request->identification_file, public_path('/identification_documents/'), 'identification') : null;
 
         //remove old files if student uploaded new files
-        if (!is_null($student_photo_name)) ManageFiles::removeFile(public_path('/images/student_photos/' . $student_profile->student_photo));
-        if (!is_null($birth_certificate)) ManageFiles::removeFile(public_path('/birth_certificates/' . $student_profile->birth_certificate_url));
-        if (!is_null($school_certificate)) ManageFiles::removeFile(public_path('/school_certificates/' . $student_profile->school_certificate_url));
-        if (!is_null($identification_file)) ManageFiles::removeFile(public_path('/identification_documents/' . $student_profile->identification_document_url));
+        if (!is_null($student_photo_name)  &&  !is_null($student_profile->student_photo))               $this->fileService->removeFile(public_path('/images/student_photos/' . $student_profile->student_photo));
+        if (!is_null($birth_certificate)   &&  !is_null($student_profile->birth_certificate_url))       $this->fileService->removeFile(public_path('/birth_certificates/' . $student_profile->birth_certificate_url));
+        if (!is_null($school_certificate)  &&  !is_null($student_profile->school_certificate_url))      $this->fileService->removeFile(public_path('/school_certificates/' . $student_profile->school_certificate_url));
+        if (!is_null($identification_file) &&  !is_null($student_profile->identification_document_url)) $this->fileService->removeFile(public_path('/identification_documents/' . $student_profile->identification_document_url));
 
         $student_profile->update([
             'name' => $request->input('name'),
