@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSectionRequest;
+use App\Http\Requests\UpdateSectionRequest;
 use App\Models\Course;
 use App\Models\Section;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Session;
 class CourseSectionController extends Controller
 {
 
-    public function getCourseSections($courseID){
+    public function index($courseID){
 
         $course = Course::with(['sections' => ['lectures']])->find($courseID);
         return view('admin.course_sections.index',compact('course'));
@@ -28,12 +29,7 @@ class CourseSectionController extends Controller
      */
     public function store(StoreSectionRequest $request)
     {
-        Section::create([
-           'course_id' => $request->input('course_id'),
-           'name' => $request->input('name'),
-           'description' => $request->input('description')
-        ]);
-
+        Section::create($request->validated());
         Session::flash('message','Course Section created successfully');
         return redirect()->back();
     }
@@ -59,7 +55,7 @@ class CourseSectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(StoreSectionRequest $request, Section $course_section)
+    public function update(UpdateSectionRequest $request, Section $course_section)
     {
         $course_section->update($request->validated());
         Session::flash('message','Course Section Updated successfully');

@@ -194,7 +194,7 @@
             $('#questionSectionId').val(course_section_id);
 
             $.ajax({
-                url: "/get-section-questions/" + course_section_id,
+                url: "/student/get-section-questions/" + course_section_id,
                 type: "get",
                 success: function (response) {
 

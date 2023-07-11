@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Custom;
+namespace App\Services;
+
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 
-class ManageFiles
+class FileService
 {
-    public static function processImage($image, $image_max_size, $destination_path, $image_tag, $resizing_x_ratio, $resizing_y_ratio): string
+    public function processImage($image, $image_max_size, $destination_path, $image_tag, $resizing_x_ratio, $resizing_y_ratio): string
     {
         $image_name = "$image_tag-" . time() . '-' . $image->getClientOriginalName();
         $image_size = $image->getSize();
@@ -27,16 +28,20 @@ class ManageFiles
     }
 
 
-    public static  function processNonImageFiles($file, $path,$tag) : string {
-        $file_name = $tag.'-'. time() . '-' . $file->getClientOriginalName();
+    public function processNonImageFiles($file, $path, $tag): string
+    {
+        $file_name = $tag . '-' . time() . '-' . $file->getClientOriginalName();
         $file->move($path, $file_name);
         return $file_name;
 
     }
 
 
-    public static  function removeFile($file_path) : void {
-        if(file_exists($file_path)){ unlink($file_path); }
+    public function removeFile($file_path): void
+    {
+        if (file_exists($file_path)) {
+            unlink($file_path);
+        }
     }
 
 }

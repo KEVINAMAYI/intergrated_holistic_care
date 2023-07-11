@@ -421,14 +421,14 @@
                     console.log(course_section_id);
 
                     $.ajax({
-                        url: "/course-sections/" + course_section_id,
+                        url: "/admin/course-sections/" + course_section_id,
                         type: "get",
                         success: function (response) {
 
                             $('#editedCourseSectionName').val(response.course_section.name);
                             $('#editedCourseDescription').text(response.course_section.description);
                             $('#editCourseSectionModal').modal('show');
-                            $('#editCourseSectionForm').attr('action', '/course-sections/' + response.course_section.id);
+                            $('#editCourseSectionForm').attr('action', '/admin/course-sections/' + response.course_section.id);
 
                         },
                         error: function (response) {
@@ -472,14 +472,14 @@
                     console.log(course_lecture_id);
 
                     $.ajax({
-                        url: "/course-lectures/" + course_lecture_id,
+                        url: "/admin/course-lectures/" + course_lecture_id,
                         type: "get",
                         success: function (response) {
 
                             $('#editedLectureName').val(response.course_lecture.name);
                             $('#editedLectureDescription').text(response.course_lecture.description);
                             $('#editLectureModal').modal('show');
-                            $('#editLectureForm').attr('action', '/course-lectures/' + response.course_lecture.id);
+                            $('#editLectureForm').attr('action', '/admin/course-lectures/' + response.course_lecture.id);
 
                         },
                         error: function (response) {

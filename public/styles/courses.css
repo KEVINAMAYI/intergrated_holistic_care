@@ -983,7 +983,8 @@ section
 .course_button .button_arrow
 {
 	width: 47px;
-	background: #ff6600;
+	background: #db5246;
+
 }
 .course_button span:first-child
 {
@@ -998,7 +999,8 @@ section
 }
 .course_button:hover
 {
-	background: #ffae00;
+	background: #db5246;
+;
 }
 .course_button:hover .button_arrow
 {
@@ -1104,14 +1106,16 @@ section
 	bottom: 0;
 	width: 100%;
 	height: 3px;
-	background: #ff6600;
-	content: '';
+	background:#db5246;
+
+    content: '';
 }
 .featured_tag
 {
 	height: 31px;
-	background: #ff6600;
-	-webkit-transition: all 200ms ease;
+	background:#db5246;
+
+    -webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
@@ -1159,7 +1163,8 @@ section
 }
 .featured_title h3 a:hover
 {
-	color: #ff6600;
+	color:#db5246;
+
 }
 .featured_text
 {
@@ -1199,7 +1204,8 @@ section
 }
 .featured_author_name a:hover
 {
-	color: #ff6600;
+	color: #db5246;
+
 }
 .featured_background
 {
@@ -1226,8 +1232,8 @@ section
 	bottom: 0;
 	width: 100%;
 	height: 3px;
-	background: #ff6600;
-	content: '';
+	background:#db5246;
+    content: '';
 }
 .course_image
 {
@@ -1249,8 +1255,8 @@ section
 .course_tag
 {
 	height: 31px;
-	background: #ff6600;
-	-webkit-transition: all 200ms ease;
+	background:#db5246;
+    -webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
@@ -1276,8 +1282,8 @@ section
 	display: inline-block;
 	position: relative;
 	font-size: 18px;
-	color: #ff6600;
-	-webkit-transform: translateY(2px);
+	color:#db5246;
+    -webkit-transform: translateY(2px);
 	-moz-transform: translateY(2px);
 	-ms-transform: translateY(2px);
 	-o-transform: translateY(2px);
@@ -1300,7 +1306,7 @@ section
 }
 .course_title h3 a:hover
 {
-	color: #ff6600;
+	color:#db5246;
 }
 .course_text
 {
@@ -1340,7 +1346,8 @@ section
 }
 .course_author_name a:hover
 {
-	color: #ff6600;
+	color:#db5246;
+
 }
 .courses_paginations
 {
@@ -1368,7 +1375,8 @@ section
 .courses_paginations ul li a:hover,
 .courses_paginations ul li.active a
 {
-	color: #ff8a00;
+	color: #db5246;
+
 }
 
 /*********************************
@@ -1407,8 +1415,8 @@ section
 .footer_social ul li a i
 {
 	font-size: 16px;
-	color: #ff6600;
-	-webkit-transition: all 200ms ease;
+	color: #db5246;
+    -webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
@@ -1416,7 +1424,7 @@ section
 }
 .footer_social ul li a i:hover
 {
-	color: #ffae00;
+	color:#db5246;
 }
 .copyright
 {

@@ -31,7 +31,7 @@
 
                                 <div class="col-lg-4 col-sm-12  form-group">
                                     <label for="email">Email<span style="color:red; font-weight:bold;"> *</span></label>
-                                    <input type="text" class="form-control"
+                                    <input type="email" class="form-control"
                                            id="email" name="email" value="{{ old('email') }}"
                                            aria-describedby="emailHelp" placeholder="Enter Email" required
                                            autocomplete="email" autofocus>
