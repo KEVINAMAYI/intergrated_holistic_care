@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 class CourseSectionController extends Controller
 {
 
-    public function getCourseSections($courseID){
+    public function index($courseID){
 
         $course = Course::with(['sections' => ['lectures']])->find($courseID);
         return view('admin.course_sections.index',compact('course'));
@@ -28,12 +28,7 @@ class CourseSectionController extends Controller
      */
     public function store(StoreSectionRequest $request)
     {
-        Section::create([
-           'course_id' => $request->input('course_id'),
-           'name' => $request->input('name'),
-           'description' => $request->input('description')
-        ]);
-
+        Section::create($request->validated());
         Session::flash('message','Course Section created successfully');
         return redirect()->back();
     }

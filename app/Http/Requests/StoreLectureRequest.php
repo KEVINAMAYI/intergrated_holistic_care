@@ -27,6 +27,7 @@ class StoreLectureRequest extends FormRequest
             'name' => 'required',
             'description' => 'required',
             'lecture_content' => 'required',
+            'section_id' => 'required'
         ];
     }
 }

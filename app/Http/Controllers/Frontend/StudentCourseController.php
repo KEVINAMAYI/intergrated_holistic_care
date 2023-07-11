@@ -11,33 +11,27 @@ use App\Models\OpenQuestion;
 use App\Models\OpenQuestionResults;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
 class StudentCourseController extends Controller
 {
     public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-
         $courses = Course::all();
-        $student_enrollments = Enrollment::where('student_id',auth()->user()->id)->get();
-        return view('frontend.courses', compact('courses','student_enrollments'));
+        $student_enrollments = Enrollment::where('student_id', auth()->user()->id)->get()->toArray();
+        $student_courses_ids = array_column($student_enrollments, 'course_id');
+        return view('frontend.courses', compact('courses', 'student_courses_ids'));
     }
 
     public function takeLessons(Course $course): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        if (!Gate::allows('access_course', $course->id)) {
-            abort(403);
-        }
+        $this->authorize('access_course',$course->id);
         return view('frontend.take_lessons', compact('course'));
     }
 
 
     public function makeCoursePayment($courseId): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        if (!Gate::allows('access_course', $courseId)) {
-            abort(403);
-        }
         return view('frontend.student_course_payments', compact('courseId'));
     }
 
@@ -85,26 +79,17 @@ class StudentCourseController extends Controller
 
     private function getUserCloseQuestionsResults($request): array
     {
-
         $user_closed_questions_results = array();
         $closed_questions = ClosedQuestion::where('section_id', $request->input('section_id'))->get();
         foreach ($closed_questions as $closed_question) {
             foreach ($request->input('closed_question_answers') as $question => $chosen_answer) {
-
                 if ($closed_question->id == $question) {
-                    if ($closed_question->options['is_answer'] == $chosen_answer) {
-                        $user_closed_questions_results[] = [
-                            'user_id' => auth()->user()->id,
-                            'closed_question_id' => $closed_question->id,
-                            'is_correct' => 1
-                        ];
-                    } else {
-                        $user_closed_questions_results[] = [
-                            'user_id' => auth()->user()->id,
-                            'closed_question_id' => $closed_question->id,
-                            'is_correct' => 0
-                        ];
-                    }
+                    $user_closed_questions_results[] = [
+                        'user_id' => auth()->user()->id,
+                        'closed_question_id' => $closed_question->id,
+                        'is_correct' => $closed_question->options['is_answer'] == $chosen_answer ? 1 : 0
+                    ];
+
                 }
 
             }

@@ -208,7 +208,7 @@
                     }
                 });
 
-                //get course data for edit
+                //view student files
                 $(".viewCertificatesBtn").on('click', function () {
 
                     let identification_document_link = '/identification_documents/' + $(this).attr('student_identification_document');
@@ -228,7 +228,7 @@
 
                     const student_id = $(this).attr('id');
                     $.ajax({
-                        url: "/students/" + student_id,
+                        url: "/admin/students/" + student_id,
                         type: "get",
                         success: function (response) {
 
@@ -249,7 +249,7 @@
                             });
 
                             $('#activateUserCoursesModal').modal('show');
-                            $('#activateUserCoursesForm').attr('action', '/activate-student-courses/' + student_id);
+                            $('#activateUserCoursesForm').attr('action', '/admin/activate-student-courses/' + student_id);
 
                         },
                         error: function (response) {

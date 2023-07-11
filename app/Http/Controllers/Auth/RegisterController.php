@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Custom\ManageFiles;
+use App\Services\FileService;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -33,7 +33,7 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(private FileService $fileService)
     {
         $this->middleware('guest');
     }
@@ -87,10 +87,10 @@ class RegisterController extends Controller
     protected function create(array $data): User
     {
 
-        $student_photo_name = ManageFiles::processImage($data['student_photo'], 512000, public_path('/images/student_photos/'), 'student', 4, 4);
-        $birth_certificate = ManageFiles::processNonImageFiles($data['birth_certificate'],public_path('/birth_certificates/'),'birth_certificate');
-        $school_certificate = ManageFiles::processNonImageFiles($data['school_certificate'],public_path('/school_certificates/'),'school_certificate');
-        $identification_file = ManageFiles::processNonImageFiles($data['identification_file'],public_path('/identification_documents/'),'identification');
+        $student_photo_name = $this->fileService->processImage($data['student_photo'], 512000, public_path('/images/student_photos/'), 'student', 4, 4);
+        $birth_certificate = $this->fileService->processNonImageFiles($data['birth_certificate'],public_path('/birth_certificates/'),'birth_certificate');
+        $school_certificate = $this->fileService->processNonImageFiles($data['school_certificate'],public_path('/school_certificates/'),'school_certificate');
+        $identification_file = $this->fileService->processNonImageFiles($data['identification_file'],public_path('/identification_documents/'),'identification');
 
         $user = [
             'name' => $data['name'],

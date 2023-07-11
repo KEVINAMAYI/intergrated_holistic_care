@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Custom\ManageFiles;
+use App\Services\FileService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreLectureRequest;
 use App\Http\Requests\UpdateLectureRequest;
@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Session;
 
 class CourseLectureController extends Controller
 {
+
+    public function __construct(private FileService $fileService)
+    {
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -21,14 +25,8 @@ class CourseLectureController extends Controller
     public function store(StoreLectureRequest $request)
     {
 
-        $file_name = ManageFiles::processNonImageFiles($request->lecture_content, public_path('/course_lectures/'), 'lecture');
-        Lecture::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'section_id' => $request->input('section_id'),
-            'url' => $file_name
-        ]);
-
+        $file_name = $this->fileService->processNonImageFiles($request->lecture_content, public_path('/course_lectures/'), 'lecture');
+        Lecture::create($request->validated() + ['url' => $file_name ]);
         return response()->json([
             'message' => 'Lecture Created successfully'
         ]);
@@ -59,26 +57,18 @@ class CourseLectureController extends Controller
      */
     public function update(UpdateLectureRequest $request, Lecture $course_lecture)
     {
-        //update with file  if image exist in the Request
+        $course_lecture->update($request->validated());
+
         if ($request->hasFile('lecture_content')) {
-            $file_name = ManageFiles::processNonImageFiles($request->lecture_content, public_path('/course_lectures/'), 'lecture');
-            ManageFiles::removeFile(public_path('/course_lectures/' . $course_lecture->url));
+
+            $file_name = $this->fileService->processNonImageFiles($request->lecture_content, public_path('/course_lectures/'), 'lecture');
+            $this->fileService->removeFile(public_path('/course_lectures/' . $course_lecture->url));
 
             $course_lecture->update([
-                'name' => $request->input('name'),
-                'description' => $request->input('description'),
                 'url' => $file_name
             ]);
 
-            return response()->json([
-                'message' => 'Lecture Updated successfully'
-            ]);
         }
-
-        $course_lecture->update([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-        ]);
 
         return response()->json([
             'message' => 'Lecture Updated successfully'
