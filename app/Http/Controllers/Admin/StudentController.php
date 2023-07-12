@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\User;
+use App\Services\CourseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 class StudentController extends Controller
 {
+    public function __construct(private CourseService $courseService)
+    {
+
+    }
 
     public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
@@ -42,7 +47,7 @@ class StudentController extends Controller
             $student_active_courses = [];
         } else {
             $student_active_courses = array_map('intval', $request->courses);
-            $this->enrollUserToCourses($student_active_courses, $student);
+            $this->courseService->enrollUserToCourses($student_active_courses, $student);
         }
 
         User::activateCourses($student, $student_active_courses);
@@ -50,23 +55,6 @@ class StudentController extends Controller
         return redirect()->back();
     }
 
-
-
-    private function enrollUserToCourses($courses_ids, $student)
-    {
-        $student_enrollments = Enrollment::where('student_id', $student->id)->get()->toArray();
-        foreach ($courses_ids as $courses_id) {
-            if (!in_array($courses_id, array_column($student_enrollments, 'course_id'))) {
-                Enrollment::create([
-                    'course_id' => $courses_id,
-                    'student_id' => $student->id,
-                    'progress' => 0,
-                    'amount' => 0,
-                    'status' => 'in_progress',
-                ]);
-            }
-        }
-    }
 
 
 }

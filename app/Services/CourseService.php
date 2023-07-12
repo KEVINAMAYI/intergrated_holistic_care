@@ -4,23 +4,37 @@ namespace App\Services;
 
 use App\Models\Course;
 use App\Models\Enrollment;
-use App\Models\EnrollmentLesson;
-use App\Models\Lecture;
-use App\Models\Section;
 
 class CourseService
 {
 
-    private int $course_lesson_total = 0;
+    private int $course_lessons_total = 0;
 
     public function getCourseLecturesTotalNumber($courseID) : int
     {
 
         $course = Course::with(['sections' => ['lectures']])->find($courseID);
         foreach ($course->sections as $section) {
-                $this->course_lesson_total += $section->lectures->count();
+                $this->course_lessons_total += $section->lectures->count();
             }
-        return $this->course_lesson_total;
+        return $this->course_lessons_total;
+    }
+
+
+    public function enrollUserToCourses($courses_ids, $student) : void
+    {
+        $student_enrollments = Enrollment::where('student_id', $student->id)->get()->toArray();
+        foreach ($courses_ids as $courses_id) {
+            if (!in_array($courses_id, array_column($student_enrollments, 'course_id'))) {
+                Enrollment::create([
+                    'course_id' => $courses_id,
+                    'student_id' => $student->id,
+                    'progress' => 0,
+                    'amount' => 0,
+                    'status' => 'in_progress',
+                ]);
+            }
+        }
     }
 
 
