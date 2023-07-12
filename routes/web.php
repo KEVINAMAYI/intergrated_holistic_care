@@ -33,6 +33,7 @@ Route::view('/services', 'frontend.services')->name('services.index');
 
 Route::middleware(['auth'])->group(function () {
     Route::group(['prefix' => 'student'],function (){
+        Route::get('/course-progress/{lecture}', [StudentCourseController::class, 'updateCourseProgress'])->name('update-course-progress');
         Route::get('/student-courses', [StudentCourseController::class, 'index'])->name('student-courses.index');
         Route::get('/take-lessons/{course}', [StudentCourseController::class, 'takeLessons'])->name('take-lessons');
         Route::get('/make-course-payment/{course}', [StudentCourseController::class, 'makeCoursePayment'])->name('make-course-payment');

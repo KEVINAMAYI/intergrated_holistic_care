@@ -7,14 +7,23 @@ use App\Models\ClosedQuestion;
 use App\Models\ClosedQuestionResults;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\EnrollmentLesson;
+use App\Models\Lecture;
 use App\Models\OpenQuestion;
 use App\Models\OpenQuestionResults;
+use App\Services\CourseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class StudentCourseController extends Controller
 {
+
+    public function __construct(private CourseService $courseService)
+    {
+    }
+
+
     public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $courses = Course::all();
@@ -25,7 +34,7 @@ class StudentCourseController extends Controller
 
     public function takeLessons(Course $course): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $this->authorize('access_course',$course->id);
+        $this->authorize('access_course', $course->id);
         return view('frontend.take_lessons', compact('course'));
     }
 
@@ -109,5 +118,32 @@ class StudentCourseController extends Controller
     {
         OpenQuestionResults::whereIn('open_question_id', array_keys($request->input('open_ended_answers')))
             ->where('user_id', auth()->user()->id)->delete();
+    }
+
+
+
+    public function updateCourseProgress(Lecture $lecture): \Illuminate\Http\JsonResponse
+    {
+
+        if (is_null(EnrollmentLesson::where('lecture_id', $lecture->id)->first())) {
+
+            $enrollment = Enrollment::where('course_id', $lecture->section->course->id)
+                ->where('student_id', auth()->user()->id)->first();
+
+            EnrollmentLesson::create([
+                'enrollment_id' =>$enrollment->id,
+                'lecture_id' => $lecture->id
+            ]);
+
+            $covered_lessons = EnrollmentLesson::where('enrollment_id',$enrollment->id)->count();
+            $total_lessons = $this->courseService->getCourseLecturesTotalNumber($lecture->section->course->id);
+            $progress = $covered_lessons == $total_lessons ? 100 : intval(($covered_lessons/$total_lessons)*100);
+            $enrollment->update([ 'progress' => $progress ]);
+
+        }
+
+        return response()->json([
+            'message' => 'Course Progress Updated Successfully'
+        ]);
     }
 }
