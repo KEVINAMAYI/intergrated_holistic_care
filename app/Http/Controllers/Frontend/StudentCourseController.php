@@ -32,6 +32,22 @@ class StudentCourseController extends Controller
         return view('frontend.courses', compact('courses', 'student_courses_ids'));
     }
 
+
+    public function confirmCoursePayment(Course $course): \Illuminate\Http\RedirectResponse
+    {
+        //dummy simulation of enrolling user after confirming payment
+        $course_payment_successful = true;
+
+        if ($course_payment_successful) {
+            $this->courseService->enrollUserToCourses([$course->id], auth()->user());
+            session()->flash('message', 'Course Payment Was Successful, Click course to continue, All the best');
+            return redirect()->route('student-courses.index');
+        }
+
+        session()->flash('error', 'The was an Error while processing Payment, Kindly try again or contact the Admin !!');
+        return redirect()->back();
+    }
+
     public function takeLessons(Course $course): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $this->authorize('access_course', $course->id);
@@ -121,7 +137,6 @@ class StudentCourseController extends Controller
     }
 
 
-
     public function updateCourseProgress(Lecture $lecture): \Illuminate\Http\JsonResponse
     {
 
@@ -131,14 +146,14 @@ class StudentCourseController extends Controller
                 ->where('student_id', auth()->user()->id)->first();
 
             EnrollmentLesson::create([
-                'enrollment_id' =>$enrollment->id,
+                'enrollment_id' => $enrollment->id,
                 'lecture_id' => $lecture->id
             ]);
 
-            $covered_lessons = EnrollmentLesson::where('enrollment_id',$enrollment->id)->count();
+            $covered_lessons = EnrollmentLesson::where('enrollment_id', $enrollment->id)->count();
             $total_lessons = $this->courseService->getCourseLecturesTotalNumber($lecture->section->course->id);
-            $progress = $covered_lessons == $total_lessons ? 100 : intval(($covered_lessons/$total_lessons)*100);
-            $enrollment->update([ 'progress' => $progress ]);
+            $progress = $covered_lessons == $total_lessons ? 100 : intval(($covered_lessons / $total_lessons) * 100);
+            $enrollment->update(['progress' => $progress]);
 
         }
 
