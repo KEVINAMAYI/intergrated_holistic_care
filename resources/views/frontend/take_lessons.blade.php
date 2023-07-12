@@ -43,6 +43,7 @@
                                         <span style="cursor:pointer;" class="pb-3 pt-2 lesson"
                                               title="{{ $lecture->name }}"
                                               file_name="{{ $lecture->url }}"
+                                              lecture_id={{ $lecture->id }}
                                         ><i class="fa fa-tv mr-2"></i>
                                             Lec {{ $section_number }}0{{ $loop->iteration }}
                                             : {{ $lecture->name }}</span>
@@ -71,6 +72,16 @@
                 {{ session('message') }}
             </div>
         @endif
+
+{{--        <div class="row justify-content-end pr-3">--}}
+{{--            <a href=""--}}
+{{--               style="border:0px solid white; border-radius:0px;"--}}
+{{--               type="button"--}}
+{{--               class="btn btn-lg mb-3 btn-primary">--}}
+{{--                <i style="color:white; margin-right:3px;" class="nav-icon fa fa-forward"></i>--}}
+{{--                Next--}}
+{{--            </a>--}}
+{{--        </div>--}}
 
 
         <h2 id="lessonTitle" class="mb-4">{{ $course->title }}</h2>
@@ -155,7 +166,10 @@
         });
 
         $(".lesson").on('click', function () {
+
             const fileName = $(this).attr('file_name');
+            const lectureID = $(this).attr('lecture_id');
+
             $('#lessonTitle').text($(this).attr('title'))
             fileExtension = fileName.split('.').pop();
 
@@ -182,6 +196,18 @@
                 $('.sectionQuestion').css('display', 'none');
 
             }
+
+            $.ajax({
+                url: "/student/course-progress/" + lectureID,
+                type: "get",
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+
         });
 
 

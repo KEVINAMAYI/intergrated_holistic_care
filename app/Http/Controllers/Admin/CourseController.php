@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Course;
 use App\Services\FileService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateCourseRequest;
-use App\Http\Requests\StoreCourseRequest;
-use App\Models\Course;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\StoreCourseRequest;
+use App\Http\Requests\UpdateCourseRequest;
 
 class CourseController extends Controller
 {
