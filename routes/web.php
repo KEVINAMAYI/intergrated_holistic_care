@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/course-progress/{lecture}', [StudentCourseController::class, 'updateCourseProgress'])->name('update-course-progress');
         Route::get('/student-courses', [StudentCourseController::class, 'index'])->name('student-courses.index');
         Route::get('/take-lessons/{course}', [StudentCourseController::class, 'takeLessons'])->name('take-lessons');
+        Route::get('/confirm-course-payment/{course}', [StudentCourseController::class, 'confirmCoursePayment'])->name('confirm-course-payment');
         Route::get('/make-course-payment/{course}', [StudentCourseController::class, 'makeCoursePayment'])->name('make-course-payment');
         Route::get('/get-section-questions/{section_id}', [StudentCourseController::class, 'getSectionQuestions'])->name('get-section-question');
         Route::post('/store-user-results', [StudentCourseController::class, 'storeUserResults'])->name('store-user-results');

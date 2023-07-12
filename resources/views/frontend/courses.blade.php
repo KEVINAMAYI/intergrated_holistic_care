@@ -32,6 +32,13 @@
     </div>
 
     <div class="courses">
+
+        @if (session()->has('message'))
+            <div class="alert ml-2 mr-2 alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+
         <div class="container">
             <div class="row courses_row">
                 @if(!empty($student_courses_ids))
@@ -119,5 +126,15 @@
             {{--            </div>--}}
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            $(function (){
+                setTimeout(function () {
+                    $('.alert').alert('close');
+                }, 3000);
+            });
+        </script>
+    @endpush
 
 @endsection

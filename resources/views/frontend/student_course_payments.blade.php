@@ -35,6 +35,13 @@
 
     <div class="contact">
         <div class="container-fluid">
+
+            @if (session()->has('error'))
+                <div class="alert ml-2 mr-2 mt-3 alert-success">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             <div style="margin-top:70px; margin-bottom:70px;" class="row row-xl-eq-height">
                 <!-- Contact Content -->
                 <div class="col-xl-5 ml-4">
@@ -52,11 +59,21 @@
                         <li class="">Enter Course Amoun e.g 5000</li>
                         <li class="">Enter Your Pin then Send.</li>
                     </ul>
-                    <a href="{{route('take-lessons',[$courseId])}}" class="ml-4 mt-4 btn btn-md btn-success">Confirm Payment</a>
+                    <a href="{{route('confirm-course-payment',[$courseId])}}" class="ml-4 mt-4 btn btn-md btn-success">Confirm Payment</a>
                 </div>
             </div>
 
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            $(function (){
+                setTimeout(function () {
+                    $('.alert').alert('close');
+                }, 3000);
+            });
+        </script>
+    @endpush
 
 @endsection
