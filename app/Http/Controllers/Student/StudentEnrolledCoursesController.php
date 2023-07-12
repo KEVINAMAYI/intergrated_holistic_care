@@ -12,6 +12,7 @@ class StudentEnrolledCoursesController extends Controller
     public function index(){
         $student_enrollments = Enrollment::where('student_id',auth()->user()->id)->get()->toArray();
         $student_courses = Course::whereIn('id',array_column($student_enrollments,'course_id'))->get();
-        return view('student.courses',compact('student_courses'));
+        $student_courses_progress = array_column($student_enrollments,'progress','course_id');
+        return view('student.courses',compact('student_courses','student_courses_progress'));
     }
 }
