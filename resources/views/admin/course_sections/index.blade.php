@@ -43,8 +43,8 @@
 
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="accordion" id="accordionExample">
-                            @foreach($course->sections as $section)
+                        @foreach($course->sections as $section)
+                            <div class="accordion" id="sectionAccordion{{$section->id}}">
                                 <div class="card">
                                     <div class="row card-header" id="headingOne">
                                         <div class="col-lg-8">
@@ -90,7 +90,7 @@
                                     </div>
 
                                     <div id="collapse{{$section->id}}" class="collapse" aria-labelledby="headingOne"
-                                         data-parent="#accordionExample">
+                                         data-parent="#sectionAccordion{{$section->id}}">
                                         <div class="card-body">
                                             <ul class="list-group">
                                                 @foreach($section->lectures as $lecture)
@@ -123,12 +123,106 @@
                                                         </div>
                                                     </li>
                                                 @endforeach
+
+                                                <li class="list-group-item">
+                                                    <div class="accordion"
+                                                         id="SectionQuestionAccordion{{$section->id}}">
+                                                        <div class="card">
+                                                            <div class="card-header" id="headingOne">
+                                                                <h2 class="mb-0">
+                                                                    <button class="btn btn-link btn-block text-left"
+                                                                            type="button" data-toggle="collapse"
+                                                                            data-target="#questionsAccordion{{ $section->id }}"
+                                                                            aria-expanded="true"
+                                                                            aria-controls="questionsAccordion{{ $section->id }}">
+                                                                        <strong>Section {{ $section_number = $loop->iteration }}
+                                                                            . Questions</strong>
+                                                                    </button>
+                                                                </h2>
+                                                            </div>
+
+                                                            <div id="questionsAccordion{{ $section->id }}"
+                                                                 class="collapse"
+                                                                 aria-labelledby="headingOne"
+                                                                 data-parent="#SectionQuestionAccordion{{$section->id}}">
+                                                                <div class="card-body">
+                                                                    <ul class="list-group">
+                                                                        @foreach($section->openEndedQuestions as $openEndedQuestion)
+                                                                            <li class="list-group-item">
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-10">
+                                                                                        <strong>{{ $openEndedQuestion->question }}
+                                                                                            ? </strong>
+                                                                                    </div>
+                                                                                    <div class="col-lg-2">
+                                                                                        <button
+                                                                                            discussion_question_id="{{ $openEndedQuestion->id }}"
+                                                                                            class="btn  editDiscussionQuestionBtn btn-xs btn-info">
+                                                                                            <i style="color:white;"
+                                                                                               class="nav-icon fa fa-xm fa-edit"></i>
+                                                                                            Edit
+                                                                                        </button>
+                                                                                        <form style="display:inline;"
+                                                                                              action="{{ route('course-questions.destroy',$openEndedQuestion->id) }}"
+                                                                                              method="POST">
+                                                                                            @method('DELETE')
+                                                                                            @csrf
+                                                                                            <button type="submit"
+                                                                                                    class="btn btn-xs btn-danger">
+                                                                                                <i style="color:white;"
+                                                                                                   class="nav-icon fa fa-xs fa-trash"></i>
+                                                                                                Delete
+                                                                                            </button>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        @endforeach
+
+                                                                        @foreach($section->closedEndedQuestions as $closedEndedQuestion)
+                                                                            <li class="list-group-item">
+                                                                                <div class="row">
+                                                                                    <div class="col-lg-10">
+                                                                                        <strong>{{ $closedEndedQuestion->question }}
+                                                                                            ? </strong>
+                                                                                    </div>
+                                                                                    <div class="col-lg-2">
+                                                                                        <button
+                                                                                            closed_ended_question_id="{{ $closedEndedQuestion->id }}"
+                                                                                            class="btn editCloseEndedQuestionBtn btn-xs btn-info">
+                                                                                            <i style="color:white;"
+                                                                                               class="nav-icon fa fa-xm fa-edit"></i>
+                                                                                            Edit
+                                                                                        </button>
+                                                                                        <form style="display:inline;"
+                                                                                              action="{{ route('course-questions.destroy',$closedEndedQuestion->id) }}"
+                                                                                              method="POST">
+                                                                                            @method('DELETE')
+                                                                                            @csrf
+                                                                                            <button type="submit"
+                                                                                                    class="btn btn-xs btn-danger">
+                                                                                                <i style="color:white;"
+                                                                                                   class="nav-icon fa fa-xs fa-trash"></i>
+                                                                                                Delete
+                                                                                            </button>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                        </div>
+                            </div>
+                        @endforeach
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -307,6 +401,111 @@
     </div>
 
 
+    {{--Edit Discussion Question Modal--}}
+    <div class="modal fade" id="editDiscussionQuestionModal" tabindex="-1"
+         aria-labelledby="editDiscussionQuestionModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editDiscussionQuestionModalLabel">Edit Discussion Question</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editDiscussionQuestionForm" action="" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="question_container col-lg-12 col-sm-12  form-group">
+                            <label for="Question">Question</label>
+                            <textarea name="question" id="editedDiscussionQuestion" class="w-100" rows="3"
+                                      required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="question_type" value="discussion">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    {{--Edit Closed Ended Question Modal--}}
+    <div class="modal fade" id="editCloseEndedQuestionModal" tabindex="-1" aria-labelledby="editCloseEndedQuestionLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCloseEndedQuestionLabel">Edit Close Ended Question</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="editCloseEndedQuestionForm" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="question_container col-lg-12 col-sm-12  form-group">
+                            <label for="Question">Question</label>
+                            <textarea name="question" id="CloseEndedQuestion" class="w-100" rows="3"
+                                      required></textarea>
+                        </div>
+                        <div class="answers_container col-lg-12 col-sm-12  form-group">
+                            <h6 class="text-bold">Answers <small>(Check the correct answer)</small></h6>
+                            <div class="input-group mt-3 mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input class="is-answer" name="is_answer[]" value="a" type="checkbox">
+                                    </div>
+                                </div>
+                                <input type="text" id="answerA" class="form-control" value="Answer A" required
+                                       name="answers[]">
+                            </div>
+                            <div class="input-group mt-3 mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input class="is-answer" name="is_answer[]" value="b" type="checkbox">
+                                    </div>
+                                </div>
+                                <input type="text" id="answerB" class="form-control" value="Answer B" required
+                                       name="answers[]">
+                            </div>
+                            <div class="input-group mt-3 mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input class="is-answer" name="is_answer[]" value="c" type="checkbox">
+                                    </div>
+                                </div>
+                                <input type="text" id="answerC" class="form-control" value="Answer C" required
+                                       name="answers[]">
+                            </div>
+                            <div class="input-group mt-3 mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input class="is-answer" name="is_answer[]" value="d" type="checkbox">
+                                    </div>
+                                </div>
+                                <input type="text" id="answerD" class="form-control" value="Answer D" required
+                                       name="answers[]">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="question_type" value="close_ended">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     {{-- Add Question Modal --}}
     <div class="modal fade" id="addQuestionModal" tabindex="-1" aria-labelledby="addQuestionModalLabel"
          aria-hidden="true">
@@ -326,8 +525,8 @@
                             <label for="gender">Question Type</label>
                             <select style="padding:10px; width:100%" class="form-select form-select-lg mb-3"
                                     id="questionType" name="question_type">
-                                    <option value="close_ended">Close Ended</option>
-                                    <option selected value="discussion">Discussion</option>
+                                <option value="close_ended">Close Ended</option>
+                                <option selected value="discussion">Discussion</option>
                             </select>
                         </div>
                         <div class="question_container col-lg-12 col-sm-12  form-group">
@@ -340,31 +539,31 @@
                             <div class="input-group mt-3 mb-3">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input class="is-answer"  name="is_answer[]"  value="a" checked type="checkbox">
+                                        <input class="is-answer" name="is_answer[]" value="a" checked type="checkbox">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" value="Answer A"  required name="answers[]">
+                                <input type="text" class="form-control" value="Answer A" required name="answers[]">
                             </div>
                             <div class="input-group mt-3 mb-3">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input class="is-answer"  name="is_answer[]"  value="b"  type="checkbox">
+                                        <input class="is-answer" name="is_answer[]" value="b" type="checkbox">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" value="Answer B"  required name="answers[]">
+                                <input type="text" class="form-control" value="Answer B" required name="answers[]">
                             </div>
                             <div class="input-group mt-3 mb-3">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input class="is-answer" name="is_answer[]" value="c"   type="checkbox">
+                                        <input class="is-answer" name="is_answer[]" value="c" type="checkbox">
                                     </div>
                                 </div>
-                                <input type="text" class="form-control" value="Answer C"  required name="answers[]">
+                                <input type="text" class="form-control" value="Answer C" required name="answers[]">
                             </div>
                             <div class="input-group mt-3 mb-3">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
-                                        <input class="is-answer"  name="is_answer[]" value="d"  type="checkbox">
+                                        <input class="is-answer" name="is_answer[]" value="d" type="checkbox">
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" value="Answer D" required name="answers[]">
@@ -451,17 +650,17 @@
                 });
 
                 //show answer container based on select value
-                $('#questionType').on('change',function() {
+                $('#questionType').on('change', function () {
                     let questionTypeValue = $('#questionType').find(":selected").val();
                     let answerContainer = $('.answers_container');
-                    answerContainer.css('display','');
-                    if(!(questionTypeValue === 'close_ended')){
-                        answerContainer.css('display','none');
+                    answerContainer.css('display', '');
+                    if (!(questionTypeValue === 'close_ended')) {
+                        answerContainer.css('display', 'none');
                     }
                 })
 
                 //allow user to check only one correct answer
-                $('.is-answer').click(function() {
+                $('.is-answer').click(function () {
                     $('.is-answer').not(this).prop('checked', false);
                 });
 
@@ -480,6 +679,62 @@
                             $('#editedLectureDescription').text(response.course_lecture.description);
                             $('#editLectureModal').modal('show');
                             $('#editLectureForm').attr('action', '/admin/course-lectures/' + response.course_lecture.id);
+
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                });
+
+
+                //get discussion question data for edit
+                $(".editDiscussionQuestionBtn").on('click', function () {
+
+                    const discussion_question_id = $(this).attr('discussion_question_id');
+                    console.log(discussion_question_id);
+
+                    $.ajax({
+                        url: "/admin/course-questions/" + discussion_question_id,
+                        type: "get",
+                        success: function (response) {
+                            $('#editedDiscussionQuestion').val(response.discussion_question[0].question);
+                            $('#editDiscussionQuestionModal').modal('show');
+                            $('#editDiscussionQuestionForm').attr('action', '/admin/course-questions/' + response.discussion_question[0].id);
+
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                });
+
+
+                //get close ended question data for edit
+                $(".editCloseEndedQuestionBtn").on('click', function () {
+
+                    const closed_ended_question_id = $(this).attr('closed_ended_question_id');
+                    console.log(closed_ended_question_id);
+
+                    $.ajax({
+                        url: "/admin/course-questions/" + closed_ended_question_id,
+                        type: "get",
+                        success: function (response) {
+
+                            $('#CloseEndedQuestion').val(response.close_ended_question[0].question);
+                            $('#answerA').val(response.close_ended_question[0].options.a);
+                            $('#answerB').val(response.close_ended_question[0].options.b);
+                            $('#answerC').val(response.close_ended_question[0].options.c);
+                            $('#answerD').val(response.close_ended_question[0].options.d);
+
+                            $.each($(".is-answer"), function () {
+                                if ($(this).val() === response.close_ended_question[0].options.is_answer) {
+                                    $(this).prop("checked", true);
+                                }
+                            });
+
+                            $('#editCloseEndedQuestionModal').modal('show');
+                            $('#editCloseEndedQuestionForm').attr('action', '/admin/course-questions/' + response.close_ended_question[0].id);
 
                         },
                         error: function (response) {
