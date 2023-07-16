@@ -10,4 +10,8 @@ class OpenQuestion extends Model
     use HasFactory;
 
     protected $guarded =['id'];
+
+    public function section(){
+        return $this->belongsTo(Section::class);
+    }
 }

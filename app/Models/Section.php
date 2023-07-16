@@ -21,4 +21,12 @@ class Section extends Model
     public function lectures(){
         return $this->hasMany(Lecture::class);
     }
+
+    public function closedEndedQuestions(){
+        return $this->hasMany(ClosedQuestion::class);
+    }
+
+    public function openEndedQuestions(){
+        return $this->hasMany(OpenQuestion::class);
+    }
 }

@@ -43,18 +43,10 @@ class StudentController extends Controller
 
     public function activateStudentCourses(Request $request, User $student)
     {
-        if (is_null($request->courses)) {
-            $student_active_courses = [];
-        } else {
-            $student_active_courses = array_map('intval', $request->courses);
-            $this->courseService->enrollUserToCourses($student_active_courses, $student);
-        }
-
-        User::activateCourses($student, $student_active_courses);
+        User::activateCourses($student, $this->courseService->getCoursesToActivate($request, $student));
         Session::flash('message', 'User Courses activated/deactivated successfully');
         return redirect()->back();
     }
-
 
 
 }
