@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('open_questions', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('section_id');
-            $table->foreignId('course_id');
-            $table->string('question_label');
-            $table->longText('question');
+            $table->string('title');
+            $table->string('description');
+            $table->string('image_url');
+            $table->date('event_date');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('open_questions');
+        Schema::dropIfExists('events');
     }
 };

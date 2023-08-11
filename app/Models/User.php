@@ -69,4 +69,8 @@ class User extends Authenticatable
     }
 
 
+    public function markingStatus(){
+        return $this->hasOne(MarkingStatus::class);
+    }
+
 }

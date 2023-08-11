@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseCATController;
 use App\Http\Controllers\Admin\CourseLectureController;
 use App\Http\Controllers\Admin\CourseSectionController;
+use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\StudentResultsController;
 use App\Http\Controllers\Student\ProfileController;
 use App\Http\Controllers\Student\StudentEnrolledCoursesController;
 use App\Http\Controllers\Student\StudentFinancesController;
@@ -29,6 +32,7 @@ Route::view('/home', 'frontend.home')->name('home');
 Route::view('/about', 'frontend.about')->name('about.index');
 Route::view('/contact', 'frontend.contact')->name('contact.index');
 Route::view('/services', 'frontend.services')->name('services.index');
+Route::get('/upcoming-events', [\App\Http\Controllers\Frontend\EventController::class, 'index'])->name('upcoming-events.index');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -38,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/take-lessons/{course}', [StudentCourseController::class, 'takeLessons'])->name('take-lessons');
         Route::get('/confirm-course-payment/{course}', [StudentCourseController::class, 'confirmCoursePayment'])->name('confirm-course-payment');
         Route::get('/make-course-payment/{course}', [StudentCourseController::class, 'makeCoursePayment'])->name('make-course-payment');
-        Route::get('/get-section-questions/{section_id}', [StudentCourseController::class, 'getSectionQuestions'])->name('get-section-question');
+        Route::get('/get-section-questions/{section_id}/{question_label}', [StudentCourseController::class, 'getSectionQuestions'])->name('get-section-question');
         Route::post('/store-user-results', [StudentCourseController::class, 'storeUserResults'])->name('store-user-results');
         Route::get('/student-enrolled-courses',[StudentEnrolledCoursesController::class,'index'])->name('student-enrolled-courses.index');
         Route::get('/student-finances',[StudentFinancesController::class,'index'])->name('student-finances.index');
@@ -50,6 +54,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/activate-student-courses/{student}', [StudentController::class, 'activateStudentCourses'])->name('activate_student_courses');
         Route::resource('students', StudentController::class);
         Route::resource('courses', CourseController::class);
+        Route::resource('events', EventController::class);
+        Route::get('students-results/{course_id}', [StudentResultsController::class,'getStudentsCourseResults'])->name('students-results');
+        Route::get('student-discussion-results/{course_id}/{student_id}', [StudentResultsController::class,'getStudentDiscussionQuestionResults'])->name('student-discussion-results');
+        Route::post('student-discussion-marked-results/{student_id}', [StudentResultsController::class,'storeStudentDiscussionQuestionMarkedResults'])->name('student-discussion-marked-results');
+        Route::resource('course-cats', CourseCATController::class)->only(['store','destroy']);
         Route::get('course/{course_id}/course-sections/',[CourseSectionController::class,'index'])->name('course-sections.index');
         Route::resource('course-sections', CourseSectionController::class)->except(['index']);
         Route::resource('course-lectures', CourseLectureController::class);

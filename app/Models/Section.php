@@ -12,21 +12,27 @@ class Section extends Model
     protected $guarded = ['id'];
 
 
-    public  function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function course(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Course::class);
     }
 
 
-    public function lectures(){
+    public function lectures()
+    {
         return $this->hasMany(Lecture::class);
     }
 
-    public function closedEndedQuestions(){
-        return $this->hasMany(ClosedQuestion::class);
+    public function closedEndedQuestions()
+    {
+        return $this->hasMany(ClosedQuestion::class)
+            ->where('question_label', 'section');
     }
 
-    public function openEndedQuestions(){
-        return $this->hasMany(OpenQuestion::class);
+    public function openEndedQuestions()
+    {
+        return $this->hasMany(OpenQuestion::class)
+            ->where('question_label', 'section');
+
     }
 }

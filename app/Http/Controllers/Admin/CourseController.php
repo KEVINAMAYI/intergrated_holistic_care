@@ -12,9 +12,7 @@ use App\Http\Requests\UpdateCourseRequest;
 class CourseController extends Controller
 {
 
-    public function __construct(private FileService $fileService)
-    {
-    }
+    public function __construct(private FileService $fileService){}
 
     public function index()
     {
@@ -67,6 +65,5 @@ class CourseController extends Controller
         Session::flash('message', 'Course deleted successfully');
         return redirect()->back();
     }
-
 
 }

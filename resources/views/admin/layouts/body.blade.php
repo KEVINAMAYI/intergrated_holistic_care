@@ -93,6 +93,13 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="{{ route('events.index') }}" class="nav-link">
+                            <i style="color: rgb(27, 184, 191);" class="nav-icon fa fa-calendar"></i>
+                            <p style="font-weight:bold; color: rgb(27, 184, 191);">Events</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a id="logoutbtn" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                          document.getElementById('logout-form').submit();"
                            class="nav-link">

@@ -11,7 +11,13 @@ class OpenQuestion extends Model
 
     protected $guarded =['id'];
 
-    public function section(){
+    public function section(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(Section::class);
+    }
+
+    public function answers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(OpenQuestionResults::class);
     }
 }

@@ -49,7 +49,8 @@
                                             : {{ $lecture->name }}</span>
                                     </li>
                                 @endforeach
-                                <div class="getSectionQuestionsBtn" questions_section_id="{{ $section->id }}">
+                                <div class="getSectionQuestionsBtn" question_label="section"
+                                     questions_section_id="{{ $section->id }}">
                                     <span
                                         style="cursor:pointer;" class="pb-3 pt-2"><i
                                             class="fa fa-question-circle mr-2"></i>Questions</span>
@@ -58,6 +59,25 @@
                         </div>
                     </li>
                 @endforeach
+                @foreach($cats as $cat)
+                    <li>
+                        <div style="background-color:purple; margin-left:-20px; height:40px; padding-top:5px; padding-left:10px; margin-top:10px;" class="getSectionQuestionsBtn" question_label="{{ $cat->name }}"
+                             questions_section_id="{{ $course->sections[0]->id }}">
+                                    <span
+                                        style="cursor:pointer; font-weight:bold; " class="pb-3 pt-4">
+                                        <i  class="fa fa-question-circle mr-2"></i>{{ strtoupper($cat->name) }}</span>
+                        </div>
+                    </li>
+                @endforeach
+
+                <li>
+                    <div style="background-color:#28323c; margin-left:-20px; height:40px; padding-top:5px; padding-left:10px; margin-top:10px;" class="getSectionQuestionsBtn" question_label="exam"
+                         questions_section_id="{{ $course->sections[0]->id }}">
+                                    <span
+                                        style="cursor:pointer; font-weight:bold; " class="pb-3 pt-4"><i
+                                            class="fa fa-question-circle mr-2"></i>EXAMINATION</span>
+                    </div>
+                </li>
             </ul>
             <div class="mb-5"></div>
             <div class="footer"></div>
@@ -73,15 +93,15 @@
             </div>
         @endif
 
-{{--        <div class="row justify-content-end pr-3">--}}
-{{--            <a href=""--}}
-{{--               style="border:0px solid white; border-radius:0px;"--}}
-{{--               type="button"--}}
-{{--               class="btn btn-lg mb-3 btn-primary">--}}
-{{--                <i style="color:white; margin-right:3px;" class="nav-icon fa fa-forward"></i>--}}
-{{--                Next--}}
-{{--            </a>--}}
-{{--        </div>--}}
+        {{--        <div class="row justify-content-end pr-3">--}}
+        {{--            <a href=""--}}
+        {{--               style="border:0px solid white; border-radius:0px;"--}}
+        {{--               type="button"--}}
+        {{--               class="btn btn-lg mb-3 btn-primary">--}}
+        {{--                <i style="color:white; margin-right:3px;" class="nav-icon fa fa-forward"></i>--}}
+        {{--                Next--}}
+        {{--            </a>--}}
+        {{--        </div>--}}
 
 
         <h2 id="lessonTitle" class="mb-4">{{ $course->title }}</h2>
@@ -214,13 +234,12 @@
         //get section questions
         $(".getSectionQuestionsBtn").on('click', function () {
 
-            console.log('sfsfsdsrsdf');
-
             const course_section_id = $(this).attr('questions_section_id');
+            const question_label = $(this).attr('question_label');
             $('#questionSectionId').val(course_section_id);
 
             $.ajax({
-                url: "/student/get-section-questions/" + course_section_id,
+                url: "/student/get-section-questions/" + course_section_id + '/' + question_label,
                 type: "get",
                 success: function (response) {
 
@@ -232,7 +251,7 @@
                     $('#content video')[0].pause();
                     $('.pdfFileIFrame').css('display', 'none');
                     $('.sectionQuestion').css('display', '');
-                    $('#lessonTitle').text('Questions');
+                    question_label == 'exam' ? $('#lessonTitle').text('Examination') :$('#lessonTitle').text(question_label);
                     $(".closeEndedQuestionSection").empty();
                     $(".openEndedQuestionSection").empty();
 

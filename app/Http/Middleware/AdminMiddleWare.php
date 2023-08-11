@@ -18,7 +18,7 @@ class AdminMiddleWare
     public function handle(Request $request, Closure $next)
     {
         if (Auth::user()->role->name != 'Admin') {
-            abort(403);
+            abort(403, 'YOU ARE NOT ALLOWED TO ACCESS THIS PAGE');
         }
 
          return $next($request);

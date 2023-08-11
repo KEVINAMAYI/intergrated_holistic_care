@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ClosedQuestion;
 use App\Models\OpenQuestion;
+use App\Models\Section;
 use Illuminate\Http\Request;
 
 class QuestionService
@@ -16,7 +17,9 @@ class QuestionService
         if ($request->input('question_type') == 'discussion') {
             OpenQuestion::create([
                 'section_id' => $request->input('question_section_id'),
-                'question' => $request->input('question')
+                'question' => $request->input('question'),
+                'question_label' => $request->input('question_label'),
+                'course_id' => Section::find($request->input('question_section_id'))->course->id
             ]);
         }
 
@@ -24,6 +27,8 @@ class QuestionService
             ClosedQuestion::create([
                 'section_id' => $request->input('question_section_id'),
                 'question' => $request->input('question'),
+                'question_label' => $request->input('question_label'),
+                'course_id' => Section::find($request->input('question_section_id'))->course->id,
                 'options' => [
                     'a' => $request->input('answers')[0],
                     'b' => $request->input('answers')[1],

@@ -119,6 +119,8 @@
                                                 href="{{ route('about.index') }}">about us</a></li>
                                         <li class="{{ Route::is('services.index') ? 'active' : '' }}"><a
                                                 href="{{ route('services.index') }}">services</a></li>
+                                        <li class="{{ Route::is('upcoming-events.index') ? 'active' : '' }}"><a
+                                                href="{{ route('upcoming-events.index') }}">Events</a></li>
                                         <li class="{{ Route::is('courses.index') ? 'active' : '' }}"><a
                                                 href="{{ route('student-courses.index') }}">Courses</a></li>
                                         <li class="{{ Route::is('contact.index') ? 'active' : '' }}"><a
@@ -135,7 +137,8 @@
                                                 href="{{ route('about.index') }}">about us</a></li>
                                         <li class="{{ Route::is('services.index') ? 'active' : '' }}"><a
                                                 href="{{ route('services.index') }}">services</a></li>
-
+                                        <li class="{{ Route::is('upcoming-events.index') ? 'active' : '' }}"><a
+                                                href="{{ route('upcoming-events.index') }}">Events</a></li>
                                         <li class="{{ Route::is('contact.index') ? 'active' : '' }}"><a
                                                 href="{{ route('contact.index') }}">contact</a></li>
                                     </ul>
@@ -200,6 +203,7 @@
                     <li class="{{ Route::is('courses.index') ? 'active' : '' }}"><a
                             href="{{ route('student-courses.index') }}">Courses</a></li>
                     <li class="menu_mm"><a href="{{  route('services.index') }}">services</a></li>
+                    <li class="menu_mm"><a href="{{  route('upcoming-events.index') }}">events</a></li>
                     <li class="menu_mm"><a href="{{ route('contact.index')  }}">Contact</a></li>
                     <li class="menu_mm">
                         <div class="btn-group">
@@ -235,9 +239,9 @@
                     <li class="menu_mm"><a href="{{ route('home.index') }}">Home</a></li>
                     <li class="menu_mm"><a href="{{ route('about.index')  }}">about us</a></li>
                     <li class="menu_mm"><a href="{{  route('services.index') }}">services</a></li>
+                    <li class="menu_mm"><a href="{{  route('upcoming-events.index') }}">events</a></li>
                     <li class="menu_mm"><a href="{{ route('contact.index')  }}">Contact</a></li>
-                    <li class="menu_mm"><a style="color:rgb(212, 62, 62)" href="{{ route('register')  }}">Register</a>
-                    </li>
+                    <li class="menu_mm"><a style="color:rgb(212, 62, 62)" href="{{ route('register')  }}">Register</a></li>
                     <li class="menu_mm"><a style="color:rgb(212, 62, 62)" href="{{ route('login') }}">Login</a></li>
                 </ul>
             @endif

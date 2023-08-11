@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ClosedQuestion;
 use App\Models\ClosedQuestionResults;
 use App\Models\Course;
+use App\Models\CourseCAT;
 use App\Models\Enrollment;
 use App\Models\EnrollmentLesson;
 use App\Models\Lecture;
@@ -50,8 +51,10 @@ class StudentCourseController extends Controller
 
     public function takeLessons(Course $course): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
+
         $this->authorize('access_course', $course->id);
-        return view('frontend.take_lessons', compact('course'));
+        $cats = CourseCAT::where('course_id', $course->id)->get();
+        return view('frontend.take_lessons', compact('course', 'cats'));
     }
 
 
@@ -61,11 +64,11 @@ class StudentCourseController extends Controller
     }
 
 
-    public function getSectionQuestions($section_id): \Illuminate\Http\JsonResponse
+    public function getSectionQuestions($section_id, $question_label): \Illuminate\Http\JsonResponse
     {
         return response()->json([
-            'open_ended_questions' => OpenQuestion::where('section_id', $section_id)->get(),
-            'closed_ended_questions' => ClosedQuestion::where('section_id', $section_id)->get()
+            'open_ended_questions' => OpenQuestion::where('section_id', $section_id)->where('question_label', $question_label)->get(),
+            'closed_ended_questions' => ClosedQuestion::where('section_id', $section_id)->where('question_label', $question_label)->get()
         ]);
 
     }

@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('closed_questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('section_id');
+            $table->foreignId('course_id');
+            $table->string('question_label');
             $table->longText('question');
             $table->json('options');
             $table->timestamps();

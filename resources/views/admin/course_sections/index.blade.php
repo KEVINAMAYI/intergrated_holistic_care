@@ -30,14 +30,17 @@
                     <div class="card-header">
                         <h3 class="card-title">Course Sections</h3>
                     </div>
-                    <div class="col-3 pt-3 pl-3">
-                        <!-- Button trigger modal -->
-                        <button style="border:0px solid white; border-radius:0px; background-color: rgb(27, 184, 191);"
+                    <div class="row justify-content-between">
+                        <div class="col-3 pt-3 pl-3">
+                            <!-- Button trigger modal -->
+                            <button
+                                style="border:0px solid white; border-radius:0px; background-color: rgb(27, 184, 191);"
                                 type="button" data-toggle="modal" data-target="#addCourseSectionModal"
                                 class="btn btn-primary">
-                            <i style="color:white; margin-right:3px;" class="nav-icon fa fa-plus-circle"></i>
-                            Add Course Section
-                        </button>
+                                <i style="color:white; margin-right:3px;" class="nav-icon fa fa-plus-circle"></i>
+                                Add Course Section
+                            </button>
+                        </div>
                     </div>
 
 
@@ -66,7 +69,8 @@
                                                 Add Lecture
                                             </button>
                                             <button question_section_id="{{ $section->id }}"
-                                                    class="btn addQuestionBtn btn-xs btn-info">
+                                                    question_label="section"
+                                                    class="btn addSectionQuestionBtn btn-xs btn-info">
                                                 <i style="color:white;" class="nav-icon fa fa-xm fa-minus-circle"></i>
                                                 Add Question
                                             </button>
@@ -216,13 +220,277 @@
                                                         </div>
                                                     </div>
                                                 </li>
-
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
+
+                        <div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <h3 class="pl-3 card-title"><strong>CAT(Continous Assessment Test)</strong>
+                                            </h3>
+                                            </button>
+                                        </div>
+                                        <div class="col-4 row justify-content-end">
+                                            <button style="width:80px; color:white;"
+                                                    data-toggle="modal"
+                                                    data-target="#addCourseCATModal"
+                                                    class="mr-3 p-1 float_right addCatBtn btn btn-xs btn-success">
+                                                <i style="color:white; margin-right:3px;"
+                                                   class="nav-icon fa fa-plus-circle"></i>
+                                                Add CAT
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    @foreach( $cats as $cat)
+                                        <div class="accordion"
+                                             id="CatQuestionAccordion{{$cat->id}}">
+                                            <div class="card">
+                                                <div class="card-header" id="headingOne">
+                                                    <div class="row">
+                                                        <div class="col-lg-9">
+                                                            <button class="btn btn-link btn-block text-left"
+                                                                    type="button" data-toggle="collapse"
+                                                                    data-target="#questionsAccordion{{ $cat->id }}"
+                                                                    aria-expanded="true"
+                                                                    aria-controls="questionsAccordion{{ $cat->id }}">
+                                                                <strong>{{ $cat->name }}</strong>
+                                                            </button>
+                                                        </div>
+                                                        <div class="col-lg-3 ">
+                                                            <div class="row justify-content-end">
+                                                                <button
+                                                                    question_section_id="{{ $course->sections[0]->id }}"
+                                                                    question_label="{{ $cat->name }}"
+                                                                    style="margin-top:1px;"
+                                                                    class="btn mr-1 addSectionQuestionBtn btn-xs btn-info">
+                                                                    <i style="color:white;"
+                                                                       class="nav-icon fa fa-xm fa-minus-circle"></i>
+                                                                    Add Question
+                                                                </button>
+                                                                <form style="display:inline;"
+                                                                      action="{{ route('course-cats.destroy',$cat->id) }}"
+                                                                      method="POST">
+                                                                    @method('DELETE')
+                                                                    @csrf
+                                                                    <button type="submit" class="btn btn-xs btn-danger">
+                                                                        <i style="color:white;"
+                                                                           class="nav-icon fa fa-xs fa-trash"></i>
+                                                                        Delete
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div id="questionsAccordion{{ $cat->id }}"
+                                                     class="collapse"
+                                                     aria-labelledby="headingOne"
+                                                     data-parent="#CatQuestionAccordion{{$cat->id}}">
+                                                    <div class="card-body">
+                                                        <ul class="list-group">
+                                                            @foreach($catOpenEndedQuestions as $openEndedQuestion)
+                                                                @if($openEndedQuestion->question_label == $cat->name)
+                                                                    <li class="list-group-item">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-10">
+                                                                                <strong>{{ $openEndedQuestion->question }}
+                                                                                    ? </strong>
+                                                                            </div>
+                                                                            <div class="col-lg-2">
+                                                                                <button
+                                                                                    discussion_question_id="{{ $openEndedQuestion->id }}"
+                                                                                    class="btn  editDiscussionQuestionBtn btn-xs btn-info">
+                                                                                    <i style="color:white;"
+                                                                                       class="nav-icon fa fa-xm fa-edit"></i>
+                                                                                    Edit
+                                                                                </button>
+                                                                                <form style="display:inline;"
+                                                                                      action="{{ route('course-questions.destroy',$openEndedQuestion->id) }}"
+                                                                                      method="POST">
+                                                                                    @method('DELETE')
+                                                                                    @csrf
+                                                                                    <button type="submit"
+                                                                                            class="btn btn-xs btn-danger">
+                                                                                        <i style="color:white;"
+                                                                                           class="nav-icon fa fa-xs fa-trash"></i>
+                                                                                        Delete
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+
+                                                                @endif
+                                                            @endforeach
+
+                                                            @foreach($catClosedEndedQuestions as $closedEndedQuestion)
+                                                                @if($closedEndedQuestion->question_label == $cat->name)
+                                                                    <li class="list-group-item">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-10">
+                                                                                <strong>{{ $closedEndedQuestion->question }}
+                                                                                    ? </strong>
+                                                                            </div>
+                                                                            <div class="col-lg-2">
+                                                                                <button
+                                                                                    closed_ended_question_id="{{ $closedEndedQuestion->id }}"
+                                                                                    class="btn editCloseEndedQuestionBtn btn-xs btn-info">
+                                                                                    <i style="color:white;"
+                                                                                       class="nav-icon fa fa-xm fa-edit"></i>
+                                                                                    Edit
+                                                                                </button>
+                                                                                <form style="display:inline;"
+                                                                                      action="{{ route('course-questions.destroy',$closedEndedQuestion->id) }}"
+                                                                                      method="POST">
+                                                                                    @method('DELETE')
+                                                                                    @csrf
+                                                                                    <button type="submit"
+                                                                                            class="btn btn-xs btn-danger">
+                                                                                        <i style="color:white;"
+                                                                                           class="nav-icon fa fa-xs fa-trash"></i>
+                                                                                        Delete
+                                                                                    </button>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion"
+                             id="ExamQuestionAccordion">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left"
+                                                        type="button" data-toggle="collapse"
+                                                        data-target="#examquestionsAccordion"
+                                                        aria-expanded="true"
+                                                        aria-controls="examquestionsAccordion">
+                                                    <h5 style=" font-size:20px; color:black;">Examinations</h5>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div class="col-6 row justify-content-end">
+                                            <!-- Button trigger modal -->
+                                            <button
+                                                style="border-color:transparent; height:30px; background-color: rgb(76,191,27);"
+                                                type="button"
+                                                question_section_id="{{ $course->sections[0]->id }}"
+                                                question_label="exam"
+                                                class="addExamQuestionBtn mr-1 btn btn-xs btn-info">
+                                                <i style="color:white; margin-right:3px;"
+                                                   class="nav-icon fa fa-plus-circle"></i>
+                                                Add Exam Questions
+                                            </button>
+                                            <a
+                                                style="border-color:transparent; padding-top:5px; height:30px; background-color: rgb(40,50,60);"
+                                                type="button"
+                                                href="{{ route('students-results',$course->id) }}"
+                                                class="btn btn-xs btn-info">
+                                                <i style="color:white; margin-right:3px;"
+                                                   class="nav-icon fa fa-eye"></i>
+                                                View Students Answers
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="examquestionsAccordion"
+                                     class="collapse"
+                                     aria-labelledby="headingOne"
+                                     data-parent="#ExamQuestionAccordion">
+                                    <div class="card-body">
+                                        <ul class="list-group">
+                                            @foreach($examOpenEndedQuestion as $openEndedQuestion)
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-lg-10">
+                                                            <strong>{{ $openEndedQuestion->question }}
+                                                                ? </strong>
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <button
+                                                                discussion_question_id="{{ $openEndedQuestion->id }}"
+                                                                class="btn  editDiscussionQuestionBtn btn-xs btn-info">
+                                                                <i style="color:white;"
+                                                                   class="nav-icon fa fa-xm fa-edit"></i>
+                                                                Edit
+                                                            </button>
+                                                            <form style="display:inline;"
+                                                                  action="{{ route('course-questions.destroy',$openEndedQuestion->id) }}"
+                                                                  method="POST">
+                                                                @method('DELETE')
+                                                                @csrf
+                                                                <button type="submit"
+                                                                        class="btn btn-xs btn-danger">
+                                                                    <i style="color:white;"
+                                                                       class="nav-icon fa fa-xs fa-trash"></i>
+                                                                    Delete
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+
+                                            @foreach($examClosedEndedQuestions as $closedEndedQuestion)
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col-lg-10">
+                                                            <strong>{{ $closedEndedQuestion->question }}
+                                                                ? </strong>
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <button
+                                                                closed_ended_question_id="{{ $closedEndedQuestion->id }}"
+                                                                class="btn editCloseEndedQuestionBtn btn-xs btn-info">
+                                                                <i style="color:white;"
+                                                                   class="nav-icon fa fa-xm fa-edit"></i>
+                                                                Edit
+                                                            </button>
+                                                            <form style="display:inline;"
+                                                                  action="{{ route('course-questions.destroy',$closedEndedQuestion->id) }}"
+                                                                  method="POST">
+                                                                @method('DELETE')
+                                                                @csrf
+                                                                <button type="submit"
+                                                                        class="btn btn-xs btn-danger">
+                                                                    <i style="color:white;"
+                                                                       class="nav-icon fa fa-xs fa-trash"></i>
+                                                                    Delete
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -573,6 +841,7 @@
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" value="" name="question_section_id" id="questionSectionId">
+                        <input type="hidden" value="" name="question_label" id="questionLabel">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
@@ -581,6 +850,36 @@
         </div>
     </div>
 
+
+    {{-- Add Course Cat Modal --}}
+    <div class="modal fade" id="addCourseCATModal" tabindex="-1" aria-labelledby="addCourseCATModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCourseCATLabel">Add CAT</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="createCourseCATForm" action="{{ route('course-cats.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="courseTitle">CAT Name</label>
+                            <input type="text" class="form-control" id="courseCATName" name="name"
+                                   placeholder="CAT 1">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="course_id" value="{{ $course->id }}">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     @push('scripts')
         <!-- DataTables  & Plugins -->
@@ -604,6 +903,7 @@
         {!! JsValidator::formRequest('App\Http\Requests\UpdateSectionRequest', '#editCourseSectionForm'); !!}
         {!! JsValidator::formRequest('App\Http\Requests\StoreLectureRequest', '#addLectureForm'); !!}
         {!! JsValidator::formRequest('App\Http\Requests\UpdateLectureRequest', '#editLectureForm'); !!}
+        {!! JsValidator::formRequest('App\Http\Requests\StoreCourseCATRequest', '#createCourseCATForm'); !!}
 
         <script>
             $(function () {
@@ -644,8 +944,9 @@
 
 
                 //get and set quesion section id
-                $(".addQuestionBtn").on('click', function () {
+                $(".addSectionQuestionBtn, .addExamQuestionBtn").on('click', function () {
                     $('#questionSectionId').val($(this).attr('question_section_id'))
+                    $('#questionLabel').val($(this).attr('question_label'))
                     $('#addQuestionModal').modal('show');
                 });
 

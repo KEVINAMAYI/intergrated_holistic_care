@@ -10,4 +10,9 @@ class OpenQuestionResults extends Model
     use HasFactory;
 
     protected $guarded =['id'];
+
+    public function question(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(OpenQuestion::class);
+    }
 }
